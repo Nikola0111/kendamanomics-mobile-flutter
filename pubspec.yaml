@@ -30,7 +30,7 @@ dependencies:
   easy_localization: ^3.0.2
   easy_logger: ^0.0.2
   shared_preferences: ^2.2.0
-  dio: ^5.3.2
+  supabase_flutter: ^1.10.14
   image_picker: ^1.0.2
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
