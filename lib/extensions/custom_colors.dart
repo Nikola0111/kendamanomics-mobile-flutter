@@ -14,8 +14,8 @@ class CustomColors {
 class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   final Color? primary;
   final Color? backgroundColor;
-  final Color? errorColor; // isti kao primary
-  final Color? primaryText; // vrv isti kao primary
+  final Color? errorColor;
+  final Color? primaryText;
 
   const CustomColorScheme({
     required this.primary,
@@ -25,10 +25,10 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   });
 
   const CustomColorScheme.classic({
-    this.primary = const Color(0xffca3e64),
-    this.backgroundColor = Colors.white,
-    this.errorColor = const Color(0xffca3f64),
-    this.primaryText = const Color(0xff44403e),
+    this.primary = const Color(0xffca7e44),
+    this.backgroundColor = const Color(0xffecddcd),
+    this.errorColor = const Color(0xffd70000),
+    this.primaryText = const Color(0xff66482e),
   });
 
   @override
