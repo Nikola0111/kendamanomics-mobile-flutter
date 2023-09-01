@@ -1,34 +1,52 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kiwi/kiwi.dart';
+import 'package:kendamanomics_mobile/pages/login_page.dart';
+import 'package:kendamanomics_mobile/pages/main_page_container.dart';
+import 'package:kendamanomics_mobile/pages/register_page.dart';
 
 class RouterService {
   late final GoRouter _goRouter;
-  String? _rememberedRoute;
   GoRouter get router => _goRouter;
 
   final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
   final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-  // ignore: unnecessary_getters_setters
-  String? get rememberedRoute => _rememberedRoute;
-
-  set rememberedRoute(String? value) {
-    _rememberedRoute = value;
-  }
-
   RouterService() {
-    _buildRouter();
+    _init();
   }
 
-  void _buildRouter() {
+  void _init() {
     _goRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/',
+      initialLocation: '/${LoginPage.pageName}',
       redirect: (context, state) {
         return null;
       },
-      routes: [],
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/${LoginPage.pageName}',
+          name: LoginPage.pageName,
+          pageBuilder: (context, state) => NoTransitionPage<void>(
+            key: state.pageKey,
+            child: const LoginPage(),
+          ),
+        ),
+        GoRoute(
+          path: '/${RegisterPage.pageName}',
+          name: RegisterPage.pageName,
+          pageBuilder: (context, state) => NoTransitionPage<void>(
+            key: state.pageKey,
+            child: const RegisterPage(),
+          ),
+        ),
+        ShellRoute(
+          navigatorKey: _shellNavigatorKey,
+          builder: (context, state, child) {
+            return MainPageContainer(child: child);
+          },
+          routes: const <RouteBase>[],
+        )
+      ],
     );
   }
 }
