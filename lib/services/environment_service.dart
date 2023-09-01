@@ -27,9 +27,8 @@ enum Environment {
 class EnvironmentService {
   static bool _init = false;
   static Environment _environment = Environment.dev;
-  static String scheme = '';
-  static String host = '';
-  static int? port;
+  static String _supabaseApiUrl = '';
+  static String _supabaseAnonKey = '';
 
   static String? _iFrameSource;
 
@@ -48,16 +47,12 @@ class EnvironmentService {
           _environment = Environment.from(env);
           continue;
         }
-        if (part.startsWith('HOST=')) {
-          host = part.substring('HOST='.length).toLowerCase();
+        if (part.startsWith('SUPABASE_API_URL=')) {
+          _supabaseApiUrl = part.substring('SUPABASE_API_URL='.length);
           continue;
         }
-        if (part.startsWith('SCHEME=')) {
-          scheme = part.substring('SCHEME='.length).toLowerCase();
-          continue;
-        }
-        if (part.startsWith('PORT=')) {
-          port = int.tryParse(part.substring('PORT='.length).toLowerCase());
+        if (part.startsWith('SUPABASE_ANON_KEY=')) {
+          _supabaseAnonKey = part.substring('SUPABASE_ANON_KEY='.length);
           continue;
         }
       }

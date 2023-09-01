@@ -9,6 +9,7 @@ class CustomColors {
   Color get backgroundColor => Theme.of(_context).extension<CustomColorScheme>()!.backgroundColor!;
   Color get errorColor => Theme.of(_context).extension<CustomColorScheme>()!.errorColor!;
   Color get primaryText => Theme.of(_context).extension<CustomColorScheme>()!.primaryText!;
+  Color get borderColor => Theme.of(_context).extension<CustomColorScheme>()!.borderColor!;
 }
 
 @immutable
@@ -18,6 +19,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   final Color? backgroundColor;
   final Color? errorColor;
   final Color? primaryText;
+  final Color? borderColor;
 
   const CustomColorScheme({
     required this.primary,
@@ -25,6 +27,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     required this.backgroundColor,
     required this.errorColor,
     required this.primaryText,
+    required this.borderColor,
   });
 
   const CustomColorScheme.classic({
@@ -33,6 +36,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     this.backgroundColor = const Color(0xffecddcd),
     this.errorColor = const Color(0xffd70000),
     this.primaryText = const Color(0xff66482e),
+    this.borderColor = const Color(0xff6D3036),
   });
 
   @override
@@ -42,6 +46,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     Color? errorColor,
     Color? backgroundColor,
     Color? primaryText,
+    Color? borderColor,
   }) {
     return CustomColorScheme(
       primary: primary ?? this.primary,
@@ -49,6 +54,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
       backgroundColor: backgroundColor ?? this.backgroundColor,
       errorColor: errorColor ?? this.errorColor,
       primaryText: primaryText ?? this.primaryText,
+      borderColor: borderColor ?? this.borderColor,
     );
   }
 
@@ -63,6 +69,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
       backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t),
       errorColor: Color.lerp(errorColor, other.errorColor, t),
       primaryText: Color.lerp(primaryText, other.primaryText, t),
+      borderColor: Color.lerp(borderColor, other.borderColor, t),
     );
   }
 }
