@@ -36,3 +36,13 @@ flutter:
 #    - assets/icon/
     - assets/config/
     - assets/release_configs/
+
+  fonts:
+    - family: GillSans
+      fonts:
+        - asset: assets/fonts/GillSans-Light.otf
+          weight: 300
+        - asset: assets/fonts/GillSans-Medium.otf
+          weight: 500
+#        - asset: assets/fonts/Quicksand-Bold.ttf
+#          weight: 700

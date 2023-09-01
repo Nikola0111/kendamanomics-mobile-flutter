@@ -4,24 +4,26 @@ class CustomTextStyles {
   final BuildContext _context;
   const CustomTextStyles.of(BuildContext context) : _context = context;
 
-  TextStyle get medium16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.medium16!;
+  TextStyle get light16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light16!;
 }
 
 @immutable
 class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
-  final TextStyle? medium16;
+  static const _fontFamily = 'GillSans';
+  final TextStyle? light16;
 
   const CustomTextStyleScheme({
-    required this.medium16,
+    required this.light16,
   });
 
   factory CustomTextStyleScheme.fromPrimaryTextColor({required Color primaryTextColor}) {
     return CustomTextStyleScheme(
-      medium16: TextStyle(
+      light16: TextStyle(
+        fontFamily: _fontFamily,
         color: primaryTextColor,
         fontSize: 16,
         decoration: TextDecoration.none,
-        height: 1.25,
+        letterSpacing: 2,
       ),
     );
   }
@@ -31,7 +33,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
     TextStyle? medium16,
   }) {
     return CustomTextStyleScheme(
-      medium16: medium16 ?? this.medium16,
+      light16: medium16 ?? this.light16,
     );
   }
 
@@ -41,7 +43,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
       return this;
     }
     return CustomTextStyleScheme(
-      medium16: TextStyle.lerp(medium16, other.medium16, t),
+      light16: TextStyle.lerp(light16, other.light16, t),
     );
   }
 }

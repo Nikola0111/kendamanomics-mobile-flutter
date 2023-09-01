@@ -34,7 +34,7 @@ class SnackbarHelper {
               Expanded(
                 child: Text(
                   text,
-                  style: CustomTextStyles.of(context).medium16,
+                  style: CustomTextStyles.of(context).light16,
                 ),
               ),
             ],

@@ -12,6 +12,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await EnvironmentService.init();
   initKiwi();
+
   runApp(const KendamanomicsApp());
 }
 
@@ -30,7 +31,8 @@ class KendamanomicsApp extends StatelessWidget {
           }
           // we can get theme and other app settings from app provider
           final router = KiwiContainer().resolve<RouterService>().router;
-
+          final systemBrightness = Theme.of(context).brightness;
+          final themeData = appProvider.getAppThemeData(systemBrightness);
           return EasyLocalization(
             supportedLocales: const [Locale('en')],
             fallbackLocale: const Locale('en'),
@@ -41,6 +43,7 @@ class KendamanomicsApp extends StatelessWidget {
                 return MaterialApp.router(
                   title: 'Kendamanomics',
                   locale: const Locale('en'),
+                  theme: themeData,
                   supportedLocales: const [Locale('en')],
                   routerConfig: router,
                   debugShowCheckedModeBanner: false,

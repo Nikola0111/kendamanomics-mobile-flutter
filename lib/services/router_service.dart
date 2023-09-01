@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
-import 'package:kendamanomics_mobile/pages/main_page_container.dart';
 import 'package:kendamanomics_mobile/pages/register_page.dart';
 
 class RouterService {
@@ -39,13 +38,22 @@ class RouterService {
             child: const RegisterPage(),
           ),
         ),
-        ShellRoute(
-          navigatorKey: _shellNavigatorKey,
-          builder: (context, state, child) {
-            return MainPageContainer(child: child);
-          },
-          routes: const <RouteBase>[],
-        )
+        // ShellRoute(
+        //   navigatorKey: _shellNavigatorKey,
+        //   builder: (context, state, child) {
+        //     return MainPageContainer(child: child);
+        //   },
+        //   routes: <RouteBase>[
+        //     GoRoute(
+        //       path: '/${RegisterPage.pageName}',
+        //       name: RegisterPage.pageName,
+        //       pageBuilder: (context, state) => NoTransitionPage<void>(
+        //         key: state.pageKey,
+        //         child: const RegisterPage(),
+        //       ),
+        //     ),
+        //   ],
+        // )
       ],
     );
   }

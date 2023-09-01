@@ -5,6 +5,7 @@ class CustomColors {
   const CustomColors.of(BuildContext context) : _context = context;
 
   Color get primary => Theme.of(_context).extension<CustomColorScheme>()!.primary!;
+  Color get secondary => Theme.of(_context).extension<CustomColorScheme>()!.secondary!;
   Color get backgroundColor => Theme.of(_context).extension<CustomColorScheme>()!.backgroundColor!;
   Color get errorColor => Theme.of(_context).extension<CustomColorScheme>()!.errorColor!;
   Color get primaryText => Theme.of(_context).extension<CustomColorScheme>()!.primaryText!;
@@ -13,12 +14,14 @@ class CustomColors {
 @immutable
 class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   final Color? primary;
+  final Color? secondary;
   final Color? backgroundColor;
   final Color? errorColor;
   final Color? primaryText;
 
   const CustomColorScheme({
     required this.primary,
+    required this.secondary,
     required this.backgroundColor,
     required this.errorColor,
     required this.primaryText,
@@ -26,6 +29,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
 
   const CustomColorScheme.classic({
     this.primary = const Color(0xffca7e44),
+    this.secondary = const Color(0xfff0d6c3),
     this.backgroundColor = const Color(0xffecddcd),
     this.errorColor = const Color(0xffd70000),
     this.primaryText = const Color(0xff66482e),
@@ -34,12 +38,14 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   @override
   ThemeExtension<CustomColorScheme> copyWith({
     Color? primary,
+    Color? secondary,
     Color? errorColor,
     Color? backgroundColor,
     Color? primaryText,
   }) {
     return CustomColorScheme(
       primary: primary ?? this.primary,
+      secondary: secondary ?? this.secondary,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       errorColor: errorColor ?? this.errorColor,
       primaryText: primaryText ?? this.primaryText,
@@ -53,6 +59,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     }
     return CustomColorScheme(
       primary: Color.lerp(primary, other.primary, t),
+      secondary: Color.lerp(secondary, other.secondary, t),
       backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t),
       errorColor: Color.lerp(errorColor, other.errorColor, t),
       primaryText: Color.lerp(primaryText, other.primaryText, t),
