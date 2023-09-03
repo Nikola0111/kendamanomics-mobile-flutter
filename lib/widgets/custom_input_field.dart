@@ -53,81 +53,81 @@ class _CustomInputFieldState extends State<CustomInputField> {
       children: [
         Form(
           key: _formKey,
-          child: TextFormField(
-            initialValue: widget.initialData,
-            focusNode: _focusNode,
-            textAlignVertical: TextAlignVertical.center,
-            textInputAction: widget.textInputAction,
-            keyboardType: widget.keyboardType,
-            onChanged: (text) {
-              if (_hasText && text.isEmpty) _toggleHasText();
-              if (!_hasText && text.isNotEmpty) _toggleHasText();
+          child: SizedBox(
+            height: 40,
+            child: TextFormField(
+              initialValue: widget.initialData,
+              focusNode: _focusNode,
+              textAlignVertical: TextAlignVertical.center,
+              textInputAction: widget.textInputAction,
+              keyboardType: widget.keyboardType,
+              onChanged: (text) {
+                if (_hasText && text.isEmpty) _toggleHasText();
+                if (!_hasText && text.isNotEmpty) _toggleHasText();
 
-              if (text.isNotEmpty && widget.validator != null) {
-                final valid = widget.validator!(text) == null;
-                if (valid) {
-                  _formKey.currentState?.validate();
+                if (text.isNotEmpty && widget.validator != null) {
+                  final valid = widget.validator!(text) == null;
+                  if (valid) {
+                    _formKey.currentState?.validate();
+                  }
                 }
-              }
-              if (widget.onChanged != null) widget.onChanged!(text);
-            },
-            onFieldSubmitted: (value) {
-              if (widget.onSubmitted != null) widget.onSubmitted!();
-            },
-            validator: widget.validator,
-            style: CustomTextStyles.of(context).medium16,
-            obscureText: widget.obscurable ? _obscured : false,
-            decoration: InputDecoration(
-              isDense: true,
-              prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
-              // contentPadding: EdgeInsets.only(bottom: 0, right: widget.obscurable ? 40 : 12),
-              hintText: widget.hintText,
-              hintStyle: CustomTextStyles.of(context).light16.copyWith(
-                    color: CustomColors.of(context).primaryText.withOpacity(0.5),
-                  ),
-              errorStyle:
-                  CustomTextStyles.of(context).light10.copyWith(color: CustomColors.of(context).errorColor, height: 0.8),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: CustomColors.of(context).borderColor,
-                  width: 1.0,
+                if (widget.onChanged != null) widget.onChanged!(text);
+              },
+              onFieldSubmitted: (value) {
+                if (widget.onSubmitted != null) widget.onSubmitted!();
+              },
+              validator: widget.validator,
+              style: CustomTextStyles.of(context).medium24,
+              obscureText: widget.obscurable ? _obscured : false,
+              decoration: InputDecoration(
+                isDense: true,
+                prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
+                // 40 is debatable, for now this until we can put in an icon for show password
+                contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 12, top: 12),
+                hintText: 'username',
+                hintStyle: CustomTextStyles.of(context)
+                    .light24
+                    .copyWith(color: CustomColors.of(context).primaryText.withOpacity(0.5), height: 2.2),
+                errorStyle: CustomTextStyles.of(context).light10.copyWith(
+                      color: CustomColors.of(context).errorColor,
+                      height: 0.8,
+                    ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: CustomColors.of(context).borderColor, width: 1.0),
                 ),
-              ),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: CustomColors.of(context).borderColor,
-                  width: 1.0,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: CustomColors.of(context).borderColor, width: 1.0),
                 ),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: CustomColors.of(context).borderColor,
-                  width: 1.0,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: CustomColors.of(context).borderColor, width: 1.0),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: CustomColors.of(context).borderColor, width: 1.0),
                 ),
               ),
             ),
           ),
         ),
-        if (widget.obscurable)
-          Positioned(
-            right: 0,
-            bottom: 6,
-            top: 0,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.only(right: 12, bottom: 22),
-              child: GestureDetector(
-                onTap: () => setState(() => _obscured = !_obscured),
-                child: Image.asset(
-                  !_obscured ? 'assets/icon/icon_eye_open.png' : 'assets/icon/icon_eye_closed.png',
-                  height: 28,
-                  width: 28,
-                  fit: BoxFit.fill,
-                  color: CustomColors.of(context).borderColor,
-                ),
-              ),
-            ),
-          )
+        // if (widget.obscurable)
+        //   Positioned(
+        //     right: 0,
+        //     bottom: 6,
+        //     top: 0,
+        //     child: Container(
+        //       alignment: Alignment.bottomCenter,
+        //       padding: const EdgeInsets.only(right: 12, bottom: 22),
+        //       child: GestureDetector(
+        //         onTap: () => setState(() => _obscured = !_obscured),
+        //         child: Image.asset(
+        //           !_obscured ? 'assets/icon/icon_eye_open.png' : 'assets/icon/icon_eye_closed.png',
+        //           height: 28,
+        //           width: 28,
+        //           fit: BoxFit.fill,
+        //           color: CustomColors.of(context).borderColor,
+        //         ),
+        //       ),
+        //     ),
+        //   )
       ],
     );
   }

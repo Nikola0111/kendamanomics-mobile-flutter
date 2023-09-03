@@ -5,12 +5,13 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sidePadding = MediaQuery.of(context).size.width * 0.15;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
           top: 12,
-          left: MediaQuery.of(context).size.width * 0.1,
-          right: MediaQuery.of(context).size.width * 0.1,
+          left: sidePadding,
+          right: sidePadding,
         ),
         child: Image.asset('assets/images/image_kendamanomics_header.png'),
       ),
