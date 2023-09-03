@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
+import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
 import 'package:kendamanomics_mobile/widgets/custom_input_field.dart';
 
 class LoginPage extends StatelessWidget {
@@ -11,11 +12,16 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
-      body: const Column(
+      body: Column(
         children: [
           const AppHeader(),
           const Spacer(),
-          CustomInputField(),
+          const CustomInputField(),
+          const Spacer(),
+          ClickableLink(
+            clickableText: 'forgot password',
+            onClick: () {},
+          ),
           const Spacer(),
         ],
       ),
