@@ -85,9 +85,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 // 40 is debatable, for now this until we can put in an icon for show password
                 contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 12, top: 12),
                 hintText: 'username',
-                hintStyle: CustomTextStyles.of(context)
-                    .light24
-                    .copyWith(color: CustomColors.of(context).primaryText.withOpacity(0.5), height: 2.2),
+                hintStyle: CustomTextStyles.of(context).light24Opacity,
                 errorStyle: CustomTextStyles.of(context).light10.copyWith(
                       color: CustomColors.of(context).errorColor,
                       height: 0.8,
