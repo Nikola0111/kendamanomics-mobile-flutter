@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
+import 'package:kendamanomics_mobile/widgets/register-shell/register_input.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_welcome.dart';
 
@@ -20,6 +21,7 @@ class RegisterShell extends StatelessWidget {
             RegisterWelcome(),
             RegisterDescription(),
             RegisterRanking(),
+            RegisterInput(),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
@@ -26,9 +27,9 @@ class CustomButton extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isEnabled ? 0.5 : 0.1),
-            spreadRadius: 0,
-            blurRadius: 10,
-            offset: const Offset(4, 4),
+            spreadRadius: -4,
+            blurRadius: 7,
+            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -51,7 +52,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: child ??
               Text(
-                text!,
+                text!.tr(),
                 style: CustomTextStyles.of(context).medium24.apply(color: _getButtonColor(context)),
               ),
         ),
