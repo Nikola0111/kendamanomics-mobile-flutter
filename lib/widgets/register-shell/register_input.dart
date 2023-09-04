@@ -15,7 +15,6 @@ class RegisterInput extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -51,6 +50,7 @@ class RegisterInput extends StatelessWidget {
               const SizedBox(height: 6.0),
               CustomInputField(
                 textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
                 placeholder: 'input_fields.experience'.tr(),
               ),
               const SizedBox(height: 6.0),

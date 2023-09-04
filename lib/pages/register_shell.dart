@@ -14,15 +14,17 @@ class RegisterShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: SafeArea(
         child: NotificationListener(
-          onNotification: (notification) {
-            if (notification is ScrollEndNotification) {
-              FocusManager.instance.primaryFocus?.unfocus();
-            }
-            return false;
-          },
+          // onNotification: (notification) {
+          //   if (notification is ScrollStartNotification) {
+          //     consider adding int index to the pages so we can keep the keyboard up properly even on vertical scroll
+          //     FocusManager.instance.primaryFocus?.unfocus();
+          //   }
+          //   return false;
+          // },
           child: PageView(
             children: const [
               RegisterWelcome(),
