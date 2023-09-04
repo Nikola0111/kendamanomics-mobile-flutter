@@ -10,59 +10,71 @@ class RegisterInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 140.0),
-              child: Text(
-                'register_page.fill_in_fields',
-                style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primaryText),
-                textAlign: TextAlign.center,
-              ).tr(),
-            ),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 6.0),
-            const CustomInputField(
-              textInputAction: TextInputAction.done,
-            ),
-            const SizedBox(height: 100.0),
-            CustomButton(
-              text: 'buttons.create_an_account',
-              customTextColor: CustomColors.of(context).primary,
-            ),
-            const SizedBox(height: 20.0),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 80.0),
+                child: Text(
+                  'register_page.fill_in_fields',
+                  style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primaryText),
+                  textAlign: TextAlign.center,
+                ).tr(),
+              ),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.first_name'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.last_name'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.email'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.instagram_username'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.experience'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.support'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.next,
+                placeholder: 'input_fields.password'.tr(),
+              ),
+              const SizedBox(height: 6.0),
+              CustomInputField(
+                textInputAction: TextInputAction.done,
+                placeholder: 'input_fields.confirm_password'.tr(),
+              ),
+              const SizedBox(height: 90.0),
+              CustomButton(
+                text: 'buttons.create_an_account',
+                customTextColor: CustomColors.of(context).primary,
+              ),
+            ],
+          ),
         ),
       ),
     );
