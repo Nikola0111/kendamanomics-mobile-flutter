@@ -16,13 +16,21 @@ class RegisterShell extends StatelessWidget {
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: SafeArea(
-        child: PageView(
-          children: const [
-            RegisterWelcome(),
-            RegisterDescription(),
-            RegisterRanking(),
-            RegisterInput(),
-          ],
+        child: NotificationListener(
+          onNotification: (notification) {
+            if (notification is ScrollEndNotification) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+            return false;
+          },
+          child: PageView(
+            children: const [
+              RegisterWelcome(),
+              RegisterDescription(),
+              RegisterRanking(),
+              RegisterInput(),
+            ],
+          ),
         ),
       ),
     );
