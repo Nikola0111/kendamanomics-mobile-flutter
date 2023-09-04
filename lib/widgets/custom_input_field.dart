@@ -83,7 +83,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 isDense: true,
                 prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
                 // 40 is debatable, for now this until we can put in an icon for show password
-                contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 12, top: 12),
+                contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 14, top: 12),
                 hintText: 'username',
                 hintStyle: CustomTextStyles.of(context).light24Opacity,
                 errorStyle: CustomTextStyles.of(context).light10.copyWith(
