@@ -9,6 +9,7 @@ class CustomTextStyles {
   TextStyle get light24 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light24!;
   TextStyle get light24Opacity => Theme.of(_context).extension<CustomTextStyleScheme>()!.light24Opacity!;
   TextStyle get regular16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.regular16!;
+  TextStyle get regular25 => Theme.of(_context).extension<CustomTextStyleScheme>()!.regular25!;
   TextStyle get medium16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.medium16!;
   TextStyle get medium24 => Theme.of(_context).extension<CustomTextStyleScheme>()!.medium24!;
 }
@@ -21,6 +22,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   final TextStyle? light24;
   final TextStyle? light24Opacity;
   final TextStyle? regular16;
+  final TextStyle? regular25;
   final TextStyle? medium16;
   final TextStyle? medium24;
 
@@ -30,6 +32,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
     required this.light24,
     required this.light24Opacity,
     required this.regular16,
+    required this.regular25,
     required this.medium16,
     required this.medium24,
   });
@@ -77,6 +80,14 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
         letterSpacing: 1.25,
         fontWeight: FontWeight.w400,
       ),
+      regular25: TextStyle(
+        fontFamily: _fontFamily,
+        color: primaryTextColor,
+        fontSize: 25,
+        decoration: TextDecoration.none,
+        letterSpacing: 1.25,
+        fontWeight: FontWeight.w400,
+      ),
       medium16: TextStyle(
         fontFamily: _fontFamily,
         color: primaryTextColor,
@@ -103,6 +114,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
     TextStyle? light24,
     TextStyle? light24Opacity,
     TextStyle? regular16,
+    TextStyle? regular25,
     TextStyle? medium16,
     TextStyle? medium24,
   }) {
@@ -112,6 +124,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
       light24: light24 ?? this.light24,
       light24Opacity: light24Opacity ?? this.light24Opacity,
       regular16: regular16 ?? this.regular16,
+      regular25: regular25 ?? this.regular25,
       medium16: medium16 ?? this.medium16,
       medium24: medium24 ?? this.medium24,
     );
@@ -128,6 +141,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
       light24: TextStyle.lerp(light24, other.light24, t),
       light24Opacity: TextStyle.lerp(light24Opacity, other.light24Opacity, t),
       regular16: TextStyle.lerp(regular16, other.regular16, t),
+      regular25: TextStyle.lerp(regular25, other.regular25, t),
       medium16: TextStyle.lerp(medium16, other.medium16, t),
       medium24: TextStyle.lerp(medium24, other.medium24, t),
     );

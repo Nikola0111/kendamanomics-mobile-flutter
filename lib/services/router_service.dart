@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
-import 'package:kendamanomics_mobile/pages/register_page.dart';
+import 'package:kendamanomics_mobile/pages/register_shell.dart';
 
 class RouterService {
   late final GoRouter _goRouter;
@@ -17,7 +17,7 @@ class RouterService {
   void _init() {
     _goRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/${RegisterPage.pageName}',
+      initialLocation: '/${RegisterShell.pageName}',
       redirect: (context, state) {
         return null;
       },
@@ -31,11 +31,11 @@ class RouterService {
           ),
         ),
         GoRoute(
-          path: '/${RegisterPage.pageName}',
-          name: RegisterPage.pageName,
+          path: '/${RegisterShell.pageName}',
+          name: RegisterShell.pageName,
           pageBuilder: (context, state) => NoTransitionPage<void>(
             key: state.pageKey,
-            child: const RegisterPage(),
+            child: const RegisterShell(),
           ),
         ),
         // ShellRoute(
