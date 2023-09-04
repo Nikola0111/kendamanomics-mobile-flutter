@@ -1,0 +1,27 @@
+{
+    "register_page": {
+        "title": "welcome to kendamanomics",
+        "app_description": "kendamanomics is an app to help players progress their Kendama skill",
+        "app_ranking_description": "we also have a ranking system that ranks players based on tricks laced and competitions won",
+        "fill_in_fields": "please make sure to fill in your information correctly:"
+    },
+
+    "buttons": {
+        "create_an_account": "create an account",
+        "login": "login",
+        "change_password": "change password",
+        "reset_password": "send reset password email",
+        "forgot_password": "forgot password?"
+    },
+
+    "input_fields": {
+        "first_name": "first name",
+        "last_name": "last name",
+        "email": "email",
+        "instagram_username": "instagram username",
+        "experience": "# years playing kendama",
+        "support": "who do you support?",
+        "password": "password",
+        "confirm_password": "confirm password"
+    }
+}

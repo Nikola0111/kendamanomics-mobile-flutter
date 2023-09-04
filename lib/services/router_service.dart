@@ -17,7 +17,7 @@ class RouterService {
   void _init() {
     _goRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/${LoginPage.pageName}',
+      initialLocation: '/${RegisterPage.pageName}',
       redirect: (context, state) {
         return null;
       },
