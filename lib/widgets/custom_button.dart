@@ -52,7 +52,7 @@ class CustomButton extends StatelessWidget {
           child: child ??
               Text(
                 text!,
-                style: CustomTextStyles.of(context).medium24.apply(color: _getButtonColor(context)),
+                style: CustomTextStyles.of(context).medium24.copyWith(color: _getButtonColor(context), height: 2),
               ),
         ),
       ),
