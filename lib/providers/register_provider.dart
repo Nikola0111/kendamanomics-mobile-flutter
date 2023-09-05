@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
-import 'package:kendamanomics_mobile/widgets/register-shell/register_input.dart';
+import 'package:kendamanomics_mobile/widgets/register-shell/register_form.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_welcome.dart';
 
@@ -10,7 +10,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     const RegisterWelcome(),
     const RegisterDescription(),
     const RegisterRanking(),
-    const RegisterInput(),
+    const RegisterForm(),
   ];
 
   String _firstName = '';

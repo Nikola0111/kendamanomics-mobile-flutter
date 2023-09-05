@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
-import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/helpers/custom_page_view_scroll_physics.dart';
 import 'package:kendamanomics_mobile/providers/register_provider.dart';
 import 'package:provider/provider.dart';

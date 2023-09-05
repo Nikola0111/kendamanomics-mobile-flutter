@@ -2,14 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/providers/register_provider.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
 import 'package:kendamanomics_mobile/widgets/custom_input_field.dart';
+import 'package:provider/provider.dart';
 
-class RegisterInput extends StatelessWidget {
-  const RegisterInput({super.key});
+class RegisterForm extends StatelessWidget {
+  const RegisterForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<RegisterProvider>();
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -31,6 +34,7 @@ class RegisterInput extends StatelessWidget {
               CustomInputField(
                 textInputAction: TextInputAction.next,
                 placeholder: 'input_fields.first_name'.tr(),
+                initialData: provider.firstName,
               ),
               const SizedBox(height: 6.0),
               CustomInputField(
@@ -68,10 +72,13 @@ class RegisterInput extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 placeholder: 'input_fields.confirm_password'.tr(),
               ),
-              const SizedBox(height: 30.0),
-              CustomButton(
-                text: 'buttons.create_an_account'.tr(),
-                customTextColor: CustomColors.of(context).primary,
+              Align(
+                heightFactor: 2.075,
+                alignment: Alignment.bottomCenter,
+                child: CustomButton(
+                  text: 'buttons.create_an_account'.tr(),
+                  customTextColor: CustomColors.of(context).primary,
+                ),
               ),
             ],
           ),
