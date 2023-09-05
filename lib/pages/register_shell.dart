@@ -63,6 +63,7 @@ class RegisterShell extends StatelessWidget {
         height: 4.0,
         width: MediaQuery.of(context).size.width / 4.0,
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(80.0),
           shape: BoxShape.rectangle,
           color: CustomColors.of(context).activeIndicatorColor,
         ),
