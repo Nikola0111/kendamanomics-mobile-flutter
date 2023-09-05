@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
@@ -6,17 +8,18 @@ import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dar
 import 'package:kendamanomics_mobile/widgets/register-shell/register_welcome.dart';
 
 class RegisterProvider extends ChangeNotifier with LoggerMixin {
-  final List<Widget> pages = [
+  List<Widget> pages = [
     const RegisterWelcome(),
     const RegisterDescription(),
     const RegisterRanking(),
     const RegisterInput(),
   ];
+
   String _firstName = '';
   String _lastName = '';
   String _email = '';
   String _instagramUsername = '';
-  late int _yearsPlaying;
+  int _yearsPlaying = -1;
   String _support = '';
   String _password = '';
   String _confirmPassword = '';
