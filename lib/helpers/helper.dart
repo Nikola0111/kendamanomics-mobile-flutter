@@ -10,7 +10,7 @@ class Helper {
   }
 
   static String? validatePassword(String? value) {
-    if (value == null || value.isEmpty || value.length < 6) {
+    if (value == null || value.isEmpty || value.length < 6 && value.length > 20) {
       return 'Incorrect format';
     } else {
       return null;
@@ -18,7 +18,7 @@ class Helper {
   }
 
   static String? validateRepeatPassword(String? value, String? text) {
-    if (value == null || value.isEmpty || value.length < 6) {
+    if (value == null || value.isEmpty || value.length < 6 && value.length > 20) {
       return 'Incorrect format';
     }
     if (text != value) {

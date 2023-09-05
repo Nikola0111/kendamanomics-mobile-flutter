@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
@@ -18,9 +16,9 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String _firstName = '';
   String _lastName = '';
   String _email = '';
-  String _instagramUsername = '';
+  String? _instagramUsername;
   int _yearsPlaying = -1;
-  String _support = '';
+  String? _company;
   String _password = '';
   String _confirmPassword = '';
   int _currentPage = 0;
@@ -28,9 +26,9 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String get firstName => _firstName;
   String get lastName => _lastName;
   String get email => _email;
-  String get instagramUsername => _instagramUsername;
+  String? get instagramUsername => _instagramUsername;
   int get yearsPlaying => _yearsPlaying;
-  String get support => _support;
+  String? get company => _company;
   String get password => _password;
   String get confirmPassword => _confirmPassword;
   int get currentPage => _currentPage;
@@ -50,7 +48,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     notifyListeners();
   }
 
-  set instagramUsername(String value) {
+  set instagramUsername(String? value) {
     _instagramUsername = value;
     notifyListeners();
   }
@@ -70,8 +68,8 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     notifyListeners();
   }
 
-  set support(String value) {
-    _support = value;
+  set company(String? value) {
+    _company = value;
     notifyListeners();
   }
 

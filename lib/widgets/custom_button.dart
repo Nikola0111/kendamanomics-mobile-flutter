@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
@@ -52,7 +51,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: child ??
               Text(
-                text!.tr(),
+                text!,
                 style: CustomTextStyles.of(context).medium24.apply(color: _getButtonColor(context)),
               ),
         ),

@@ -21,7 +21,7 @@ class RegisterInput extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 80.0),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 8.0),
                 child: Text(
                   'register_page.fill_in_fields',
                   style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primaryText),
@@ -68,9 +68,9 @@ class RegisterInput extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 placeholder: 'input_fields.confirm_password'.tr(),
               ),
-              const SizedBox(height: 90.0),
+              const SizedBox(height: 30.0),
               CustomButton(
-                text: 'buttons.create_an_account',
+                text: 'buttons.create_an_account'.tr(),
                 customTextColor: CustomColors.of(context).primary,
               ),
             ],
