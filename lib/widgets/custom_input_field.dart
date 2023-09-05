@@ -77,18 +77,18 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 if (widget.onSubmitted != null) widget.onSubmitted!();
               },
               validator: widget.validator,
-              style: CustomTextStyles.of(context).medium24,
+              style: CustomTextStyles.of(context).medium24.copyWith(height: 40 / 24 - 0.4),
               obscureText: widget.obscurable ? _obscured : false,
               decoration: InputDecoration(
                 isDense: true,
                 prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
                 // 40 is debatable, for now this until we can put in an icon for show password
-                contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 14, top: 12),
+                contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 26),
                 hintText: 'username',
                 hintStyle: CustomTextStyles.of(context).light24Opacity,
                 errorStyle: CustomTextStyles.of(context).light10.copyWith(
                       color: CustomColors.of(context).errorColor,
-                      height: 0.8,
+                      height: 40 / 24,
                     ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: CustomColors.of(context).borderColor, width: 1.0),
