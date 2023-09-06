@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
+import 'package:kendamanomics_mobile/pages/leaderboard.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
@@ -33,7 +35,9 @@ class LoginPage extends StatelessWidget {
             CustomButton(
               text: 'Login',
               isEnabled: true,
-              onPressed: () {},
+              onPressed: () {
+                context.goNamed(Leaderboard.pageName);
+              },
             ),
             const Spacer(),
           ],

@@ -13,19 +13,24 @@ class MainPageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MainPageContainerProvider(),
-      child: Consumer<MainPageContainerProvider>(
-        builder: (context, mainPageContainerProvider, _) {
-          return ColoredBox(
-            color: CustomColors.of(context).backgroundColor,
-            child: Column(
-              children: [
-                const AppHeader(),
-                child,
-                const BottomNavigation(),
-              ],
+      child: Scaffold(
+        backgroundColor: CustomColors.of(context).backgroundColor,
+        body: Column(
+          children: [
+            const AppHeader(),
+            Expanded(child: child),
+            Selector<MainPageContainerProvider, int>(
+              selector: (_, provider) => provider.pageIndex,
+              builder: (context, pageIndex, child) {
+                return BottomNavigation(
+                  items: context.read<MainPageContainerProvider>().bottomNav,
+                  pageIndex: pageIndex,
+                  onPageUpdated: (index) => context.read<MainPageContainerProvider>().pageIndex = index,
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
