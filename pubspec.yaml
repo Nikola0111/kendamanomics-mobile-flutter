@@ -33,7 +33,7 @@ flutter:
   assets:
     - assets/localization/
     - assets/images/
-#    - assets/icon/
+    - assets/icon/
     - assets/config/
     - assets/release_configs/
 
