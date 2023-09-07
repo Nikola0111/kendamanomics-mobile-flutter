@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_form.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_welcome.dart';
+import 'package:kiwi/kiwi.dart';
+
+enum RegisterState { waiting, success, errorEmail, errorServer }
 
 class RegisterProvider extends ChangeNotifier with LoggerMixin {
+  final _authService = KiwiContainer().resolve<AuthService>();
+
   List<Widget> pages = [
     const RegisterWelcome(),
     const RegisterDescription(),
@@ -13,6 +19,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     const RegisterForm(),
   ];
 
+  RegisterState _state = RegisterState.waiting;
   String _firstName = '';
   String _lastName = '';
   String _email = '';
@@ -32,6 +39,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String get password => _password;
   String get confirmPassword => _confirmPassword;
   int get currentPage => _currentPage;
+  RegisterState get state => _state;
 
   set firstName(String value) {
     _firstName = value;
@@ -76,6 +84,13 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   void setCurrentPage(int page) {
     _currentPage = page;
     notifyListeners();
+  }
+
+  Future<void> signUp(String email, String password) async {
+    try {
+      await _authService.signUp(email, password);
+      _state = RegisterState.success;
+    } catch (e) {}
   }
 
   @override

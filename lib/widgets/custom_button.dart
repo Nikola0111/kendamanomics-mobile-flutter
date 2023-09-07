@@ -42,7 +42,7 @@ class CustomButton extends StatelessWidget {
           ),
           overlayColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.09)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
           ),
           minimumSize: MaterialStateProperty.all<Size>(const Size(120, 80)),
           maximumSize: MaterialStateProperty.all<Size>(const Size(240, 80)),
@@ -61,7 +61,7 @@ class CustomButton extends StatelessWidget {
 
   Color _getButtonColor(BuildContext context) {
     if (isEnabled) {
-      return customTextColor ?? CustomColors.of(context).backgroundColor;
+      return CustomColors.of(context).backgroundColor;
     } else {
       return CustomColors.of(context).primaryText.withOpacity(0.6);
     }

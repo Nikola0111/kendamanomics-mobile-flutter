@@ -13,7 +13,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await EnvironmentService.init();
   initKiwi();
-
   await KiwiContainer().resolve<SupabaseService>().init();
 
   runApp(const KendamanomicsApp());

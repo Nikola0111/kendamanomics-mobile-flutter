@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/providers/register_provider.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
 import 'package:kendamanomics_mobile/widgets/custom_input_field.dart';
@@ -76,8 +78,12 @@ class RegisterForm extends StatelessWidget {
                 heightFactor: 2.075,
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
+                  isEnabled: true,
                   text: 'buttons.create_an_account'.tr(),
                   customTextColor: CustomColors.of(context).primary,
+                  onPressed: () {
+                    context.goNamed(LoginPage.pageName);
+                  },
                 ),
               ),
             ],
