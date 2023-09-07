@@ -33,6 +33,9 @@ class RegisterShell extends StatelessWidget {
                     itemCount: context.read<RegisterProvider>().pages.length,
                     onPageChanged: (value) {
                       context.read<RegisterProvider>().setCurrentPage(value);
+                      if (value != 3) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      }
                     },
                     itemBuilder: (context, index) {
                       return context.read<RegisterProvider>().pages[index];

@@ -17,10 +17,10 @@ dependencies:
   easy_localization: ^3.0.3
   easy_logger: ^0.0.2
   shared_preferences: ^2.2.0
-  supabase_flutter: ^1.10.14
   image_picker: ^1.0.2
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
+  supabase_flutter: ^1.10.16
 
 dev_dependencies:
   flutter_test:

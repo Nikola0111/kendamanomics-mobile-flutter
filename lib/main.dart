@@ -4,6 +4,7 @@ import 'package:kendamanomics_mobile/injection_container.dart';
 import 'package:kendamanomics_mobile/providers/app_provider.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
+import 'package:kendamanomics_mobile/services/supabase_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,7 @@ void main() async {
   await EnvironmentService.init();
   initKiwi();
 
-  // await KiwiContainer().resolve<SupabaseService>().init();
+  await KiwiContainer().resolve<SupabaseService>().init();
 
   runApp(const KendamanomicsApp());
 }
