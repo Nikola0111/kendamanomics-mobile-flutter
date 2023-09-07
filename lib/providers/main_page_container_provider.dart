@@ -20,7 +20,7 @@ class MainPageContainerProvider extends ChangeNotifier {
     _bottomNav.clear();
     _bottomNav.addAll([
       const BottomNavigationData(pathOrUrl: 'assets/icon/icon_leaderboard.png', isLocal: true, pageName: Leaderboard.pageName),
-      const BottomNavigationData(pathOrUrl: 'assets/icon/icon_leaderboard.png', isLocal: true, pageName: TamasPage.pageName),
+      const BottomNavigationData(pathOrUrl: 'assets/icon/icon_tama.png', isLocal: true, pageName: TamasPage.pageName),
       const BottomNavigationData(pathOrUrl: 'assets/icon/icon_leaderboard.png', isLocal: true, pageName: Profile.pageName),
     ]);
   }

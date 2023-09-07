@@ -37,9 +37,8 @@ class BottomNavigation extends StatelessWidget {
                 if (i == 0) const SizedBox(width: _sidePadding),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(40),
-                  child: InkWell(
-                    highlightColor: CustomColors.of(context).backgroundColor.withOpacity(0.5),
-                    customBorder: const CircleBorder(),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       onPageUpdated(i);
                       context.goNamed(items[i].pageName);
