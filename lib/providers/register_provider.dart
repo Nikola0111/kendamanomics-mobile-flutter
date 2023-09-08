@@ -98,12 +98,11 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
       if (e.statusCode == '400') {
         _state = RegisterState.errorEmail;
         logE(e.message);
-        return false;
       } else {
-        logE('error while signing up: $e');
+        logE('error while signing up: ${e.message}');
         _state = RegisterState.errorServer;
-        return false;
       }
+      return false;
     }
   }
 
@@ -117,24 +116,29 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         //supportTeamID: _supportTeamID,
       );
       return true;
-    } on Exception catch (e) {
-      logE(e.toString());
+    } on PostgrestException catch (e) {
+      logE('update data failed, message: ${e.message} - code: ${e.code}');
       return false;
     }
   }
 
   void _isAllInputValid() {
-    if (Helper.validateEmail(_email) == null &&
+    final isValid = Helper.validateEmail(_email) == null &&
         Helper.validatePassword(_password) == null &&
         Helper.validateRepeatPassword(_confirmPassword, _password) == null &&
         Helper.validateName(_firstName) == null &&
         Helper.validateLastName(_lastName) == null &&
-        Helper.validateNumbers(_yearsPlaying.toString()) == null) {
-      _isButtonEnabled = true;
-      notifyListeners();
+        Helper.validateNumbers(_yearsPlaying.toString()) == null;
+    if (isValid) {
+      if (isValid != _isButtonEnabled) {
+        _isButtonEnabled = true;
+        notifyListeners();
+      }
     } else {
-      _isButtonEnabled = false;
-      notifyListeners();
+      if (isValid != _isButtonEnabled) {
+        _isButtonEnabled = false;
+        notifyListeners();
+      }
     }
   }
 

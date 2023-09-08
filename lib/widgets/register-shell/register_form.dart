@@ -130,14 +130,14 @@ class RegisterForm extends StatelessWidget {
                       customTextColor: CustomColors.of(context).primary,
                       onPressed: () async {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        final ret = await provider.signUp(provider.email, provider.password);
-                        if (ret == true) {
-                          final ret = await provider.updateData();
-                          if (ret == true) {
-                            if (context.mounted) {
-                              context.goNamed(TamasPage.pageName);
-                            }
-                          }
+                        final signUpSuccessful = await provider.signUp(provider.email, provider.password);
+                        if (!signUpSuccessful) return;
+
+                        final updateDataSuccessful = await provider.updateData();
+                        if (!updateDataSuccessful) return;
+
+                        if (context.mounted) {
+                          context.goNamed(TamasPage.pageName);
                         }
                       },
                     ),
