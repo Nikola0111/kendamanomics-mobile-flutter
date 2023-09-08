@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/widgets/custom_button.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_form.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
@@ -90,7 +91,11 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     try {
       await _authService.signUp(email, password);
       _state = RegisterState.success;
-    } catch (e) {}
+    } catch (e) {
+      logE('error while signing up: $e');
+
+      notifyListeners();
+    }
   }
 
   @override
