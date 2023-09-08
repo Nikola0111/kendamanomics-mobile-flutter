@@ -4,7 +4,7 @@ class CustomTextStyles {
   final BuildContext _context;
   const CustomTextStyles.of(BuildContext context) : _context = context;
 
-  TextStyle get light10 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light10!;
+  TextStyle get light12 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light12!;
   TextStyle get light16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light16!;
   TextStyle get light24 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light24!;
   TextStyle get light24Opacity => Theme.of(_context).extension<CustomTextStyleScheme>()!.light24Opacity!;
@@ -17,7 +17,7 @@ class CustomTextStyles {
 @immutable
 class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   static const _fontFamily = 'GillSans';
-  final TextStyle? light10;
+  final TextStyle? light12;
   final TextStyle? light16;
   final TextStyle? light24;
   final TextStyle? light24Opacity;
@@ -27,7 +27,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   final TextStyle? medium24;
 
   const CustomTextStyleScheme({
-    required this.light10,
+    required this.light12,
     required this.light16,
     required this.light24,
     required this.light24Opacity,
@@ -39,10 +39,10 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
 
   factory CustomTextStyleScheme.fromPrimaryTextColor({required Color primaryTextColor}) {
     return CustomTextStyleScheme(
-      light10: TextStyle(
+      light12: TextStyle(
         fontFamily: _fontFamily,
         color: primaryTextColor,
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: 1.1,
         decoration: TextDecoration.none,
         fontWeight: FontWeight.w100,
@@ -66,8 +66,8 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
       light24Opacity: TextStyle(
         fontFamily: _fontFamily,
         color: primaryTextColor.withOpacity(0.5),
-        height: 2.2,
         fontSize: 24,
+        height: 1.8,
         decoration: TextDecoration.none,
         letterSpacing: 1.1,
         fontWeight: FontWeight.w300,
@@ -109,7 +109,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
 
   @override
   CustomTextStyleScheme copyWith({
-    TextStyle? light10,
+    TextStyle? light12,
     TextStyle? light16,
     TextStyle? light24,
     TextStyle? light24Opacity,
@@ -119,7 +119,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
     TextStyle? medium24,
   }) {
     return CustomTextStyleScheme(
-      light10: light10 ?? this.light10,
+      light12: light12 ?? this.light12,
       light16: light16 ?? this.light16,
       light24: light24 ?? this.light24,
       light24Opacity: light24Opacity ?? this.light24Opacity,
@@ -136,7 +136,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
       return this;
     }
     return CustomTextStyleScheme(
-      light10: TextStyle.lerp(light10, other.light10, t),
+      light12: TextStyle.lerp(light12, other.light12, t),
       light16: TextStyle.lerp(light16, other.light16, t),
       light24: TextStyle.lerp(light24, other.light24, t),
       light24Opacity: TextStyle.lerp(light24Opacity, other.light24Opacity, t),

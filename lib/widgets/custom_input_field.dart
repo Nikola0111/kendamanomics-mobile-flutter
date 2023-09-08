@@ -35,6 +35,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
   final FocusNode _focusNode = FocusNode();
   bool _hasText = false;
   bool _obscured = true;
+  bool _validatorFailed = false;
 
   @override
   void initState() {
@@ -51,14 +52,15 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      // color: Colors.red,
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: Stack(
         children: [
           Form(
             key: _formKey,
             child: SizedBox(
-              height: 40,
+              height: _validatorFailed ? 52.0 : 42.2,
               child: TextFormField(
                 initialValue: widget.initialData,
                 focusNode: _focusNode,
@@ -80,19 +82,42 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 onFieldSubmitted: (value) {
                   if (widget.onSubmitted != null) widget.onSubmitted!();
                 },
-                validator: widget.validator,
-                style: CustomTextStyles.of(context).medium24,
+                validator: (value) {
+                  if (widget.validator != null) {
+                    final isValid = widget.validator!(value);
+                    if (isValid != null) {
+                      setState(() {
+                        _validatorFailed = true;
+                      });
+                    } else {
+                      setState(() {
+                        _validatorFailed = false;
+                      });
+                    }
+                    return isValid;
+                  } else {
+                    _validatorFailed = false;
+                    return null;
+                  }
+                },
+                style: CustomTextStyles.of(context).medium24.copyWith(height: 1.4),
                 obscureText: widget.obscurable ? _obscured : false,
+                maxLines: 1,
                 decoration: InputDecoration(
                   isDense: true,
-                  prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
+                  // prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
                   // 40 is debatable, for now this until we can put in an icon for show password
-                  contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 14, top: 12),
+                  contentPadding: EdgeInsets.only(
+                    left: 6,
+                    bottom: _validatorFailed ? -14 : -2,
+                    top: _validatorFailed ? 11 : 0,
+                    right: 6,
+                  ),
                   hintText: widget.hintText,
                   hintStyle: CustomTextStyles.of(context).light24Opacity,
-                  errorStyle: CustomTextStyles.of(context).light10.copyWith(
+                  errorStyle: CustomTextStyles.of(context).light12.copyWith(
                         color: CustomColors.of(context).errorColor,
-                        height: 0.8,
+                        height: 0.3,
                       ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: CustomColors.of(context).borderColor, width: 1.0),
