@@ -37,9 +37,27 @@ class Helper {
   }
 
   static String? validateName(String? value) {
-    final regex = RegExp(r'^[A-Za-z -]+$');
-    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
-      return 'Incorrect format';
+    if (value == null || value.isEmpty) {
+      return 'Incorrect';
+    } else {
+      return null;
+    }
+  }
+
+  static String? validateCompany(String? value) {
+    final regex = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
+    if (!regex.hasMatch(value!)) {
+      return 'Incorrect input';
+    } else {
+      return null;
+    }
+  }
+
+  static String? validateNumbers(String? value) {
+    final regex = RegExp(r'^[0-9]+$');
+    final number = int.parse(value!);
+    if (number > 15 || value.isEmpty || !regex.hasMatch(value)) {
+      return 'Invalid number (Years played cant exceed 15)';
     } else {
       return null;
     }
