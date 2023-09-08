@@ -69,7 +69,7 @@ class RegisterForm extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 placeholder: 'input_fields.last_name'.tr(),
                 onChanged: (lastName) => provider.lastName = lastName,
-                validator: (value) => Helper.validateName(value),
+                validator: (value) => Helper.validateLastName(value),
               ),
               const SizedBox(height: 6.0),
               CustomInputField(
@@ -89,8 +89,17 @@ class RegisterForm extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 placeholder: 'input_fields.experience'.tr(),
-                onChanged: (yearsPlaying) => provider.yearsPlaying = yearsPlaying as int,
                 validator: (value) => Helper.validateNumbers(value),
+                onChanged: (yearsPlaying) {
+                  final intYearsPlaying = int.tryParse(yearsPlaying);
+                  if (intYearsPlaying != null && intYearsPlaying <= 15) {
+                    provider.yearsPlaying = intYearsPlaying;
+                  } else {
+                    provider.yearsPlaying = -1;
+                    print('nope');
+                    print(provider.yearsPlaying);
+                  }
+                },
               ),
               const SizedBox(height: 6.0),
               CustomInputField(
@@ -116,11 +125,13 @@ class RegisterForm extends StatelessWidget {
                 heightFactor: 2.075,
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
-                  isEnabled: true,
+                  isEnabled: provider.isButtonEnabled,
                   text: 'buttons.create_an_account'.tr(),
                   customTextColor: CustomColors.of(context).primary,
                   onPressed: () async {
                     FocusManager.instance.primaryFocus?.unfocus();
+                    await provider.signUp(provider.email, provider.password);
+                    // ignore: use_build_context_synchronously
                     context.goNamed(TamasPage.pageName);
                   },
                 ),

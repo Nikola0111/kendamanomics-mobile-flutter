@@ -12,19 +12,20 @@ class CustomInputField extends StatefulWidget {
   final VoidCallback? onSubmitted;
   final bool obscurable;
   final String? initialData;
+  final TextEditingController? controller;
 
-  const CustomInputField({
-    super.key,
-    this.placeholder,
-    this.hintText,
-    this.onChanged,
-    this.textInputAction,
-    this.keyboardType,
-    this.validator,
-    this.onSubmitted,
-    this.obscurable = false,
-    this.initialData,
-  });
+  const CustomInputField(
+      {super.key,
+      this.placeholder,
+      this.hintText,
+      this.onChanged,
+      this.textInputAction,
+      this.keyboardType,
+      this.validator,
+      this.onSubmitted,
+      this.obscurable = false,
+      this.initialData,
+      this.controller});
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();

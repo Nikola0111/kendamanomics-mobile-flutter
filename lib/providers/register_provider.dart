@@ -12,7 +12,6 @@ enum RegisterState { waiting, success, errorEmail, errorServer }
 
 class RegisterProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
-
   List<Widget> pages = [
     const RegisterWelcome(),
     const RegisterDescription(),
@@ -30,6 +29,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String _password = '';
   String _confirmPassword = '';
   int _currentPage = 0;
+  bool _isButtonEnabled = false;
 
   String get firstName => _firstName;
   String get lastName => _lastName;
@@ -41,45 +41,46 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String get confirmPassword => _confirmPassword;
   int get currentPage => _currentPage;
   RegisterState get state => _state;
+  bool get isButtonEnabled => _isButtonEnabled;
 
   set firstName(String value) {
     _firstName = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set lastName(String value) {
     _lastName = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set email(String value) {
     _email = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set instagramUsername(String? value) {
     _instagramUsername = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set yearsPlaying(int value) {
     _yearsPlaying = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set password(String value) {
     _password = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set confirmPassword(String value) {
     _confirmPassword = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   set company(String? value) {
     _company = value;
-    notifyListeners();
+    isAllInputValid();
   }
 
   void setCurrentPage(int page) {
@@ -93,13 +94,23 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
       _state = RegisterState.success;
     } catch (e) {
       logE('error while signing up: $e');
-
       notifyListeners();
     }
   }
 
   void isAllInputValid() {
-    if (Helper.validateEmail(_email) == null && Helper.validatePassword(_password) == null) {}
+    if (Helper.validateEmail(_email) == null &&
+        Helper.validatePassword(_password) == null &&
+        Helper.validateRepeatPassword(_confirmPassword, _password) == null &&
+        Helper.validateName(_firstName) == null &&
+        Helper.validateLastName(_lastName) == null &&
+        Helper.validateNumbers(_yearsPlaying.toString()) == null) {
+      notifyListeners();
+      _isButtonEnabled = true;
+    } else {
+      notifyListeners();
+      _isButtonEnabled = false;
+    }
   }
 
   void resetState() {

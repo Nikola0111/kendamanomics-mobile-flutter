@@ -10,7 +10,7 @@ class Helper {
   }
 
   static String? validatePassword(String? value) {
-    if (value == null || value.isEmpty || value.length < 6 && value.length > 20) {
+    if (value == null || value.isEmpty || value.length < 6 || value.length > 20) {
       return 'Incorrect format';
     } else {
       return null;
@@ -18,14 +18,13 @@ class Helper {
   }
 
   static String? validateRepeatPassword(String? value, String? text) {
-    if (value == null || value.isEmpty || value.length < 6 && value.length > 20) {
+    if (value == null || value.isEmpty || value != text) {
+      return 'Passwords do not match';
+    }
+    if (value.length < 6 || value.length > 20) {
       return 'Incorrect format';
     }
-    if (text != value) {
-      return 'Incorrect format';
-    } else {
-      return null;
-    }
+    return null;
   }
 
   static String? validateCodes(String? value) {
@@ -44,6 +43,14 @@ class Helper {
     }
   }
 
+  static String? validateLastName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Incorrect';
+    } else {
+      return null;
+    }
+  }
+
   static String? validateCompany(String? value) {
     final regex = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
     if (!regex.hasMatch(value!)) {
@@ -55,8 +62,7 @@ class Helper {
 
   static String? validateNumbers(String? value) {
     final regex = RegExp(r'^[0-9]+$');
-    final number = int.parse(value!);
-    if (number > 15 || value.isEmpty || !regex.hasMatch(value)) {
+    if (!regex.hasMatch(value!)) {
       return 'Invalid number (Years played cant exceed 15)';
     } else {
       return null;
