@@ -16,39 +16,30 @@ class RegisterShell extends StatelessWidget {
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (context) => RegisterProvider(),
-          builder: (context, child) => NotificationListener(
-            // onNotification: (notification) {
-            //   if (notification is ScrollStartNotification) {
-            //     consider adding int index to the pages so we can keep the keyboard up properly even on vertical scroll
-            //     FocusManager.instance.primaryFocus?.unfocus();
-            //   }
-            //   return false;
-            // },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: PageView.builder(
-                    physics: const CustomPageViewScrollPhysics(),
-                    itemCount: context.read<RegisterProvider>().pages.length,
-                    onPageChanged: (value) {
-                      context.read<RegisterProvider>().setCurrentPage(value);
-                      if (value != 3) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                      }
-                    },
-                    itemBuilder: (context, index) {
-                      return context.read<RegisterProvider>().pages[index];
-                    },
-                  ),
+          builder: (context, child) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  physics: const CustomPageViewScrollPhysics(),
+                  itemCount: context.read<RegisterProvider>().pages.length,
+                  onPageChanged: (value) {
+                    context.read<RegisterProvider>().setCurrentPage(value);
+                    if (value != 3) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    }
+                  },
+                  itemBuilder: (context, index) {
+                    return context.read<RegisterProvider>().pages[index];
+                  },
                 ),
-                Selector<RegisterProvider, int>(
-                  selector: (_, provider) => provider.currentPage,
-                  builder: (context, currentPage, child) => buildIndicator(currentPage, context),
-                ),
-                const SizedBox(height: 8.0),
-              ],
-            ),
+              ),
+              Selector<RegisterProvider, int>(
+                selector: (_, provider) => provider.currentPage,
+                builder: (context, currentPage, child) => buildIndicator(currentPage, context),
+              ),
+              const SizedBox(height: 8.0),
+            ],
           ),
         ),
       ),
@@ -59,9 +50,7 @@ class RegisterShell extends StatelessWidget {
     return AnimatedPadding(
       duration: const Duration(milliseconds: 150),
       curve: Curves.linear,
-      padding: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width / 4.0 * currentPage,
-      ),
+      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 4.0 * currentPage),
       child: Container(
         height: 4.0,
         width: MediaQuery.of(context).size.width / 4.0,

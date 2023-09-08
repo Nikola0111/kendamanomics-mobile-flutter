@@ -3,7 +3,6 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 
 class CustomInputField extends StatefulWidget {
-  final String? placeholder;
   final void Function(String)? onChanged;
   final String? hintText;
   final TextInputAction? textInputAction;
@@ -14,18 +13,18 @@ class CustomInputField extends StatefulWidget {
   final String? initialData;
   final TextEditingController? controller;
 
-  const CustomInputField(
-      {super.key,
-      this.placeholder,
-      this.hintText,
-      this.onChanged,
-      this.textInputAction,
-      this.keyboardType,
-      this.validator,
-      this.onSubmitted,
-      this.obscurable = false,
-      this.initialData,
-      this.controller});
+  const CustomInputField({
+    super.key,
+    this.hintText,
+    this.onChanged,
+    this.textInputAction,
+    this.keyboardType,
+    this.validator,
+    this.onSubmitted,
+    this.obscurable = false,
+    this.initialData,
+    this.controller,
+  });
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -89,7 +88,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                   prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
                   // 40 is debatable, for now this until we can put in an icon for show password
                   contentPadding: EdgeInsets.only(left: 6, right: widget.obscurable ? 40 : 0, bottom: 14, top: 12),
-                  hintText: widget.placeholder,
+                  hintText: widget.hintText,
                   hintStyle: CustomTextStyles.of(context).light24Opacity,
                   errorStyle: CustomTextStyles.of(context).light10.copyWith(
                         color: CustomColors.of(context).errorColor,

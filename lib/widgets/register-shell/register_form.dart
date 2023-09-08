@@ -45,7 +45,6 @@ class RegisterForm extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Column(
@@ -60,7 +59,7 @@ class RegisterForm extends StatelessWidget {
                   ),
                   CustomInputField(
                     textInputAction: TextInputAction.next,
-                    placeholder: 'input_fields.first_name'.tr(),
+                    hintText: 'input_fields.first_name'.tr(),
                     initialData: provider.firstName,
                     onChanged: (firstName) => provider.firstName = firstName,
                     validator: (value) => Helper.validateName(value),
@@ -68,28 +67,28 @@ class RegisterForm extends StatelessWidget {
                   const SizedBox(height: 6.0),
                   CustomInputField(
                     textInputAction: TextInputAction.next,
-                    placeholder: 'input_fields.last_name'.tr(),
+                    hintText: 'input_fields.last_name'.tr(),
                     onChanged: (lastName) => provider.lastName = lastName,
                     validator: (value) => Helper.validateLastName(value),
                   ),
                   const SizedBox(height: 6.0),
                   CustomInputField(
                     textInputAction: TextInputAction.next,
-                    placeholder: 'input_fields.email'.tr(),
+                    hintText: 'input_fields.email'.tr(),
                     onChanged: (email) => provider.email = email,
                     validator: (value) => Helper.validateEmail(value),
                   ),
                   const SizedBox(height: 6.0),
                   CustomInputField(
                     textInputAction: TextInputAction.next,
-                    placeholder: 'input_fields.instagram_username'.tr(),
+                    hintText: 'input_fields.instagram_username'.tr(),
                     onChanged: (instagramUsername) => provider.instagramUsername = instagramUsername,
                   ),
                   const SizedBox(height: 6.0),
                   CustomInputField(
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.number,
-                    placeholder: 'input_fields.experience'.tr(),
+                    hintText: 'input_fields.experience'.tr(),
                     validator: (value) => Helper.validateNumbers(value),
                     onChanged: (yearsPlaying) {
                       final intYearsPlaying = int.tryParse(yearsPlaying);
@@ -103,14 +102,14 @@ class RegisterForm extends StatelessWidget {
                   const SizedBox(height: 6.0),
                   CustomInputField(
                     textInputAction: TextInputAction.next,
-                    placeholder: 'input_fields.support'.tr(),
+                    hintText: 'input_fields.support'.tr(),
                     onChanged: (supportTeamID) => provider.supportTeamID = supportTeamID,
                   ),
                   const SizedBox(height: 6.0),
                   CustomInputField(
                     obscurable: true,
                     textInputAction: TextInputAction.next,
-                    placeholder: 'input_fields.password'.tr(),
+                    hintText: 'input_fields.password'.tr(),
                     onChanged: (password) => provider.password = password,
                     validator: (value) => Helper.validatePassword(value),
                   ),
@@ -118,7 +117,7 @@ class RegisterForm extends StatelessWidget {
                   CustomInputField(
                     obscurable: true,
                     textInputAction: TextInputAction.done,
-                    placeholder: 'input_fields.confirm_password'.tr(),
+                    hintText: 'input_fields.confirm_password'.tr(),
                     onChanged: (confirmPassword) => provider.confirmPassword = confirmPassword,
                     validator: (value) => Helper.validateRepeatPassword(value, provider.password),
                   ),
@@ -131,10 +130,14 @@ class RegisterForm extends StatelessWidget {
                       customTextColor: CustomColors.of(context).primary,
                       onPressed: () async {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        await provider.signUp(provider.email, provider.password);
-                        await provider.updateData();
-                        if (context.mounted) {
-                          context.goNamed(TamasPage.pageName);
+                        final ret = await provider.signUp(provider.email, provider.password);
+                        if (ret == true) {
+                          final ret = await provider.updateData();
+                          if (ret == true) {
+                            if (context.mounted) {
+                              context.goNamed(TamasPage.pageName);
+                            }
+                          }
                         }
                       },
                     ),

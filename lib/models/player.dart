@@ -7,14 +7,15 @@ class Player {
   String? instagram;
   String? supportTeamID;
 
-  Player(
-      {required this.email,
-      required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.yearsPlaying,
-      this.instagram,
-      this.supportTeamID});
+  Player({
+    required this.email,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.yearsPlaying,
+    this.instagram,
+    this.supportTeamID,
+  });
 
   Player.empty({required this.id, required this.email})
       : firstName = '',

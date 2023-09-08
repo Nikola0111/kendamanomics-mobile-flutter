@@ -46,42 +46,42 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
 
   set firstName(String value) {
     _firstName = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set lastName(String value) {
     _lastName = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set email(String value) {
     _email = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set instagramUsername(String? value) {
     _instagramUsername = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set yearsPlaying(int value) {
     _yearsPlaying = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set password(String value) {
     _password = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set confirmPassword(String value) {
     _confirmPassword = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   set supportTeamID(String? value) {
     _supportTeamID = value;
-    isAllInputValid();
+    _isAllInputValid();
   }
 
   void setCurrentPage(int page) {
@@ -89,23 +89,25 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     notifyListeners();
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<bool> signUp(String email, String password) async {
     try {
       await _authService.signUp(email, password);
       _state = RegisterState.success;
+      return true;
     } on AuthException catch (e) {
       if (e.statusCode == '400') {
         _state = RegisterState.errorEmail;
         logE(e.message);
+        return false;
       } else {
         logE('error while signing up: $e');
         _state = RegisterState.errorServer;
+        return false;
       }
     }
-    notifyListeners();
   }
 
-  Future<void> updateData() async {
+  Future<bool> updateData() async {
     try {
       await _authService.updateData(
         firstname: _firstName,
@@ -114,12 +116,14 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         instagram: _instagramUsername,
         //supportTeamID: _supportTeamID,
       );
-    } catch (e) {
-      logE('error while updating data, $e');
+      return true;
+    } on Exception catch (e) {
+      logE(e.toString());
+      return false;
     }
   }
 
-  void isAllInputValid() {
+  void _isAllInputValid() {
     if (Helper.validateEmail(_email) == null &&
         Helper.validatePassword(_password) == null &&
         Helper.validateRepeatPassword(_confirmPassword, _password) == null &&
