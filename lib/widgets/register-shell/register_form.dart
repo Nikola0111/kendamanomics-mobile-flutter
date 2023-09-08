@@ -108,6 +108,7 @@ class RegisterForm extends StatelessWidget {
                   ),
                   const SizedBox(height: 6.0),
                   CustomInputField(
+                    obscurable: true,
                     textInputAction: TextInputAction.next,
                     placeholder: 'input_fields.password'.tr(),
                     onChanged: (password) => provider.password = password,
@@ -115,6 +116,7 @@ class RegisterForm extends StatelessWidget {
                   ),
                   const SizedBox(height: 6.0),
                   CustomInputField(
+                    obscurable: true,
                     textInputAction: TextInputAction.done,
                     placeholder: 'input_fields.confirm_password'.tr(),
                     onChanged: (confirmPassword) => provider.confirmPassword = confirmPassword,
