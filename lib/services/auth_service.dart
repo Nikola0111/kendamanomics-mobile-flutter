@@ -6,6 +6,8 @@ class AuthService with LoggerMixin {
   final _supabase = Supabase.instance.client;
   Player? _player;
 
+  Player? get player => _player;
+
   Future<void> signUp(String email, String password) async {
     final ret = await _supabase.auth.signUp(email: email, password: password);
     _player = Player.empty(id: ret.user!.id, email: email);
