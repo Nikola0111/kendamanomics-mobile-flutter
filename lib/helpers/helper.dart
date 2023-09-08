@@ -62,10 +62,13 @@ class Helper {
 
   static String? validateNumbers(String? value) {
     final regex = RegExp(r'^[0-9]+$');
-    if (!regex.hasMatch(value!)) {
-      return 'Invalid number (Years played cant exceed 15)';
-    } else {
-      return null;
+    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+      return 'not correct format';
     }
+    final parsed = int.tryParse(value);
+    if (parsed == null || parsed > 15) {
+      return 'still incorrect';
+    }
+    return null;
   }
 }

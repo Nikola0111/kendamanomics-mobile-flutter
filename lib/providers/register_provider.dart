@@ -7,6 +7,7 @@ import 'package:kendamanomics_mobile/widgets/register-shell/register_form.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_welcome.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum RegisterState { waiting, success, errorEmail, errorServer }
 
@@ -25,7 +26,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String _email = '';
   String? _instagramUsername;
   int _yearsPlaying = -1;
-  String? _company;
+  String? _supportTeamID;
   String _password = '';
   String _confirmPassword = '';
   int _currentPage = 0;
@@ -36,7 +37,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String get email => _email;
   String? get instagramUsername => _instagramUsername;
   int get yearsPlaying => _yearsPlaying;
-  String? get company => _company;
+  String? get supportTeamID => _supportTeamID;
   String get password => _password;
   String get confirmPassword => _confirmPassword;
   int get currentPage => _currentPage;
@@ -78,8 +79,8 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     isAllInputValid();
   }
 
-  set company(String? value) {
-    _company = value;
+  set supportTeamID(String? value) {
+    _supportTeamID = value;
     isAllInputValid();
   }
 
@@ -92,9 +93,29 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     try {
       await _authService.signUp(email, password);
       _state = RegisterState.success;
+    } on AuthException catch (e) {
+      if (e.statusCode == '400') {
+        _state = RegisterState.errorEmail;
+        logE(e.message);
+      } else {
+        logE('error while signing up: $e');
+        _state = RegisterState.errorServer;
+      }
+    }
+    notifyListeners();
+  }
+
+  Future<void> updateData() async {
+    try {
+      await _authService.updateData(
+        firstname: _firstName,
+        lastname: _lastName,
+        yearsOfPlaying: _yearsPlaying,
+        instagram: _instagramUsername,
+        //supportTeamID: _supportTeamID,
+      );
     } catch (e) {
-      logE('error while signing up: $e');
-      notifyListeners();
+      logE('error while updating data, $e');
     }
   }
 
@@ -105,11 +126,11 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         Helper.validateName(_firstName) == null &&
         Helper.validateLastName(_lastName) == null &&
         Helper.validateNumbers(_yearsPlaying.toString()) == null) {
-      notifyListeners();
       _isButtonEnabled = true;
-    } else {
       notifyListeners();
+    } else {
       _isButtonEnabled = false;
+      notifyListeners();
     }
   }
 

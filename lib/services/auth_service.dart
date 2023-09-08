@@ -1,11 +1,14 @@
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/player.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService with LoggerMixin {
   final _supabase = Supabase.instance.client;
+  Player? _player;
 
   Future<void> signUp(String email, String password) async {
-    await _supabase.auth.signUp(email: email, password: password);
+    final ret = await _supabase.auth.signUp(email: email, password: password);
+    _player = Player.empty(id: ret.user!.id, email: email);
   }
 
   Future<void> signIn(String email, String password) async {
@@ -21,16 +24,26 @@ class AuthService with LoggerMixin {
     required String lastname,
     required int yearsOfPlaying,
     String? instagram,
-    String? supportTeamID,
+    // String? supportTeamID,
   }) async {
+    if (_player == null) {
+      throw Exception();
+    }
     await _supabase.rpc('update_user_data', params: {
-      // 'id': id, uncomment this when we have the id of logged in user
+      'id': _player!.id,
       'firstname': firstname,
       'lastname': lastname,
-      'supportteamid': supportTeamID,
+      //'supportteamid': supportTeamID,
       'yearsofplaying': yearsOfPlaying,
       'instagram': instagram,
     });
+    _player = _player!.copyWith(
+      firstName: firstname,
+      lastName: lastname,
+      //supportTeamID: supportTeamID,
+      instagram: instagram,
+      yearsPlaying: yearsOfPlaying,
+    );
   }
 
   @override
