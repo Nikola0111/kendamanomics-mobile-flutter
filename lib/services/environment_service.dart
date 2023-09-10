@@ -33,6 +33,9 @@ class EnvironmentService {
   static String? _iFrameSource;
 
   static Environment get environment => _environment;
+  static String get supabaseApiUrl => _supabaseApiUrl;
+  static String get supabaseAnonKey => _supabaseAnonKey;
+
   static String? get iFrameSource => _iFrameSource;
 
   static Future<void> init() async {

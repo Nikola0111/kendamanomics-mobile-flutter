@@ -10,6 +10,7 @@ class CustomColors {
   Color get errorColor => Theme.of(_context).extension<CustomColorScheme>()!.errorColor!;
   Color get primaryText => Theme.of(_context).extension<CustomColorScheme>()!.primaryText!;
   Color get borderColor => Theme.of(_context).extension<CustomColorScheme>()!.borderColor!;
+  Color get activeIndicatorColor => Theme.of(_context).extension<CustomColorScheme>()!.activeIndicatorColor!;
 }
 
 @immutable
@@ -20,6 +21,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   final Color? errorColor;
   final Color? primaryText;
   final Color? borderColor;
+  final Color? activeIndicatorColor;
 
   const CustomColorScheme({
     required this.primary,
@@ -28,6 +30,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     required this.errorColor,
     required this.primaryText,
     required this.borderColor,
+    required this.activeIndicatorColor,
   });
 
   const CustomColorScheme.classic({
@@ -37,6 +40,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     this.errorColor = const Color(0xffd70000),
     this.primaryText = const Color(0xff66482e),
     this.borderColor = const Color(0xff6D3036),
+    this.activeIndicatorColor = const Color(0xffD3B28F),
   });
 
   @override
@@ -47,6 +51,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     Color? backgroundColor,
     Color? primaryText,
     Color? borderColor,
+    Color? activeIndicatorColor,
   }) {
     return CustomColorScheme(
       primary: primary ?? this.primary,
@@ -55,6 +60,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
       errorColor: errorColor ?? this.errorColor,
       primaryText: primaryText ?? this.primaryText,
       borderColor: borderColor ?? this.borderColor,
+      activeIndicatorColor: activeIndicatorColor ?? this.activeIndicatorColor,
     );
   }
 
@@ -70,6 +76,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
       errorColor: Color.lerp(errorColor, other.errorColor, t),
       primaryText: Color.lerp(primaryText, other.primaryText, t),
       borderColor: Color.lerp(borderColor, other.borderColor, t),
+      activeIndicatorColor: Color.lerp(activeIndicatorColor, other.activeIndicatorColor, t),
     );
   }
 }

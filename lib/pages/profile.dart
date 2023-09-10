@@ -9,7 +9,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
-      body: Center(
+      body: const Center(
         child: Text('Profile'),
       ),
     );

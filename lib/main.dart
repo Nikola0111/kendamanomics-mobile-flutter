@@ -4,6 +4,7 @@ import 'package:kendamanomics_mobile/injection_container.dart';
 import 'package:kendamanomics_mobile/providers/app_provider.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
+import 'package:kendamanomics_mobile/services/supabase_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +13,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await EnvironmentService.init();
   initKiwi();
-
-  // await KiwiContainer().resolve<SupabaseService>().init();
+  await KiwiContainer().resolve<SupabaseService>().init();
 
   runApp(const KendamanomicsApp());
 }
@@ -44,9 +44,10 @@ class KendamanomicsApp extends StatelessWidget {
               builder: (context) {
                 return MaterialApp.router(
                   title: 'Kendamanomics',
-                  locale: const Locale('en'),
                   theme: themeData,
-                  supportedLocales: const [Locale('en')],
+                  locale: context.locale,
+                  supportedLocales: context.supportedLocales,
+                  localizationsDelegates: context.localizationDelegates,
                   routerConfig: router,
                   debugShowCheckedModeBanner: false,
                 );
