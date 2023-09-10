@@ -68,11 +68,11 @@ class Helper {
   static String? validateNumbers(String? value) {
     final regex = RegExp(r'^[0-9]+$');
     if (value == null || value.isEmpty || !regex.hasMatch(value)) {
-      return 'helper.years_playing'.tr();
+      return 'helpers.years_playing'.tr();
     }
     final parsed = int.tryParse(value);
     if (parsed == null || parsed > 15) {
-      return 'helper.years_playing_large'.tr();
+      return 'helpers.years_playing_large'.tr();
     }
     return null;
   }

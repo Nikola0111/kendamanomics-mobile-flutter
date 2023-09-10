@@ -33,6 +33,5 @@
         "company_name": "Company name is not in the correct format",
         "years_playing": "Years playing is not in the correct format",
         "years_playing_large": "Years playing kendama can't exceed 15"
-
     }
 }
