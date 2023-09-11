@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
+import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/pages/leaderboard.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
@@ -21,25 +23,32 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: [
             const AppHeader(),
-            const Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.16),
-              child: const CustomInputField(),
+            SizedBox(height: MediaQuery.of(context).size.height / 4),
+            CustomInputField(
+              hintText: 'input_fields.username'.tr(),
             ),
-            const Spacer(),
+            const SizedBox(height: 6.0),
+            CustomInputField(
+              hintText: 'input_fields.password'.tr(),
+            ),
+            const SizedBox(height: 20.0),
             ClickableLink(
-              clickableText: 'forgot password',
+              clickableText: 'buttons.forgot_password'.tr(),
               onClick: () {},
             ),
-            const Spacer(),
+            const SizedBox(height: 20.0),
+            ClickableLink(
+              clickableText: 'buttons.create_an_account'.tr(),
+              onClick: () {},
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 4),
             CustomButton(
-              text: 'Login',
-              isEnabled: true,
+              text: 'buttons.login'.tr(),
+              isEnabled: false,
               onPressed: () {
                 context.goNamed(Leaderboard.pageName);
               },
             ),
-            const Spacer(),
           ],
         ),
       ),
