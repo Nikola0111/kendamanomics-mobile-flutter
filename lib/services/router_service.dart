@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kendamanomics_mobile/pages/forgot_password_page.dart';
 import 'package:kendamanomics_mobile/pages/leaderboard.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
@@ -33,6 +34,14 @@ class RouterService {
           pageBuilder: (context, state) => NoTransitionPage<void>(
             key: state.pageKey,
             child: const LoginPage(),
+          ),
+        ),
+        GoRoute(
+          path: '/${ForgotPasswordPage.pageName}',
+          name: ForgotPasswordPage.pageName,
+          pageBuilder: (context, state) => NoTransitionPage<void>(
+            key: state.pageKey,
+            child: const ForgotPasswordPage(),
           ),
         ),
         GoRoute(

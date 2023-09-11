@@ -54,7 +54,6 @@ class AuthService with LoggerMixin {
       throw response.toString();
     } else {
       final playerData = response as Map<String, dynamic>;
-      print(playerData);
       return Player(
         id: playerData['player_id'],
         email: playerData['player_email'],
@@ -64,6 +63,15 @@ class AuthService with LoggerMixin {
       );
     }
   } // Add provider call after the auth is done
+
+  Future<void> passwordResetRequest(String email) async {
+    await _supabase.auth.resetPasswordForEmail(email);
+  }
+
+  Future<void> resetPassword(String email, String newPassword, String code) async {
+    final response = await _supabase.auth.recoverSession(code);
+    final passwordResponse = await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+  }
 
   @override
   String get className => 'AuthService';
