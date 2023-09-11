@@ -68,9 +68,13 @@ class AuthService with LoggerMixin {
     await _supabase.auth.resetPasswordForEmail(email);
   }
 
-  Future<void> resetPassword(String email, String newPassword, String code) async {
-    final response = await _supabase.auth.recoverSession(code);
-    final passwordResponse = await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+  Future<void> resetPassword(String email, String newPassword) async {
+    final UserResponse res = await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+    final User? updatedUser = res.user;
+  }
+
+  Future<void> recoverSession(String code) async {
+    await _supabase.auth.recoverSession(code);
   }
 
   @override
