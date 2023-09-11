@@ -30,7 +30,7 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
 
   Future<bool> signIn() async {
     try {
-      await _authService.signIn(email, password);
+      await _authService.signIn(_email, _password);
       _state = LoginState.success;
       return true;
     } catch (e) {
