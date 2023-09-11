@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
                               hintText: 'input_fields.username'.tr(),
                               initialData: provider.email,
                               onChanged: (email) => provider.email = email,
-                              validator: (value) => Helper.validateName(value),
+                              validator: (value) => Helper.validateEmail(value),
                             ),
                             const SizedBox(height: 6.0),
                             CustomInputField(

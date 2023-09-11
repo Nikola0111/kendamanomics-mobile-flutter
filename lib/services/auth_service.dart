@@ -48,6 +48,23 @@ class AuthService with LoggerMixin {
     );
   }
 
+  Future<Player> fetchPlayerData(String userID) async {
+    final response = await _supabase.from('player').select().eq('player_id', userID).single();
+    if (response == null) {
+      throw response.toString();
+    } else {
+      final playerData = response as Map<String, dynamic>;
+      print(playerData);
+      return Player(
+        id: playerData['player_id'],
+        email: playerData['player_email'],
+        firstName: playerData['player_firstname'],
+        lastName: playerData['player_lastname'],
+        yearsPlaying: playerData['player_years'],
+      );
+    }
+  } // Add provider call after the auth is done
+
   @override
   String get className => 'AuthService';
 }
