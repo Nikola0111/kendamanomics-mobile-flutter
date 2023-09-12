@@ -77,7 +77,7 @@ class ForgotPasswordPage extends StatelessWidget {
                           customTextColor: CustomColors.of(context).primary,
                           onPressed: () async {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            await KiwiContainer().resolve<AuthService>().passwordResetRequest(provider.email);
+                            provider.sendPasswordResetCode();
                             if (context.mounted) {
                               context.pushNamed(ChangePasswordPage.pageName);
                             }

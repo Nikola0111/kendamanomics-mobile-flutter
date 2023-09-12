@@ -36,7 +36,7 @@ class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  Future<void> sendPasswordResetCode(String email) async {
+  Future<void> sendPasswordResetCode() async {
     try {
       await _authService.passwordResetRequest(_email);
       _state = ForgotPasswordPageState.success;
