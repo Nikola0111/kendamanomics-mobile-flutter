@@ -70,11 +70,14 @@ class AuthService with LoggerMixin {
 
   Future<void> resetPassword(String email, String newPassword) async {
     final UserResponse res = await _supabase.auth.updateUser(UserAttributes(password: newPassword));
-    final User? updatedUser = res.user;
   }
 
-  Future<void> recoverSession(String code) async {
-    await _supabase.auth.recoverSession(code);
+  Future<void> verifyOTP(String resetToken, String email) async {
+    await _supabase.auth.verifyOTP(
+      token: resetToken,
+      type: OtpType.recovery,
+      email: email,
+    );
   }
 
   @override

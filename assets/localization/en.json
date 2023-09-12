@@ -21,7 +21,10 @@
         "support": "who do you support?",
         "password": "password",
         "confirm_password": "confirm password",
-        "username": "username"
+        "username": "username",
+        "verification_code": "verification code",
+        "new_password": "new password",
+        "confirm_new_password": "confirm new password"
     },
     "helpers": {
         "email": "Email is not in the correct format",

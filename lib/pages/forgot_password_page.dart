@@ -5,14 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
-import 'package:kendamanomics_mobile/pages/leaderboard.dart';
-import 'package:kendamanomics_mobile/pages/register_shell.dart';
+import 'package:kendamanomics_mobile/pages/change_password_page.dart';
 import 'package:kendamanomics_mobile/providers/forgot_password_provider.dart';
-import 'package:kendamanomics_mobile/providers/login_page_provider.dart';
+import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
-import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
 import 'package:kendamanomics_mobile/widgets/custom_input_field.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -48,14 +47,14 @@ class ForgotPasswordPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Stack(
                   children: [
+                    const Positioned(top: 0, left: 0, right: 0, child: AppHeader()),
                     Positioned.fill(
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            const AppHeader(),
                             SizedBox(height: MediaQuery.of(context).size.height / 3.1),
                             CustomInputField(
-                              textInputAction: TextInputAction.next,
+                              textInputAction: TextInputAction.done,
                               hintText: 'input_fields.email'.tr(),
                               initialData: provider.email,
                               onChanged: (email) => provider.email = email,
@@ -78,9 +77,9 @@ class ForgotPasswordPage extends StatelessWidget {
                           customTextColor: CustomColors.of(context).primary,
                           onPressed: () async {
                             FocusManager.instance.primaryFocus?.unfocus();
-
+                            await KiwiContainer().resolve<AuthService>().passwordResetRequest(provider.email);
                             if (context.mounted) {
-                              context.goNamed(Leaderboard.pageName);
+                              context.pushNamed(ChangePasswordPage.pageName);
                             }
                           },
                         ),

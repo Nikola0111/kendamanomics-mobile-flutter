@@ -18,15 +18,31 @@ class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
 
   set email(String value) {
     _email = value;
+    _isEmailValid();
   }
 
-  void isEmailValid() {
-    if (Helper.validateEmail(_email) == null) {
-      _isButtonEnabled = true;
-      notifyListeners();
+  void _isEmailValid() {
+    final isValid = Helper.validateEmail(_email) == null;
+    if (isValid) {
+      if (isValid != _isButtonEnabled) {
+        _isButtonEnabled = true;
+        notifyListeners();
+      }
     } else {
-      _isButtonEnabled = false;
+      if (isValid != _isButtonEnabled) {
+        _isButtonEnabled = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<void> sendPasswordResetCode(String email) async {
+    try {
+      await _authService.passwordResetRequest(_email);
+      _state = ForgotPasswordPageState.success;
+    } catch (e) {
       notifyListeners();
+      logE(e.toString());
     }
   }
 
