@@ -68,8 +68,8 @@ class AuthService with LoggerMixin {
     await _supabase.auth.resetPasswordForEmail(email);
   }
 
-  Future<void> resetPassword(String email, String newPassword) async {
-    final UserResponse res = await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+  Future<void> updatePassword(String email, String newPassword) async {
+    await _supabase.auth.updateUser(UserAttributes(password: newPassword));
   }
 
   Future<void> verifyOTP(String resetToken, String email) async {

@@ -14,7 +14,8 @@ import 'package:provider/provider.dart';
 
 class ChangePasswordPage extends StatelessWidget {
   static const pageName = 'change-password-page';
-  const ChangePasswordPage({super.key});
+  final String email;
+  const ChangePasswordPage({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +65,17 @@ class ChangePasswordPage extends StatelessWidget {
                             CustomInputField(
                               textInputAction: TextInputAction.next,
                               hintText: 'input_fields.new_password'.tr(),
-                              initialData: provider.verificationCode,
-                              onChanged: (newPassword) => provider.verificationCode = newPassword,
-                              validator: (value) => Helper.validateCodes(value),
+                              initialData: provider.newPassword,
+                              onChanged: (newPassword) => provider.newPassword = newPassword,
+                              validator: (value) => Helper.validatePassword(value),
                             ),
                             const SizedBox(height: 6.0),
                             CustomInputField(
                               textInputAction: TextInputAction.done,
                               hintText: 'input_fields.confirm_new_password'.tr(),
-                              initialData: provider.verificationCode,
-                              onChanged: (confirmNewPassword) => provider.verificationCode = confirmNewPassword,
-                              validator: (value) => Helper.validateCodes(value),
+                              initialData: provider.confirmNewPassword,
+                              onChanged: (confirmNewPassword) => provider.confirmNewPassword = confirmNewPassword,
+                              validator: (value) => Helper.validateRepeatPassword(value, provider.newPassword),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.height / 4.0),
                           ],
@@ -93,7 +94,10 @@ class ChangePasswordPage extends StatelessWidget {
                           customTextColor: CustomColors.of(context).primary,
                           onPressed: () async {
                             FocusManager.instance.primaryFocus?.unfocus();
-
+                            final verifyOTPSuccessful = await provider.verifyOTP(email);
+                            if (!verifyOTPSuccessful) return;
+                            final updatePasswordSuccessful = await provider.updateUserPassword(email);
+                            if (!updatePasswordSuccessful) return;
                             if (context.mounted) {
                               context.goNamed(Leaderboard.pageName);
                             }

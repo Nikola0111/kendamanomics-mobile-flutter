@@ -23,7 +23,7 @@ class RouterService {
   void _init() {
     _goRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/${LoginPage.pageName}',
+      initialLocation: '/${RegisterShell.pageName}',
       redirect: (context, state) {
         return null;
       },
@@ -48,10 +48,13 @@ class RouterService {
         GoRoute(
           path: '/${ChangePasswordPage.pageName}',
           name: ChangePasswordPage.pageName,
-          pageBuilder: (context, state) => NoTransitionPage<void>(
-            key: state.pageKey,
-            child: const ChangePasswordPage(),
-          ),
+          pageBuilder: (context, state) {
+            final email = state.extra as String;
+            return NoTransitionPage<void>(
+              key: state.pageKey,
+              child: ChangePasswordPage(email: email),
+            );
+          },
         ),
         GoRoute(
           path: '/${RegisterShell.pageName}',

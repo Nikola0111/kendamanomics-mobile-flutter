@@ -7,11 +7,9 @@ import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
 import 'package:kendamanomics_mobile/pages/change_password_page.dart';
 import 'package:kendamanomics_mobile/providers/forgot_password_provider.dart';
-import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
 import 'package:kendamanomics_mobile/widgets/custom_input_field.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -77,9 +75,10 @@ class ForgotPasswordPage extends StatelessWidget {
                           customTextColor: CustomColors.of(context).primary,
                           onPressed: () async {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            provider.sendPasswordResetCode();
+                            final successful = await provider.sendPasswordResetCode();
+                            if (!successful) return;
                             if (context.mounted) {
-                              context.pushNamed(ChangePasswordPage.pageName);
+                              context.pushNamed(ChangePasswordPage.pageName, extra: provider.email);
                             }
                           },
                         ),

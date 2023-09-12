@@ -34,7 +34,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusNode _focusNode = FocusNode();
   bool _hasText = false;
-  bool _obscured = true;
+  final bool _obscured = true;
   bool _validatorFailed = false;
 
   @override
