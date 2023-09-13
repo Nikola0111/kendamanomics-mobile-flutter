@@ -36,12 +36,19 @@ class ChangePasswordPage extends StatelessWidget {
                 case ChangePasswordState.errorPassword:
                   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackbarHelper.snackbar(text: 'This email doesnt exist', context: context),
+                      SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
                     );
                   });
                   provider.resetState();
                   break;
                 case ChangePasswordState.errorServer:
+                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackbarHelper.snackbar(text: 'snackbar.error_server'.tr(), context: context),
+                    );
+                  });
+                  provider.resetState();
+                  break;
               }
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),

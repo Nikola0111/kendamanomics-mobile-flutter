@@ -26,7 +26,7 @@ class RegisterForm extends StatelessWidget {
           case RegisterState.errorEmail:
             SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackbarHelper.snackbar(text: 'This email doesnt exist', context: context),
+                SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
               );
             });
             provider.resetState();
@@ -34,7 +34,7 @@ class RegisterForm extends StatelessWidget {
           case RegisterState.errorServer:
             SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackbarHelper.snackbar(text: 'Error with the server', context: context),
+                SnackbarHelper.snackbar(text: 'snackbar.error_server'.tr(), context: context),
               );
             });
             provider.resetState();

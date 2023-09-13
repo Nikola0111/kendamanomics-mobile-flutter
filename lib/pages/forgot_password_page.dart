@@ -35,7 +35,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 case ForgotPasswordPageState.errorEmail:
                   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackbarHelper.snackbar(text: 'This email doesnt exist', context: context),
+                      SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
                     );
                   });
                   provider.resetState();

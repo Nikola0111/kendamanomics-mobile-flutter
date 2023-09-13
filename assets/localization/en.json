@@ -41,5 +41,9 @@
     "register_provider_errors": {
         "sign_up_error": "Error while signing up: ",
         "data_update_error": "Error while updating data, message:"
+    },
+    "snackbar": {
+        "error_email": "This email doesn't exist",
+        "error_server": "There was an error with the server"
     }
 }
