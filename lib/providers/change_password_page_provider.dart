@@ -63,16 +63,9 @@ class ChangePasswordPageProvider extends ChangeNotifier with LoggerMixin {
     final isValid = Helper.validateCodes(_verificationCode) == null &&
         Helper.validatePassword(_newPassword) == null &&
         Helper.validateRepeatPassword(_confirmNewPassword, _newPassword) == null;
-    if (isValid) {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = true;
-        notifyListeners();
-      }
-    } else {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = false;
-        notifyListeners();
-      }
+    if (isValid != _isButtonEnabled) {
+      _isButtonEnabled = isValid;
+      notifyListeners();
     }
   }
 

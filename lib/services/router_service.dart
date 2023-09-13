@@ -8,6 +8,7 @@ import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/main_page_container.dart';
 import 'package:kendamanomics_mobile/pages/profile.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RouterService {
   late final GoRouter _goRouter;
@@ -23,8 +24,12 @@ class RouterService {
   void _init() {
     _goRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/${LoginPage.pageName}',
+      initialLocation: '/${RegisterShell.pageName}',
       redirect: (context, state) {
+        final session = Supabase.instance.client.auth.currentSession;
+        if (session != null && state.matchedLocation == '/${LoginPage.pageName}') {
+          return '/${TamasPage.pageName}';
+        }
         return null;
       },
       routes: <RouteBase>[

@@ -41,4 +41,16 @@ class Player {
       supportTeamID: supportTeamID ?? this.supportTeamID,
     );
   }
+
+  factory Player.fromJson(Map<String, dynamic> json) {
+    return Player(
+      email: json['player_email'],
+      id: json['player_id'],
+      firstName: json['player_firstname'],
+      lastName: json['player_lastname'],
+      yearsPlaying: json['player_years'],
+      instagram: json['player_instagram'] ?? '',
+      supportTeamID: json['player_company_id'] ?? '',
+    );
+  }
 }

@@ -34,24 +34,17 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
       _state = LoginState.success;
       return true;
     } catch (e) {
-      notifyListeners();
-      logE('error while signing in: $e');
+      logE('Error while signing in with the email and password : $_email $_password ${e.toString()}');
+
       return false;
     }
   }
 
   void _isAllInputValid() {
     final isValid = Helper.validateEmail(_email) == null && Helper.validatePassword(_password) == null;
-    if (isValid) {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = true;
-        notifyListeners();
-      }
-    } else {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = false;
-        notifyListeners();
-      }
+    if (isValid != _isButtonEnabled) {
+      _isButtonEnabled = isValid;
+      notifyListeners();
     }
   }
 

@@ -23,16 +23,9 @@ class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
 
   void _isEmailValid() {
     final isValid = Helper.validateEmail(_email) == null;
-    if (isValid) {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = true;
-        notifyListeners();
-      }
-    } else {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = false;
-        notifyListeners();
-      }
+    if (isValid != _isButtonEnabled) {
+      _isButtonEnabled = isValid;
+      notifyListeners();
     }
   }
 
@@ -42,7 +35,7 @@ class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
       _state = ForgotPasswordPageState.success;
       return true;
     } catch (e) {
-      logE(e.toString());
+      logE('Error requesting password reset with the email: $_email ${e.toString()}');
       return false;
     }
   }
