@@ -22,100 +22,104 @@ class ChangePasswordPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColors.of(context).backgroundColor,
-      body: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: ChangeNotifierProvider(
-          create: (context) => ChangePasswordPageProvider(),
-          child: Consumer<ChangePasswordPageProvider>(
-            builder: (context, provider, child) {
-              switch (provider.state) {
-                case ChangePasswordState.waiting:
-                case ChangePasswordState.success:
-                  break;
-                case ChangePasswordState.errorPassword:
-                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
-                    );
-                  });
-                  provider.resetState();
-                  break;
-                case ChangePasswordState.errorServer:
-                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackbarHelper.snackbar(text: 'snackbar.error_server'.tr(), context: context),
-                    );
-                  });
-                  provider.resetState();
-                  break;
-              }
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Stack(
-                  children: [
-                    const Positioned(top: 0, left: 0, right: 0, child: AppHeader()),
-                    Positioned.fill(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: MediaQuery.of(context).size.height / 3.1),
-                            CustomInputField(
-                              textInputAction: TextInputAction.next,
-                              hintText: 'input_fields.verification_code'.tr(),
-                              initialData: provider.verificationCode,
-                              onChanged: (verificationCode) => provider.verificationCode = verificationCode,
-                              validator: (value) => Helper.validateCodes(value),
-                              keyboardType: TextInputType.number,
-                            ),
-                            const SizedBox(height: 6.0),
-                            CustomInputField(
-                              textInputAction: TextInputAction.next,
-                              hintText: 'input_fields.new_password'.tr(),
-                              initialData: provider.newPassword,
-                              onChanged: (newPassword) => provider.newPassword = newPassword,
-                              validator: (value) => Helper.validatePassword(value),
-                            ),
-                            const SizedBox(height: 6.0),
-                            CustomInputField(
-                              textInputAction: TextInputAction.done,
-                              hintText: 'input_fields.confirm_new_password'.tr(),
-                              initialData: provider.confirmNewPassword,
-                              onChanged: (confirmNewPassword) => provider.confirmNewPassword = confirmNewPassword,
-                              validator: (value) => Helper.validateRepeatPassword(value, provider.newPassword),
-                            ),
-                            SizedBox(height: MediaQuery.of(context).size.height / 4.0),
-                          ],
+      body: SafeArea(
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: ChangeNotifierProvider(
+            create: (context) => ChangePasswordPageProvider(),
+            child: Consumer<ChangePasswordPageProvider>(
+              builder: (context, provider, child) {
+                switch (provider.state) {
+                  case ChangePasswordState.waiting:
+                  case ChangePasswordState.success:
+                    break;
+                  case ChangePasswordState.errorPassword:
+                    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
+                      );
+                    });
+                    provider.resetState();
+                    break;
+                  case ChangePasswordState.errorServer:
+                    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackbarHelper.snackbar(text: 'snackbar.error_server'.tr(), context: context),
+                      );
+                    });
+                    provider.resetState();
+                    break;
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Stack(
+                    children: [
+                      const Positioned(top: 0, left: 0, right: 0, child: AppHeader()),
+                      Positioned.fill(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(height: MediaQuery.of(context).size.height / 3.1),
+                              CustomInputField(
+                                textInputAction: TextInputAction.next,
+                                hintText: 'input_fields.verification_code'.tr(),
+                                initialData: provider.verificationCode,
+                                onChanged: (verificationCode) => provider.verificationCode = verificationCode,
+                                validator: (value) => Helper.validateCodes(value),
+                                keyboardType: TextInputType.number,
+                              ),
+                              const SizedBox(height: 6.0),
+                              CustomInputField(
+                                textInputAction: TextInputAction.next,
+                                hintText: 'input_fields.new_password'.tr(),
+                                initialData: provider.newPassword,
+                                onChanged: (newPassword) => provider.newPassword = newPassword,
+                                validator: (value) => Helper.validatePassword(value),
+                                obscurable: true,
+                              ),
+                              const SizedBox(height: 6.0),
+                              CustomInputField(
+                                textInputAction: TextInputAction.done,
+                                hintText: 'input_fields.confirm_new_password'.tr(),
+                                initialData: provider.confirmNewPassword,
+                                onChanged: (confirmNewPassword) => provider.confirmNewPassword = confirmNewPassword,
+                                validator: (value) => Helper.validateRepeatPassword(value, provider.newPassword),
+                                obscurable: true,
+                              ),
+                              SizedBox(height: MediaQuery.of(context).size.height / 4.0),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 20,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: CustomButton(
-                          text: 'buttons.change_password'.tr(),
-                          isEnabled: provider.isButtonEnabled,
-                          customTextColor: CustomColors.of(context).primary,
-                          onPressed: () async {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            final verifyOTPSuccessful = await provider.verifyOTP(email);
-                            if (!verifyOTPSuccessful) return;
-                            final updatePasswordSuccessful = await provider.updateUserPassword(email);
-                            if (!updatePasswordSuccessful) return;
-                            if (context.mounted) {
-                              context.goNamed(Leaderboard.pageName);
-                            }
-                          },
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: CustomButton(
+                            text: 'buttons.change_password'.tr(),
+                            isEnabled: provider.isButtonEnabled,
+                            customTextColor: CustomColors.of(context).primary,
+                            onPressed: () async {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              final verifyOTPSuccessful = await provider.verifyOTP(email);
+                              if (!verifyOTPSuccessful) return;
+                              final updatePasswordSuccessful = await provider.updateUserPassword(email);
+                              if (!updatePasswordSuccessful) return;
+                              if (context.mounted) {
+                                context.goNamed(Leaderboard.pageName);
+                              }
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

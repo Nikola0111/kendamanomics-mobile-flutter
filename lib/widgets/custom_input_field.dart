@@ -53,7 +53,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.red,
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: Stack(
         children: [
