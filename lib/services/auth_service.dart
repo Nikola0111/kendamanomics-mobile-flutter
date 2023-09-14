@@ -48,6 +48,31 @@ class AuthService with LoggerMixin {
     );
   }
 
+  Future<Player> fetchPlayerData(String userID) async {
+    final response = await _supabase.from('player').select().eq('player_id', userID).single();
+    if (response == null) {
+      throw response.toString();
+    } else {
+      return Player.fromJson(response);
+    }
+  }
+
+  Future<void> passwordResetRequest(String email) async {
+    await _supabase.auth.resetPasswordForEmail(email);
+  }
+
+  Future<void> updatePassword(String email, String newPassword) async {
+    await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  Future<void> verifyOTP(String resetToken, String email) async {
+    await _supabase.auth.verifyOTP(
+      token: resetToken,
+      type: OtpType.recovery,
+      email: email,
+    );
+  }
+
   @override
   String get className => 'AuthService';
 }

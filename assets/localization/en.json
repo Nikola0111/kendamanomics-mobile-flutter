@@ -4,12 +4,12 @@
         "app_description": "kendamanomics is an app to help players progress their Kendama skill",
         "app_ranking_description": "we also have a ranking system that ranks players based on tricks laced and competitions won",
         "fill_in_fields": "please make sure to fill in your information correctly:"
-    },
+    },  
     "buttons": {
         "create_an_account": "create an account",
         "login": "login",
         "change_password": "change password",
-        "reset_password": "send reset password email",
+        "reset_password": "send email",
         "forgot_password": "forgot password?"
     },
     "input_fields": {
@@ -20,7 +20,11 @@
         "experience": "# years playing kendama",
         "support": "who do you support?",
         "password": "password",
-        "confirm_password": "confirm password"
+        "confirm_password": "confirm password",
+        "username": "username",
+        "verification_code": "verification code",
+        "new_password": "new password",
+        "confirm_new_password": "confirm new password"
     },
     "helpers": {
         "email": "Email is not in the correct format",
@@ -37,5 +41,9 @@
     "register_provider_errors": {
         "sign_up_error": "Error while signing up: ",
         "data_update_error": "Error while updating data, message:"
+    },
+    "snackbar": {
+        "error_email": "This email doesn't exist",
+        "error_server": "There was an error with the server"
     }
 }

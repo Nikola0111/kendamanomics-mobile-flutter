@@ -130,16 +130,9 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         Helper.validateName(_firstName) == null &&
         Helper.validateLastName(_lastName) == null &&
         Helper.validateNumbers(_yearsPlaying.toString()) == null;
-    if (isValid) {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = true;
-        notifyListeners();
-      }
-    } else {
-      if (isValid != _isButtonEnabled) {
-        _isButtonEnabled = false;
-        notifyListeners();
-      }
+    if (isValid != _isButtonEnabled) {
+      _isButtonEnabled = isValid;
+      notifyListeners();
     }
   }
 
