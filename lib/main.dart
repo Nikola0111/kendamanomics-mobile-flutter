@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/injection_container.dart';
+import 'package:kendamanomics_mobile/pages/login_page.dart';
+import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/app_provider.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
@@ -13,7 +15,13 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await EnvironmentService.init();
   initKiwi();
-  await KiwiContainer().resolve<SupabaseService>().init();
+  final supabaseService = KiwiContainer().resolve<SupabaseService>();
+
+  await supabaseService.init();
+
+  final hasSession = supabaseService.checkHasSession();
+  String initialRoute = hasSession ? TamasPage.pageName : LoginPage.pageName;
+  KiwiContainer().resolve<RouterService>().init(initialRoute: initialRoute);
 
   runApp(const KendamanomicsApp());
 }

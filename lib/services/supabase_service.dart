@@ -7,6 +7,14 @@ class SupabaseService with LoggerMixin {
     await Supabase.initialize(url: EnvironmentService.supabaseApiUrl, anonKey: EnvironmentService.supabaseAnonKey);
   }
 
+  bool checkHasSession() {
+    final session = Supabase.instance.client.auth.currentSession;
+    if (session != null) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   String get className => 'SupabaseService';
 }

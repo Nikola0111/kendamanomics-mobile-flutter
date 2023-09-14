@@ -17,14 +17,10 @@ class RouterService {
   final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
   final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-  RouterService() {
-    _init();
-  }
-
-  void _init() {
+  void init({required String initialRoute}) {
     _goRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: '/${RegisterShell.pageName}',
+      initialLocation: '/$initialRoute',
       redirect: (context, state) {
         final session = Supabase.instance.client.auth.currentSession;
         if (session != null && state.matchedLocation == '/${LoginPage.pageName}') {
