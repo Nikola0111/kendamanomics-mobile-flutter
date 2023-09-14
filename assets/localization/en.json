@@ -30,7 +30,7 @@
         "email": "Email is not in the correct format",
         "password": "Password is not in the correct format",
         "passwords_dont_match": "Passwords do not match",
-        "password_length": "Password length cant exceed 20 or be less than 6 characters",
+        "password_length": "Password must be 6-20 characters long",
         "code": "Code is not in the correct format",
         "name": "Name is not in the correct format",
         "last_name": "Last name is not in the correct format",
