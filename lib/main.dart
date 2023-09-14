@@ -5,6 +5,7 @@ import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/app_provider.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
+import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
 import 'package:kendamanomics_mobile/services/supabase_service.dart';
 import 'package:kiwi/kiwi.dart';
@@ -22,6 +23,8 @@ void main() async {
   final hasSession = supabaseService.checkHasSession();
   String initialRoute = hasSession ? TamasPage.pageName : LoginPage.pageName;
   KiwiContainer().resolve<RouterService>().init(initialRoute: initialRoute);
+
+  await KiwiContainer().resolve<PersistentDataService>().init();
 
   runApp(const KendamanomicsApp());
 }
@@ -51,7 +54,7 @@ class KendamanomicsApp extends StatelessWidget {
             child: Builder(
               builder: (context) {
                 return MaterialApp.router(
-                  title: 'Kendamanomics',
+                  title: 'Kendama',
                   theme: themeData,
                   locale: context.locale,
                   supportedLocales: context.supportedLocales,

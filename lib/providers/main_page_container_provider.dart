@@ -6,7 +6,7 @@ import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 
 class MainPageContainerProvider extends ChangeNotifier {
   final _bottomNav = <BottomNavigationData>[];
-  int _pageIndex = 0;
+  int _pageIndex = 1;
 
   List<BottomNavigationData> get bottomNav => _bottomNav;
   int get pageIndex => _pageIndex;

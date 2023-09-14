@@ -21,6 +21,8 @@ dependencies:
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
   supabase_flutter: ^1.10.16
+  uuid: ^4.0.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +37,7 @@ flutter:
     - assets/images/
     - assets/icon/
     - assets/config/
+    - assets/statics/
     - assets/release_configs/
 
   fonts:

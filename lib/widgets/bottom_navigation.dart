@@ -29,33 +29,30 @@ class BottomNavigation extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Row(
-            children: [
-              for (int i = 0; i < items.length; i++) ...[
-                if (i == 0) const SizedBox(width: _sidePadding),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      onPageUpdated(i);
-                      context.goNamed(items[i].pageName);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      width: _iconSize,
-                      height: _iconSize,
-                      child: _getItem(data: items[i]),
-                    ),
+        Row(
+          children: [
+            for (int i = 0; i < items.length; i++) ...[
+              if (i == 0) const SizedBox(width: _sidePadding),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    onPageUpdated(i);
+                    context.goNamed(items[i].pageName);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    width: _iconSize,
+                    height: _iconSize,
+                    child: _getItem(data: items[i]),
                   ),
                 ),
-                if (i != items.length - 1) const Spacer(),
-                if (i == items.length - 1) const SizedBox(width: _sidePadding),
-              ]
-            ],
-          ),
+              ),
+              if (i != items.length - 1) const Spacer(),
+              if (i == items.length - 1) const SizedBox(width: _sidePadding),
+            ]
+          ],
         ),
       ],
     );

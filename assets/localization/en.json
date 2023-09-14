@@ -42,6 +42,10 @@
         "sign_up_error": "Error while signing up: ",
         "data_update_error": "Error while updating data, message:"
     },
+    "default_titles": {
+        "tama_group": "Tama group",
+        "tama": "Tama"
+    },
     "snackbar": {
         "error_email": "This email doesn't exist",
         "error_server": "There was an error with the server"

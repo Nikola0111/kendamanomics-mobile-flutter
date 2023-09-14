@@ -1,0 +1,214 @@
+{
+  "data": [
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be027e-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 1
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be03b4-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 2
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0454-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 3
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be04d6-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 4
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be054e-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 5
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be05bc-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 6
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be067a-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 7
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be06fc-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 8
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be076a-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 9
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be07d8-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 10
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0846-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 11
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be095e-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 12
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be09e0-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 13
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0a4e-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 14
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0abc-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 15
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0b2a-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 16
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0b98-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 17
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0bfc-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 18
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0c92-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 19
+    },
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0d28-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 20
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0d8c-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 1
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0dfa-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 2
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0e72-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 3
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0ed6-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 4
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0f3a-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 5
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be0fa8-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 6
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be10b6-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 7
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be112e-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 8
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be1192-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 9
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "trick_id": "87be11f6-52ec-11ee-b9a0-0242ac150002",
+      "trick_points": 1,
+      "trick_order": 10
+    }
+  ]
+}

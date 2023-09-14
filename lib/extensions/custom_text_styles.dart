@@ -6,6 +6,7 @@ class CustomTextStyles {
 
   TextStyle get light12 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light12!;
   TextStyle get light16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light16!;
+  TextStyle get light20 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light20!;
   TextStyle get light24 => Theme.of(_context).extension<CustomTextStyleScheme>()!.light24!;
   TextStyle get light24Opacity => Theme.of(_context).extension<CustomTextStyleScheme>()!.light24Opacity!;
   TextStyle get regular16 => Theme.of(_context).extension<CustomTextStyleScheme>()!.regular16!;
@@ -19,6 +20,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   static const _fontFamily = 'GillSans';
   final TextStyle? light12;
   final TextStyle? light16;
+  final TextStyle? light20; // in design its 150px
   final TextStyle? light24;
   final TextStyle? light24Opacity;
   final TextStyle? regular16;
@@ -29,6 +31,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   const CustomTextStyleScheme({
     required this.light12,
     required this.light16,
+    required this.light20,
     required this.light24,
     required this.light24Opacity,
     required this.regular16,
@@ -54,6 +57,14 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
         letterSpacing: 1.1,
         decoration: TextDecoration.none,
         fontWeight: FontWeight.w100,
+      ),
+      light20: TextStyle(
+        fontFamily: _fontFamily,
+        color: primaryTextColor,
+        fontSize: 20,
+        decoration: TextDecoration.none,
+        letterSpacing: 1.1,
+        fontWeight: FontWeight.w300,
       ),
       light24: TextStyle(
         fontFamily: _fontFamily,
@@ -111,6 +122,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   CustomTextStyleScheme copyWith({
     TextStyle? light12,
     TextStyle? light16,
+    TextStyle? light20,
     TextStyle? light24,
     TextStyle? light24Opacity,
     TextStyle? regular16,
@@ -121,6 +133,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
     return CustomTextStyleScheme(
       light12: light12 ?? this.light12,
       light16: light16 ?? this.light16,
+      light20: light20 ?? this.light20,
       light24: light24 ?? this.light24,
       light24Opacity: light24Opacity ?? this.light24Opacity,
       regular16: regular16 ?? this.regular16,
@@ -138,6 +151,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
     return CustomTextStyleScheme(
       light12: TextStyle.lerp(light12, other.light12, t),
       light16: TextStyle.lerp(light16, other.light16, t),
+      light20: TextStyle.lerp(light20, other.light20, t),
       light24: TextStyle.lerp(light24, other.light24, t),
       light24Opacity: TextStyle.lerp(light24Opacity, other.light24Opacity, t),
       regular16: TextStyle.lerp(regular16, other.regular16, t),

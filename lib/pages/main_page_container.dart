@@ -15,21 +15,24 @@ class MainPageContainer extends StatelessWidget {
       create: (context) => MainPageContainerProvider(),
       child: Scaffold(
         backgroundColor: CustomColors.of(context).backgroundColor,
-        body: Column(
-          children: [
-            const AppHeader(),
-            Expanded(child: child),
-            Selector<MainPageContainerProvider, int>(
-              selector: (_, provider) => provider.pageIndex,
-              builder: (context, pageIndex, child) {
-                return BottomNavigation(
-                  items: context.read<MainPageContainerProvider>().bottomNav,
-                  pageIndex: pageIndex,
-                  onPageUpdated: (index) => context.read<MainPageContainerProvider>().pageIndex = index,
-                );
-              },
-            ),
-          ],
+        body: SafeArea(
+          child: Column(
+            children: [
+              const AppHeader(),
+              const SizedBox(height: 12),
+              Expanded(child: child),
+              Selector<MainPageContainerProvider, int>(
+                selector: (_, provider) => provider.pageIndex,
+                builder: (context, pageIndex, child) {
+                  return BottomNavigation(
+                    items: context.read<MainPageContainerProvider>().bottomNav,
+                    pageIndex: pageIndex,
+                    onPageUpdated: (index) => context.read<MainPageContainerProvider>().pageIndex = index,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

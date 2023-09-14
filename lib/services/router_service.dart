@@ -4,9 +4,9 @@ import 'package:kendamanomics_mobile/pages/change_password_page.dart';
 import 'package:kendamanomics_mobile/pages/forgot_password_page.dart';
 import 'package:kendamanomics_mobile/pages/leaderboard.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
-import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/main_page_container.dart';
 import 'package:kendamanomics_mobile/pages/profile.dart';
+import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

@@ -52,7 +52,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: Stack(
         children: [
@@ -105,7 +105,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 decoration: InputDecoration(
                   isDense: true,
                   // prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
-                  // 40 is debatable, for now this until we can put in an icon for show password
                   contentPadding: EdgeInsets.only(
                     left: 6,
                     bottom: _validatorFailed ? -14 : -2,

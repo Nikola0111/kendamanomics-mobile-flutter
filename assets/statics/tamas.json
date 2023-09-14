@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "tama_id": "87be1264-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "tama_name": "beech",
+      "tama_image_url": "",
+      "tama_number_of_tricks": 20,
+      "tama_group_id": "87be012a-52ec-11ee-b9a0-0242ac150002"
+    },
+    {
+      "tama_id": "87be12d2-52ec-11ee-b9a0-0242ac150002",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "tama_name": "birch",
+      "tama_image_url": "",
+      "tama_number_of_tricks": 10,
+      "tama_group_id": "87be012a-52ec-11ee-b9a0-0242ac150002"
+    }
+  ]
+}
