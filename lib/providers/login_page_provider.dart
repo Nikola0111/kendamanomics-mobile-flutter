@@ -34,8 +34,8 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
       _state = LoginState.success;
       return true;
     } catch (e) {
-      logE('Error while signing in with the email and password : $_email $_password ${e.toString()}');
-
+      logE('Error while signing in with the email: $_email ${e.toString()}');
+      _state = LoginState.errorEmail;
       return false;
     }
   }

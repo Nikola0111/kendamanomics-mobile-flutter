@@ -9,7 +9,7 @@
         "create_an_account": "create an account",
         "login": "login",
         "change_password": "change password",
-        "reset_password": "send reset password email",
+        "reset_password": "send email",
         "forgot_password": "forgot password?"
     },
     "input_fields": {
