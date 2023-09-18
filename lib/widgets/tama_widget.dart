@@ -3,27 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/extensions/string_extension.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
+import 'package:kendamanomics_mobile/providers/tamas_provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TamaWidget extends StatelessWidget {
   final PlayerTama playerTama;
-  const TamaWidget({super.key, required this.playerTama});
+  final TamasProviderState state;
+  const TamaWidget({super.key, required this.playerTama, required this.state});
 
   @override
   Widget build(BuildContext context) {
     final scoreText = formatScore;
-    final scoreSize = scoreText.calculateSize(CustomTextStyles.of(context).light20);
+    final scoreSize = '20/20'.calculateSize(CustomTextStyles.of(context).light20);
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (playerTama.completedTricks != null)
+            if (state == TamasProviderState.success)
               SizedBox(
                 width: scoreSize.width,
                 child: Text(scoreText, style: CustomTextStyles.of(context).light20),
               ),
-            if (playerTama.completedTricks == null)
+            if (state == TamasProviderState.loading)
               SizedBox(
                 width: scoreSize.width,
                 height: scoreSize.height,
@@ -35,6 +37,14 @@ class TamaWidget extends StatelessWidget {
                     height: scoreSize.height,
                     child: Container(color: Colors.grey),
                   ),
+                ),
+              ),
+            if ([TamasProviderState.errorFetchingProgress, TamasProviderState.none].contains(state))
+              SizedBox(
+                width: scoreSize.width,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(playerTama.tama.numOfTricks.toString(), style: CustomTextStyles.of(context).light20),
                 ),
               ),
             const SizedBox(width: 12),
@@ -60,7 +70,7 @@ class TamaWidget extends StatelessWidget {
   }
 
   String get formatScore {
-    return '${20}/${playerTama.tama.numOfTricks}';
+    return '${playerTama.completedTricks}/${playerTama.tama.numOfTricks}';
   }
 
   Image tamaImageWidget(BuildContext context, {required PlayerTama tama}) {

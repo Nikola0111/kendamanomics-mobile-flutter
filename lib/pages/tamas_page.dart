@@ -17,52 +17,53 @@ class TamasPage extends StatelessWidget {
       body: ChangeNotifierProvider(
         create: (context) => TamasProvider(),
         builder: (context, child) => Consumer<TamasProvider>(
-          builder: (context, provider, child) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  onPageChanged: (index) {
-                    provider.currentPage = index;
-                  },
-                  itemCount: provider.tamasGroup.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Text(
-                            provider.tamasGroup[index].name ?? 'default_titles.tama_group'.tr(),
-                            style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            child: Column(
-                              children: [
-                                for (int tamaIndex = 0;
-                                    tamaIndex < provider.tamasGroup[index].playerTamas.length;
-                                    tamaIndex++) ...[
-                                  TamaWidget(playerTama: provider.tamasGroup[index].playerTamas[tamaIndex]),
-                                  if (tamaIndex != provider.tamasGroup[index].playerTamas.length - 1)
-                                    const SizedBox(height: 24),
-                                ],
-                              ],
+          builder: (context, provider, child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    onPageChanged: (index) {
+                      provider.currentPage = index;
+                    },
+                    itemCount: provider.tamasGroup.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Text(
+                              provider.tamasGroup[index].name ?? 'default_titles.tama_group'.tr(),
+                              style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                      ],
-                    );
-                  },
+                          const SizedBox(height: 32),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  for (var tama in provider.tamasGroup[index].playerTamas) ...[
+                                    TamaWidget(playerTama: tama, state: provider.state),
+                                    if (provider.tamasGroup[index].playerTamas.indexOf(tama) !=
+                                        provider.tamasGroup[index].playerTamas.length - 1)
+                                      const SizedBox(height: 24),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              if (provider.tamasGroup.length > 1) buildIndicator(context, provider.currentPage, provider.tamasGroup.length),
-              const SizedBox(height: 8),
-            ],
-          ),
+                if (provider.tamasGroup.length > 1) buildIndicator(context, provider.currentPage, provider.tamasGroup.length),
+                const SizedBox(height: 8),
+              ],
+            );
+          },
         ),
       ),
     );

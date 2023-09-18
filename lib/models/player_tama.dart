@@ -19,4 +19,12 @@ class PlayerTama {
       ),
     );
   }
+
+  PlayerTama copyWith({int? completedTricks, BadgeType? badgeType}) {
+    return PlayerTama(
+      tama: tama,
+      completedTricks: completedTricks ?? this.completedTricks,
+      badgeType: badgeType ?? this.badgeType,
+    );
+  }
 }
