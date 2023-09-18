@@ -36,10 +36,10 @@ class LoginPage extends StatelessWidget {
                   case LoginState.waiting:
                   case LoginState.success:
                     break;
-                  case LoginState.errorEmail:
+                  case LoginState.errorCredentials:
                     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
+                        SnackbarHelper.snackbar(text: 'snackbar.error_login_credentials'.tr(), context: context),
                       );
                     });
                     provider.resetState();
@@ -77,6 +77,7 @@ class LoginPage extends StatelessWidget {
                                 initialData: provider.password,
                                 onChanged: (password) => provider.password = password,
                                 validator: (value) => Helper.validatePassword(value),
+                                obscurable: true,
                               ),
                               const SizedBox(height: 20.0),
                               ClickableLink(

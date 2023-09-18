@@ -48,7 +48,9 @@
     },
     "snackbar": {
         "error_email_register": "This email is already in use",
-        "error_server": "There was an error with the server"
+        "error_server": "There was an error with the server",
+        "error_login_credentials": "Email or password is incorrect",
+        "error_user_exists": "User with given email already exists"
     },
     "tricks_page": {
         "tricks": "tricks"

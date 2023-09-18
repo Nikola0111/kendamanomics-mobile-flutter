@@ -26,7 +26,7 @@ class RegisterForm extends StatelessWidget {
           case RegisterState.errorEmail:
             SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackbarHelper.snackbar(text: 'snackbar.error_email'.tr(), context: context),
+                SnackbarHelper.snackbar(text: 'snackbar.error_user_exists'.tr(), context: context),
               );
             });
             provider.resetState();

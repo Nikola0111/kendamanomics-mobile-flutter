@@ -48,12 +48,13 @@ class AuthService with LoggerMixin {
     );
   }
 
-  Future<Player> fetchPlayerData(String userID) async {
-    final response = await _supabase.from('player').select().eq('player_id', userID).single();
+  Future<void> fetchPlayerData() async {
+    final id = Supabase.instance.client.auth.currentUser?.id;
+    final response = await _supabase.from('player').select().eq('player_id', id).single();
     if (response == null) {
       throw response.toString();
     } else {
-      return Player.fromJson(response);
+      _player = Player.fromJson(response);
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:kendamanomics_mobile/injection_container.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/app_provider.dart';
+import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
@@ -16,15 +17,20 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await EnvironmentService.init();
   initKiwi();
+
+  await KiwiContainer().resolve<PersistentDataService>().init();
   final supabaseService = KiwiContainer().resolve<SupabaseService>();
 
   await supabaseService.init();
 
   final hasSession = supabaseService.checkHasSession();
-  String initialRoute = hasSession ? TamasPage.pageName : LoginPage.pageName;
-  KiwiContainer().resolve<RouterService>().init(initialRoute: initialRoute);
+  String initialRoute = LoginPage.pageName;
+  if (hasSession) {
+    initialRoute = TamasPage.pageName;
+    KiwiContainer().resolve<AuthService>().fetchPlayerData();
+  }
 
-  await KiwiContainer().resolve<PersistentDataService>().init();
+  KiwiContainer().resolve<RouterService>().init(initialRoute: initialRoute);
 
   runApp(const KendamanomicsApp());
 }

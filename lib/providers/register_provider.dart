@@ -97,13 +97,14 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
       return true;
     } on AuthException catch (e) {
       if (e.statusCode == '400') {
-        _state = RegisterState.errorEmail;
         logE(e.message);
+        _state = RegisterState.errorEmail;
       } else {
         logE('${'register_provider_errors'.tr()}${e.message}');
         _state = RegisterState.errorServer;
-        notifyListeners();
       }
+      notifyListeners();
+
       return false;
     }
   }

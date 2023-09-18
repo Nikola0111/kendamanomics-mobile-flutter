@@ -3,8 +3,9 @@ import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-enum LoginState { waiting, success, errorEmail, errorServer }
+enum LoginState { waiting, success, errorCredentials, errorServer }
 
 class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
@@ -31,11 +32,17 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   Future<bool> signIn() async {
     try {
       await _authService.signIn(_email, _password);
+      await _authService.fetchPlayerData();
       _state = LoginState.success;
       return true;
-    } catch (e) {
+    } on AuthException catch (e) {
       logE('Error while signing in with the email: $_email ${e.toString()}');
-      _state = LoginState.errorEmail;
+      if (e.statusCode == '400') {
+        _state = LoginState.errorCredentials;
+      } else {
+        _state = LoginState.errorServer;
+      }
+      notifyListeners();
       return false;
     }
   }

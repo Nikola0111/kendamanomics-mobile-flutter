@@ -36,6 +36,8 @@ class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
       return true;
     } catch (e) {
       logE('Error requesting password reset with the email: $_email ${e.toString()}');
+      _state = ForgotPasswordPageState.errorEmail;
+      notifyListeners();
       return false;
     }
   }

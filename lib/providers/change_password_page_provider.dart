@@ -43,6 +43,7 @@ class ChangePasswordPageProvider extends ChangeNotifier with LoggerMixin {
     } catch (e) {
       logE('Error verifying OTP: $email, ${e.toString()}');
       _state = ChangePasswordState.errorServer;
+      notifyListeners();
       return false;
     }
   }
