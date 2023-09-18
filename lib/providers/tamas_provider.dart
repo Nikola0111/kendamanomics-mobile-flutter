@@ -9,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 enum TamasProviderState { loading, none, success, errorFetchingProgress }
 
 class TamasProvider extends ChangeNotifier with LoggerMixin {
-  final _persistentTamaService = KiwiContainer().resolve<PersistentDataService>();
+  final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
   final _tamasGroups = <TamasGroup>[];
   final _progressData = <String, int>{};
@@ -33,7 +33,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
   void _populateGroups() {
     _tamasGroups.clear();
-    _tamasGroups.addAll(_persistentTamaService.tamasGroup);
+    _tamasGroups.addAll(_persistentDataService.tamasGroup);
   }
 
   void _updatePlayerTamasData({int retry = 2}) async {

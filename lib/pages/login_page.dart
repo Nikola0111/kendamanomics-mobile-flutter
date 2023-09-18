@@ -6,8 +6,8 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
 import 'package:kendamanomics_mobile/pages/forgot_password_page.dart';
-import 'package:kendamanomics_mobile/pages/leaderboard.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
+import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/login_page_provider.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
@@ -112,7 +112,7 @@ class LoginPage extends StatelessWidget {
                               final logInSuccesfull = await provider.signIn();
                               if (!logInSuccesfull) return;
                               if (context.mounted) {
-                                context.goNamed(Leaderboard.pageName);
+                                context.goNamed(TamasPage.pageName);
                               }
                             },
                           ),

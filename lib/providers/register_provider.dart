@@ -102,6 +102,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
       } else {
         logE('${'register_provider_errors'.tr()}${e.message}');
         _state = RegisterState.errorServer;
+        notifyListeners();
       }
       return false;
     }

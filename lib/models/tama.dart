@@ -1,4 +1,4 @@
-import 'package:kendamanomics_mobile/models/trick.dart';
+import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 
 class Tama {
   final String? id;
@@ -6,7 +6,7 @@ class Tama {
   final String? imageUrl;
   final String? tamasGroupID;
   final int? numOfTricks;
-  final List<Trick> tricks;
+  final List<TamaTrickProgress>? tricks;
 
   Tama({
     required this.id,
@@ -14,8 +14,8 @@ class Tama {
     required this.imageUrl,
     required this.numOfTricks,
     this.tamasGroupID,
-    List<Trick>? tricks,
-  }) : tricks = tricks ?? <Trick>[];
+    List<TamaTrickProgress>? tricks,
+  }) : tricks = tricks ?? <TamaTrickProgress>[];
 
   factory Tama.fromJson({required Map<String, dynamic> json}) {
     return Tama(

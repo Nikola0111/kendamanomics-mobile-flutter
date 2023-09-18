@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:kendamanomics_mobile/providers/tamas_provider.dart';
 import 'package:kendamanomics_mobile/widgets/tama_widget.dart';
 import 'package:provider/provider.dart';
@@ -43,9 +45,18 @@ class TamasPage extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               child: Column(
                                 children: [
-                                  for (var tama in provider.tamasGroup[index].playerTamas) ...[
-                                    TamaWidget(playerTama: tama, state: provider.state),
-                                    if (provider.tamasGroup[index].playerTamas.indexOf(tama) !=
+                                  for (var playerTama in provider.tamasGroup[index].playerTamas) ...[
+                                    TamaWidget(
+                                      playerTama: playerTama,
+                                      state: provider.state,
+                                      onTap: () {
+                                        context.pushNamed(
+                                          TricksPage.pageName,
+                                          extra: playerTama.tama.id,
+                                        );
+                                      },
+                                    ),
+                                    if (provider.tamasGroup[index].playerTamas.indexOf(playerTama) !=
                                         provider.tamasGroup[index].playerTamas.length - 1)
                                       const SizedBox(height: 24),
                                   ],

@@ -9,7 +9,8 @@ import 'package:shimmer/shimmer.dart';
 class TamaWidget extends StatelessWidget {
   final PlayerTama playerTama;
   final TamasProviderState state;
-  const TamaWidget({super.key, required this.playerTama, required this.state});
+  final VoidCallback onTap;
+  const TamaWidget({super.key, required this.playerTama, required this.onTap, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,10 @@ class TamaWidget extends StatelessWidget {
                 ),
               ),
             const SizedBox(width: 12),
-            tamaImageWidget(context, tama: playerTama),
+            GestureDetector(
+              onTap: onTap,
+              child: tamaImageWidget(context, tama: playerTama),
+            ),
             const SizedBox(width: 12),
             // for some reason scoreSize.width on both sides doesn't center the tama
             // maybe the image itself has some padding

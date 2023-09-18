@@ -47,7 +47,10 @@
         "tama": "Tama"
     },
     "snackbar": {
-        "error_email": "This email doesn't exist",
+        "error_email_register": "This email is already in use",
         "error_server": "There was an error with the server"
+    },
+    "tricks_page": {
+        "tricks": "tricks"
     }
 }

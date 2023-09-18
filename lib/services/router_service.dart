@@ -8,6 +8,7 @@ import 'package:kendamanomics_mobile/pages/main_page_container.dart';
 import 'package:kendamanomics_mobile/pages/profile.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
+import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RouterService {
@@ -82,10 +83,25 @@ class RouterService {
             GoRoute(
               path: '/${TamasPage.pageName}',
               name: TamasPage.pageName,
-              pageBuilder: (context, state) => NoTransitionPage<void>(
-                key: state.pageKey,
-                child: const TamasPage(),
-              ),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const TamasPage(),
+                );
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                  path: TricksPage.pageName,
+                  name: TricksPage.pageName,
+                  pageBuilder: (context, state) {
+                    final tamaId = state.extra as String?;
+                    return NoTransitionPage<void>(
+                      key: state.pageKey,
+                      child: TricksPage(tamaId: tamaId),
+                    );
+                  },
+                ),
+              ],
             ),
             GoRoute(
               path: '/${Profile.pageName}',
