@@ -15,8 +15,9 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await EnvironmentService.init();
+
   initKiwi();
+  await EnvironmentService.init();
 
   await KiwiContainer().resolve<PersistentDataService>().init();
   final supabaseService = KiwiContainer().resolve<SupabaseService>();
