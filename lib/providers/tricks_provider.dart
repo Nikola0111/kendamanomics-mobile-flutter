@@ -4,7 +4,7 @@ import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kiwi/kiwi.dart';
 
-class TricksPageProvider extends ChangeNotifier with LoggerMixin {
+class TricksProvider extends ChangeNotifier with LoggerMixin {
   final _presistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _tamaTricksRelation = <Map<String, dynamic>>[];
   final String? tamaId;
@@ -18,7 +18,7 @@ class TricksPageProvider extends ChangeNotifier with LoggerMixin {
   String? get tamaName => _tamaName;
   String? get tamaGroupName => _tamaGroupName;
 
-  TricksPageProvider({required this.tamaId}) {
+  TricksProvider({required this.tamaId}) {
     _fetchTamaNameById(tamaId);
     _populateTricks(tamaId);
     _fetchTamaGroupNameById(tamaId);

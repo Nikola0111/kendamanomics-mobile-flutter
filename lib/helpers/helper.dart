@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:kendamanomics_mobile/services/environment_service.dart';
 
 class Helper {
   static String? validateEmail(String? value) {
@@ -75,5 +76,9 @@ class Helper {
       return 'helpers.years_playing_large'.tr();
     }
     return null;
+  }
+
+  static String formatVideoUrl({required String path}) {
+    return '${EnvironmentService.supabaseApiUrl}/$path';
   }
 }

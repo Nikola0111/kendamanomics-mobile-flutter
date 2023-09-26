@@ -17,12 +17,14 @@ dependencies:
   easy_localization: ^3.0.3
   easy_logger: ^0.0.2
   shared_preferences: ^2.2.0
-  image_picker: ^1.0.2
+  image_picker: ^1.0.4
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
   supabase_flutter: ^1.10.16
   uuid: ^4.0.0
   shimmer: ^3.0.0
+  video_player: ^2.7.2
+  webview_flutter: ^4.2.4
 
 dev_dependencies:
   flutter_test:

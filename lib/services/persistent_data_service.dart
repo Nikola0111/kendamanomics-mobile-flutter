@@ -81,32 +81,30 @@ class PersistentDataService with LoggerMixin {
       _tricks.clear();
       for (var tricksJson in jsonResult['data']) {
         if (tricksJson == null) continue;
-        final trick = Trick.fromJson(json: tricksJson);
+
+        final tamaID = _tamaTricksRelation
+            .where((element) => element['trick_id'] == tricksJson['trick_id'])
+            .toList()
+            .map((e) => e['tama_id'])
+            .first;
+
+        final trick = Trick.fromJson(json: tricksJson, tamaID: tamaID);
         if (trick.id != null) {
           _tricks.add(trick);
 
-          final tamaIDs = _tamaTricksRelation
-              .where((element) => element['trick_id'] == trick.id)
-              .toList()
-              .map((e) => e['tama_id'])
-              .toList();
+          final trickIndex =
+              _tamaTricksRelation.where((element) => element['trick_id'] == trick.id && tamaID == element['tama_id']);
 
-          final trickIndex = _tamaTricksRelation.where(
-            (element) => element['trick_id'] == trick.id && tamaIDs.contains(element['tama_id']),
-          );
+          if (_tamas.containsKey(trick.tamaID)) {
+            final status = _getDummyStatus(trickIndex.first['trick_order']);
 
-          for (final tamaID in tamaIDs) {
-            if (_tamas.containsKey(tamaID)) {
-              final status = _getDummyStatus(trickIndex.first['trick_order']);
-
-              _tamas[tamaID]!.tricks!.add(
-                    TamaTrickProgress.fromTrick(
-                      trick: trick,
-                      trickPosition: trickIndex.first['trick_order'],
-                      status: status,
-                    ),
-                  );
-            }
+            _tamas[trick.tamaID]!.tricks!.add(
+                  TamaTrickProgress.fromTrick(
+                    trick: trick,
+                    trickPosition: trickIndex.first['trick_order'],
+                    status: status,
+                  ),
+                );
           }
         }
 
@@ -145,6 +143,16 @@ class PersistentDataService with LoggerMixin {
       return [];
     }
     return _tamas[tamaId]!.tricks ?? [];
+  }
+
+  Trick? getTrickByID(String? trickID) {
+    if (trickID == null || trickID.isEmpty) {
+      return null;
+    }
+
+    final trick = _tricks.where((element) => element.id == trickID);
+    if (trick.isEmpty) return null;
+    return trick.first;
   }
 
   String? fetchTamaNameById(String? tamaId) {

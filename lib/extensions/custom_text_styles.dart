@@ -19,9 +19,9 @@ class CustomTextStyles {
 class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   static const _fontFamily = 'GillSans';
   final TextStyle? light12;
-  final TextStyle? light16;
+  final TextStyle? light16; // in design its 100px ?
   final TextStyle? light20; // in design its 150px
-  final TextStyle? light24;
+  final TextStyle? light24; // in design its 170px
   final TextStyle? light24Opacity;
   final TextStyle? regular16;
   final TextStyle? regular25;

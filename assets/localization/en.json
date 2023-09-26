@@ -10,7 +10,9 @@
         "login": "login",
         "change_password": "change password",
         "reset_password": "send email",
-        "forgot_password": "forgot password?"
+        "forgot_password": "forgot password?",
+        "upload": "upload",
+        "revoke": "revoke"
     },
     "input_fields": {
         "first_name": "first name",
@@ -44,7 +46,8 @@
     },
     "default_titles": {
         "tama_group": "Tama group",
-        "tama": "Tama"
+        "tama": "Tama",
+        "trick": "Trick"
     },
     "snackbar": {
         "error_email_register": "This email is already in use",
@@ -54,5 +57,19 @@
     },
     "tricks_page": {
         "tricks": "tricks"
+    },
+    "upload_trick": {
+        "in_review": "in review",
+        "denied": "denied",
+        "laced": "laced",
+        "timeline": "timeline",
+        "back_to_trick": "back to trick"
+    },
+    "submission_log_texts": {
+        "submitted": "user submitted",
+        "denied": "denied by admin",
+        "laced": "accepted by admin",
+        "revoked": "revoked by user",
+        "point_awarded": "+1 point awarded to user for "
     }
 }

@@ -5,7 +5,7 @@ import 'package:kendamanomics_mobile/models/bottom_navigation_data.dart';
 
 class BottomNavigation extends StatelessWidget {
   static const double _sidePadding = 20.0;
-  static const double _iconSize = 70.0;
+  static const double iconSize = 70.0;
 
   final List<BottomNavigationData> items;
   final int pageIndex;
@@ -43,8 +43,8 @@ class BottomNavigation extends StatelessWidget {
                   },
                   child: Container(
                     padding: const EdgeInsets.all(4),
-                    width: _iconSize,
-                    height: _iconSize,
+                    width: iconSize,
+                    height: iconSize,
                     child: _getItem(data: items[i]),
                   ),
                 ),
@@ -67,8 +67,8 @@ class BottomNavigation extends StatelessWidget {
   }
 
   double _calculateIndicatorOffset(BuildContext context) {
-    final spacerWidth = (MediaQuery.of(context).size.width - 2 * _sidePadding - 3 * _iconSize) / 2;
-    final offset = pageIndex * spacerWidth + _iconSize * pageIndex + _sidePadding;
+    final spacerWidth = (MediaQuery.of(context).size.width - 2 * _sidePadding - 3 * iconSize) / 2;
+    final offset = pageIndex * spacerWidth + iconSize * pageIndex + _sidePadding;
     return offset;
   }
 }

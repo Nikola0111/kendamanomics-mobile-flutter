@@ -1,0 +1,106 @@
+import 'dart:io';
+
+import 'package:kendamanomics_mobile/constants.dart';
+import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/submission.dart';
+import 'package:kendamanomics_mobile/models/submission_log.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class SubmissionService with LoggerMixin {
+  final _supabase = Supabase.instance.client;
+
+  Future<String?> uploadVideoFile({required File videoFile, required String trickName}) async {
+    String path = '';
+    final userID = _supabase.auth.currentUser?.id;
+    final videoName = _formatFileName(trickName);
+    if (_supabase.auth.currentUser?.id != null) {
+      path = await _supabase.storage.from(videoUploadBuckedID).upload(
+            '$userID/$videoName',
+            videoFile,
+            fileOptions: const FileOptions(cacheControl: '3600', contentType: 'video/mp4', upsert: false),
+          );
+    }
+    return path;
+  }
+
+  Future<void> removeVideoFromStorage({required String videoName}) async {
+    final realPath = videoName.split('$videoUploadBuckedID/')[1];
+    await _supabase.storage.from(videoUploadBuckedID).remove([realPath]);
+  }
+
+  Future<Submission> checkForActiveSubmission({
+    required String trickID,
+    required String tamaID,
+  }) async {
+    final playerID = _supabase.auth.currentUser?.id;
+    Submission submission = Submission();
+    final ret = await _supabase.rpc('fetch_active_submission', params: {
+      'player_id': playerID,
+      'tama_id': tamaID,
+      'trick_id': trickID,
+    });
+
+    if (ret.isNotEmpty) {
+      final json = ret.first['data'];
+      submission = Submission.fromJson(json: json);
+    }
+
+    return submission;
+  }
+
+  Future<String> createSubmission({
+    required String playerID,
+    required String trickID,
+    required String tamaID,
+    required String videoUrl,
+  }) async {
+    final ret = await _supabase.rpc(
+      'create_new_submission',
+      params: {
+        'player_id': playerID,
+        'tama_id': tamaID,
+        'trick_id': trickID,
+        'video_url': videoUrl,
+      },
+    );
+
+    return ret;
+  }
+
+  Future<void> updateSubmissionData({required String submissionID, required UploadTrickVideoStatus status}) async {
+    await _supabase.rpc('update_submission', params: {'sub_id': submissionID, 'status': status.value});
+  }
+
+  Future<String> getSignedUrl(String path) async {
+    final realPath = path.split('$videoUploadBuckedID/')[1];
+    final ret = await _supabase.storage.from(videoUploadBuckedID).createSignedUrl(realPath, 60);
+    print(ret);
+
+    return ret;
+  }
+
+  String _formatFileName(String name) {
+    final tempUnderscores = name.replaceAll(' ', '_');
+    final newName = tempUnderscores.replaceAll('-', '_');
+
+    return newName;
+  }
+
+  Future<List<SubmissionLog>> fetchSubmissionLogs({required String tamaID, required trickID}) async {
+    final playerID = _supabase.auth.currentUser?.id;
+    final ret = await _supabase.rpc('fetch_submission_logs', params: {
+      'player_id': playerID,
+      'tama_id': tamaID,
+      'trick_id': trickID,
+    });
+    final data = <SubmissionLog>[];
+    for (int i = 0; i < ret.length; i++) {
+      data.add(SubmissionLog.fromJson(json: ret[i]));
+    }
+
+    return data;
+  }
+
+  @override
+  String get className => 'UploadTrickService';
+}

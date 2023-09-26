@@ -28,7 +28,7 @@ void main() async {
   String initialRoute = LoginPage.pageName;
   if (hasSession) {
     initialRoute = TamasPage.pageName;
-    KiwiContainer().resolve<AuthService>().fetchPlayerData();
+    await KiwiContainer().resolve<AuthService>().fetchPlayerData();
   }
 
   KiwiContainer().resolve<RouterService>().init(initialRoute: initialRoute);

@@ -9,6 +9,7 @@ import 'package:kendamanomics_mobile/pages/profile.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/pages/tricks_page.dart';
+import 'package:kendamanomics_mobile/pages/upload_trick.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RouterService {
@@ -91,16 +92,28 @@ class RouterService {
               },
               routes: <RouteBase>[
                 GoRoute(
-                  path: TricksPage.pageName,
-                  name: TricksPage.pageName,
-                  pageBuilder: (context, state) {
-                    final tamaId = state.extra as String?;
-                    return NoTransitionPage<void>(
-                      key: state.pageKey,
-                      child: TricksPage(tamaId: tamaId),
-                    );
-                  },
-                ),
+                    path: TricksPage.pageName,
+                    name: TricksPage.pageName,
+                    pageBuilder: (context, state) {
+                      final tamaId = state.extra as String?;
+                      return NoTransitionPage<void>(
+                        key: state.pageKey,
+                        child: TricksPage(tamaId: tamaId),
+                      );
+                    },
+                    routes: <RouteBase>[
+                      GoRoute(
+                        path: UploadTrick.pageName,
+                        name: UploadTrick.pageName,
+                        pageBuilder: (context, state) {
+                          final trickID = state.extra as String?;
+                          return NoTransitionPage<void>(
+                            key: state.pageKey,
+                            child: UploadTrick(trickID: trickID),
+                          );
+                        },
+                      ),
+                    ]),
               ],
             ),
             GoRoute(
