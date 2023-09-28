@@ -23,7 +23,7 @@ class CustomTextStyleScheme extends ThemeExtension<CustomTextStyleScheme> {
   final TextStyle? light20; // in design its 150px
   final TextStyle? light24; // in design its 170px
   final TextStyle? light24Opacity;
-  final TextStyle? regular16;
+  final TextStyle? regular16; //102.68px
   final TextStyle? regular25;
   final TextStyle? medium16;
   final TextStyle? medium24;
