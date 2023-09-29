@@ -20,15 +20,17 @@ class LeaderboardType extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.228440890919, //very accurate calculation, add minus paddings on both side
-        child: ColoredBox(
-          color: isActive ? CustomColors.of(context).selectedLeaderboard : color,
-          child: Text(
-            leaderboardName,
-            style: CustomTextStyles.of(context).regular16.apply(
-                  color: isActive ? CustomColors.of(context).primaryText : CustomColors.of(context).selectedLeaderboard,
-                ),
+      child: ColoredBox(
+        color: isActive ? CustomColors.of(context).selectedLeaderboard : color,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+          child: Center(
+            child: Text(
+              leaderboardName,
+              style: CustomTextStyles.of(context).light16.apply(
+                    color: isActive ? CustomColors.of(context).primaryText : CustomColors.of(context).selectedLeaderboard,
+                  ),
+            ),
           ),
         ),
       ),
