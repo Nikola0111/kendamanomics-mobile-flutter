@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/pages/change_password_page.dart';
+import 'package:kendamanomics_mobile/pages/competition_leaderboard.dart';
 import 'package:kendamanomics_mobile/pages/forgot_password_page.dart';
-import 'package:kendamanomics_mobile/pages/leaderboard.dart';
+import 'package:kendamanomics_mobile/pages/kenamanomics_leaderboard.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/main_page_container.dart';
+import 'package:kendamanomics_mobile/pages/overall_leaderboard.dart';
 import 'package:kendamanomics_mobile/pages/profile.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
@@ -74,11 +76,27 @@ class RouterService {
           },
           routes: <RouteBase>[
             GoRoute(
-              path: '/${Leaderboard.pageName}',
-              name: Leaderboard.pageName,
+              path: '/${KendamanomicsLeaderboard.pageName}',
+              name: KendamanomicsLeaderboard.pageName,
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: const Leaderboard(),
+                child: const KendamanomicsLeaderboard(),
+              ),
+            ),
+            GoRoute(
+              path: '/${CompetitionLeaderboard.pageName}',
+              name: CompetitionLeaderboard.pageName,
+              pageBuilder: (context, state) => NoTransitionPage<void>(
+                key: state.pageKey,
+                child: const CompetitionLeaderboard(),
+              ),
+            ),
+            GoRoute(
+              path: '/${OverallLeaderboard.pageName}',
+              name: OverallLeaderboard.pageName,
+              pageBuilder: (context, state) => NoTransitionPage<void>(
+                key: state.pageKey,
+                child: const OverallLeaderboard(),
               ),
             ),
             GoRoute(
