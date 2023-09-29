@@ -1,4 +1,4 @@
-enum UploadTrickVideoStatus {
+enum SubmissionStatus {
   waitingForSubmission('waitingForSubmission'),
   inReview('inReview'),
   denied('denied'),
@@ -7,24 +7,24 @@ enum UploadTrickVideoStatus {
   awarded('awarded');
 
   final String value;
-  const UploadTrickVideoStatus(this.value);
+  const SubmissionStatus(this.value);
 
-  factory UploadTrickVideoStatus.fromString(String value) {
+  factory SubmissionStatus.fromString(String value) {
     switch (value) {
       case 'waitingForSubmission':
-        return UploadTrickVideoStatus.waitingForSubmission;
+        return SubmissionStatus.waitingForSubmission;
       case 'inReview':
-        return UploadTrickVideoStatus.inReview;
+        return SubmissionStatus.inReview;
       case 'denied':
-        return UploadTrickVideoStatus.denied;
+        return SubmissionStatus.denied;
       case 'revoked':
-        return UploadTrickVideoStatus.revoked;
+        return SubmissionStatus.revoked;
       case 'laced':
-        return UploadTrickVideoStatus.laced;
+        return SubmissionStatus.laced;
       case 'awarded':
-        return UploadTrickVideoStatus.awarded;
+        return SubmissionStatus.awarded;
       default:
-        throw 'unknown trick status';
+        throw 'unknown submission status';
     }
   }
 }
@@ -32,22 +32,22 @@ enum UploadTrickVideoStatus {
 class Submission {
   String? submissionID;
   String? videoUrl;
-  UploadTrickVideoStatus status;
+  SubmissionStatus status;
 
-  Submission({this.submissionID, this.videoUrl, this.status = UploadTrickVideoStatus.waitingForSubmission});
+  Submission({this.submissionID, this.videoUrl, this.status = SubmissionStatus.waitingForSubmission});
 
   factory Submission.fromJson({required Map<String, dynamic> json}) {
     return Submission(
       submissionID: json['submission_id'],
       videoUrl: json['submission_video_url'],
-      status: UploadTrickVideoStatus.fromString(json['submission_status']),
+      status: SubmissionStatus.fromString(json['submission_status']),
     );
   }
 
   void submissionUpdated({
     String? id,
     String? newVideoUrl,
-    UploadTrickVideoStatus newStatus = UploadTrickVideoStatus.waitingForSubmission,
+    SubmissionStatus newStatus = SubmissionStatus.waitingForSubmission,
   }) {
     submissionID = id;
     videoUrl = newVideoUrl;
@@ -57,6 +57,6 @@ class Submission {
   void resetSubmission() {
     submissionID = null;
     videoUrl = null;
-    status = UploadTrickVideoStatus.waitingForSubmission;
+    status = SubmissionStatus.waitingForSubmission;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/models/submission.dart';
 import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/pages/upload_trick.dart';
 
@@ -26,7 +27,7 @@ class SingleTrick extends StatelessWidget {
                 style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primaryText),
               ),
             ),
-            if (trickProgress.trickStatus != TrickStatus.none) ...[
+            if (trickProgress.trickStatus != SubmissionStatus.waitingForSubmission) ...[
               const SizedBox(width: 8.0),
               _getStatusImage(),
               const SizedBox(width: 8.0),
@@ -39,14 +40,16 @@ class SingleTrick extends StatelessWidget {
 
   Widget _getStatusImage() {
     switch (trickProgress.trickStatus) {
-      case TrickStatus.approved:
+      case SubmissionStatus.awarded:
+      case SubmissionStatus.laced:
         return Image.asset('assets/icon/icon_trick_approved.png', height: 18, width: 18);
-      case TrickStatus.denied:
+      case SubmissionStatus.denied:
+      case SubmissionStatus.revoked:
         return Image.asset('assets/icon/icon_trick_denied.png', height: 18, width: 18);
-      case TrickStatus.pending:
+      case SubmissionStatus.inReview:
         return Image.asset('assets/icon/icon_trick_pending.png', height: 18, width: 18);
-      default:
-        return Container();
+      case SubmissionStatus.waitingForSubmission:
+        return const SizedBox.shrink();
     }
   }
 }

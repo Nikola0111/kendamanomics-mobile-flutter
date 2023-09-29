@@ -80,7 +80,7 @@ class TamaWidget extends StatelessWidget {
   Image tamaImageWidget(BuildContext context, {required PlayerTama tama}) {
     final size = MediaQuery.of(context).size.width * 0.4;
     if (playerTama.tama.imageUrl != null && playerTama.tama.imageUrl!.isNotEmpty) {
-      return Image.network(playerTama.tama.imageUrl!, height: size, width: size);
+      return Image.asset(playerTama.tama.imageUrl!, height: size, width: size);
     }
     return Image.asset('assets/images/birch_tama.png', height: size, width: size);
   }

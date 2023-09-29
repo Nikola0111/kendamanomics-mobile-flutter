@@ -24,6 +24,7 @@ class SubmissionLogs extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
+                const SizedBox(height: 12),
                 Expanded(
                   child: ListView.builder(
                     physics: const ClampingScrollPhysics(),
@@ -32,12 +33,14 @@ class SubmissionLogs extends StatelessWidget {
                       final log = provider.logs[index];
                       return DecoratedBox(
                         decoration: BoxDecoration(color: CustomColors.of(context).borderColor),
-                        child: Row(
-                          children: [
-                            _logTimeBlock(context, title: log.formattedDate, width: provider.dateBlockWidth),
-                            _logTimeBlock(context, title: log.formattedTime, width: provider.timeBlockWidth),
-                            _logStatusBlock(context, status: log.status),
-                          ],
+                        child: IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              _logTimeBlock(context, title: log.formattedDate, width: provider.dateBlockWidth),
+                              _logTimeBlock(context, title: log.formattedTime, width: provider.timeBlockWidth),
+                              _logStatusBlock(context, status: log.status),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -74,11 +77,7 @@ class SubmissionLogs extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: CustomColors.of(context).borderColor,
-        // border: Border.all(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
-        // border: Border(
-        //   top: BorderSide(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
-        //   bottom: BorderSide(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
-        // ),
+        border: Border.all(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
       ),
       width: width,
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -94,57 +93,53 @@ class SubmissionLogs extends StatelessWidget {
     );
   }
 
-  Widget _logStatusBlock(BuildContext context, {required UploadTrickVideoStatus status}) {
+  Widget _logStatusBlock(BuildContext context, {required SubmissionStatus status}) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
           color: CustomColors.of(context).borderColor,
-          // border: Border.all(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
-          // border: Border(
-          //   top: BorderSide(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
-          //   bottom: BorderSide(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
-          // ),
+          border: Border.all(color: CustomColors.of(context).logBorder.withOpacity(0.5)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Padding(
-          padding: const EdgeInsets.only(top: 3),
+          padding: const EdgeInsets.only(left: 8, right: 8),
           child: RichText(text: TextSpan(children: _eventText(context, status))),
         ),
       ),
     );
   }
 
-  List<TextSpan> _eventText(BuildContext context, UploadTrickVideoStatus status) {
+  List<TextSpan> _eventText(BuildContext context, SubmissionStatus status) {
     final statusStyle = CustomTextStyles.of(context).light16.apply(color: CustomColors.of(context).primary);
     final normalStyle = CustomTextStyles.of(context).light16.apply(color: CustomColors.of(context).logLabel);
     switch (status) {
-      case UploadTrickVideoStatus.waitingForSubmission:
+      case SubmissionStatus.waitingForSubmission:
         return [];
-      case UploadTrickVideoStatus.inReview:
+      case SubmissionStatus.inReview:
         final first = 'submission_log_texts.submitted'.tr();
         return [
           TextSpan(text: '$first ', style: normalStyle),
           TextSpan(text: trick?.name, style: statusStyle),
         ];
-      case UploadTrickVideoStatus.denied:
+      case SubmissionStatus.denied:
         final second = 'submission_log_texts.denied'.tr();
         return [
           TextSpan(text: trick?.name, style: statusStyle),
           TextSpan(text: ' $second', style: normalStyle),
         ];
-      case UploadTrickVideoStatus.revoked:
+      case SubmissionStatus.revoked:
         final second = 'submission_log_texts.revoked'.tr();
         return [
           TextSpan(text: trick?.name, style: statusStyle),
           TextSpan(text: ' $second', style: normalStyle),
         ];
-      case UploadTrickVideoStatus.laced:
+      case SubmissionStatus.laced:
         final second = 'submission_log_texts.laced'.tr();
         return [
           TextSpan(text: trick?.name, style: statusStyle),
           TextSpan(text: ' $second', style: normalStyle),
         ];
-      case UploadTrickVideoStatus.awarded:
+      case SubmissionStatus.awarded:
         final first = 'submission_log_texts.awarded'.tr();
         return [
           TextSpan(text: '$first ', style: normalStyle),

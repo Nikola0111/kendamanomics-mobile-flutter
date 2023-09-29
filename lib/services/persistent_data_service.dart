@@ -96,15 +96,9 @@ class PersistentDataService with LoggerMixin {
               _tamaTricksRelation.where((element) => element['trick_id'] == trick.id && tamaID == element['tama_id']);
 
           if (_tamas.containsKey(trick.tamaID)) {
-            final status = _getDummyStatus(trickIndex.first['trick_order']);
-
-            _tamas[trick.tamaID]!.tricks!.add(
-                  TamaTrickProgress.fromTrick(
-                    trick: trick,
-                    trickPosition: trickIndex.first['trick_order'],
-                    status: status,
-                  ),
-                );
+            _tamas[trick.tamaID]!
+                .tricks!
+                .add(TamaTrickProgress.fromTrick(trick: trick, trickPosition: trickIndex.first['trick_order']));
           }
         }
 
@@ -188,13 +182,6 @@ class PersistentDataService with LoggerMixin {
         return 0;
       });
     }
-  }
-
-  String _getDummyStatus(int position) {
-    if (position % 4 == 0) return 'approved';
-    if (position % 4 == 1) return 'denied';
-    if (position % 4 == 2) return 'pending';
-    return 'none';
   }
 
   @override

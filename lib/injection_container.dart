@@ -7,6 +7,7 @@ import 'package:kendamanomics_mobile/services/router_service.dart';
 import 'package:kendamanomics_mobile/services/submission_service.dart';
 import 'package:kendamanomics_mobile/services/supabase_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
+import 'package:kendamanomics_mobile/services/trick_service.dart';
 import 'package:kiwi/kiwi.dart';
 
 void initKiwi() {
@@ -18,5 +19,6 @@ void initKiwi() {
   KiwiContainer().registerSingleton((container) => AuthService());
   KiwiContainer().registerSingleton((container) => PersistentDataService());
   KiwiContainer().registerSingleton((container) => TamaService());
+  KiwiContainer().registerSingleton((container) => TrickService());
   KiwiContainer().registerSingleton((container) => SubmissionService());
 }

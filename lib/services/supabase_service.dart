@@ -4,15 +4,23 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService with LoggerMixin {
   Future<void> init() async {
-    await Supabase.initialize(url: EnvironmentService.supabaseApiUrl, anonKey: EnvironmentService.supabaseAnonKey);
+    try {
+      await Supabase.initialize(url: EnvironmentService.supabaseApiUrl, anonKey: EnvironmentService.supabaseAnonKey);
+    } catch (e) {
+      logE('failed initialization: ${e.toString()}');
+    }
   }
 
   bool checkHasSession() {
-    final session = Supabase.instance.client.auth.currentSession;
-    if (session != null) {
-      return true;
+    try {
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
-    return false;
   }
 
   @override

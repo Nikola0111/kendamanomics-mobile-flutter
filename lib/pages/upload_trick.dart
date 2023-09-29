@@ -26,10 +26,13 @@ class UploadTrick extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Text(
-                        provider.trick?.name ?? 'default_titles.trick'.tr(),
-                        textAlign: TextAlign.center,
-                        style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          provider.trick?.name ?? 'default_titles.trick'.tr(),
+                          textAlign: TextAlign.center,
+                          style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),

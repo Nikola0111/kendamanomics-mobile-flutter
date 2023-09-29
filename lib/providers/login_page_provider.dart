@@ -5,7 +5,7 @@ import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-enum LoginState { waiting, success, errorCredentials, errorServer }
+enum LoginState { waiting, loading, success, errorCredentials, errorServer }
 
 class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
@@ -30,6 +30,8 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> signIn() async {
+    _state = LoginState.loading;
+    notifyListeners();
     try {
       await _authService.signIn(_email, _password);
       await _authService.fetchPlayerData();

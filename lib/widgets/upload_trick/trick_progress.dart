@@ -35,42 +35,63 @@ class TrickProgress extends StatelessWidget {
   }
 
   Widget _getChild(TrickProgressProvider provider) {
-    switch (provider.status) {
-      case UploadTrickVideoStatus.waitingForSubmission:
+    switch (submission.status) {
+      case SubmissionStatus.waitingForSubmission:
         return Center(
           child: CustomButton(
+            isLoading: provider.state == TrickProgressProviderState.uploadingSubmission,
             text: 'buttons.upload'.tr(),
             onPressed: () async {
               await provider.uploadTrickSubmission();
             },
           ),
         );
-      case UploadTrickVideoStatus.inReview:
-      case UploadTrickVideoStatus.denied:
-      case UploadTrickVideoStatus.laced:
-        return TrickVideoPlayer(submission: provider.submission);
-      case UploadTrickVideoStatus.awarded:
-      case UploadTrickVideoStatus.revoked:
+      case SubmissionStatus.inReview:
+      case SubmissionStatus.denied:
+      case SubmissionStatus.awarded:
+      case SubmissionStatus.laced:
+        return TrickVideoPlayer(submission: submission);
+      case SubmissionStatus.revoked:
         return const SizedBox.shrink();
     }
   }
 
   List<Widget> _getBottomWidget(TrickProgressProvider provider, BuildContext context) {
     switch (provider.submission.status) {
-      case UploadTrickVideoStatus.waitingForSubmission:
+      case SubmissionStatus.waitingForSubmission:
+        if (provider.hasLogs) {
+          return [
+            GestureDetector(
+              onTap: onTimelinePressed,
+              behavior: HitTestBehavior.translucent,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'upload_trick.timeline',
+                    style: CustomTextStyles.of(context).medium24.apply(color: CustomColors.of(context).timelineColor),
+                  ).tr(),
+                  const SizedBox(height: 2),
+                  Image.asset('assets/icon/icon_arrow.png', height: 18, width: 18),
+                ],
+              ),
+            ),
+          ];
+        }
         return const [SizedBox.shrink()];
-      case UploadTrickVideoStatus.inReview:
-      case UploadTrickVideoStatus.denied:
+      case SubmissionStatus.inReview:
+      case SubmissionStatus.denied:
         return [
           CustomButton(
             text: 'buttons.revoke'.tr(),
+            isLoading: provider.state == TrickProgressProviderState.revokingSubmission,
             buttonStyle: CustomButtonStyle.small,
             onPressed: () async {
               await provider.revokeSubmission();
             },
           )
         ];
-      case UploadTrickVideoStatus.laced:
+      case SubmissionStatus.laced:
         return [
           GestureDetector(
             onTap: onTimelinePressed,
@@ -88,8 +109,8 @@ class TrickProgress extends StatelessWidget {
             ),
           ),
         ];
-      case UploadTrickVideoStatus.awarded:
-      case UploadTrickVideoStatus.revoked:
+      case SubmissionStatus.awarded:
+      case SubmissionStatus.revoked:
         return const [SizedBox.shrink()];
     }
   }

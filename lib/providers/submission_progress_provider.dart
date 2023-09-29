@@ -12,9 +12,10 @@ enum SubmissionProgressEnum { loading, success, error }
 class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _submissionService = KiwiContainer().resolve<SubmissionService>();
+  final _controller = ScrollController();
   final String? trickID;
   final Submission _submission = Submission();
-  final _controller = ScrollController();
+  double listItemHeight = 0.0;
   SubmissionProgressEnum _state = SubmissionProgressEnum.loading;
   Trick? _trick;
 
@@ -22,10 +23,34 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   Submission get submission => _submission;
   SubmissionProgressEnum get state => _state;
   ScrollController get controller => _controller;
+  int get numberOfSubtitleLines {
+    switch (_submission.status) {
+      case SubmissionStatus.revoked:
+      case SubmissionStatus.waitingForSubmission:
+        return 0;
+      case SubmissionStatus.inReview:
+      case SubmissionStatus.denied:
+      case SubmissionStatus.laced:
+      case SubmissionStatus.awarded:
+        return 1;
+    }
+  }
 
   SubmissionProgressProvider({this.trickID}) {
+    _submissionService.subscribe(_listenToSubmissionService);
     _getTrick();
     _checkForActiveSubmission();
+  }
+
+  void _listenToSubmissionService(SubmissionServiceEvent event, dynamic params) {
+    switch (event) {
+      case SubmissionServiceEvent.submissionStatusChanged:
+        final sub = (params.first as Submission);
+        _submission.submissionUpdated(newStatus: sub.status, newVideoUrl: sub.videoUrl, id: sub.submissionID);
+        notifyListeners();
+      case SubmissionServiceEvent.submissionLogsFetched:
+        break;
+    }
   }
 
   // fetch form submissions table with tama_id, trick_id, player_id (should ignore if submission is marked as revoked)
@@ -54,6 +79,12 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
 
   void _getTrick() {
     _trick = _persistentDataService.getTrickByID(trickID);
+  }
+
+  @override
+  void dispose() {
+    _submissionService.unsubscribe(_listenToSubmissionService);
+    super.dispose();
   }
 
   @override
