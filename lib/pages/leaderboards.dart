@@ -61,14 +61,13 @@ class Leaderboards extends StatelessWidget {
   Widget _getLeaderboard(String leaderboardType) {
     switch (leaderboardType) {
       case 'kendamanomics':
-        return KendamanomicsLeaderboard();
+        return const KendamanomicsLeaderboard();
       case 'competition':
-        return CompetitionLeaderboard();
-
+        return const CompetitionLeaderboard();
       case 'overall':
-        return OverallLeaderboard();
+        return const OverallLeaderboard();
       default:
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
   }
 }
