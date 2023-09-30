@@ -15,14 +15,14 @@ class Leaderboards extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
-        child: ChangeNotifierProvider(
-          create: (context) => LeaderboardsProvider(),
-          child: Consumer<LeaderboardsProvider>(
-            builder: (context, provider, child) => Column(
-              children: [
-                Row(
+      body: ChangeNotifierProvider(
+        create: (context) => LeaderboardsProvider(),
+        child: Consumer<LeaderboardsProvider>(
+          builder: (context, provider, child) => Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     LeaderboardType(
@@ -49,9 +49,9 @@ class Leaderboards extends StatelessWidget {
                         isActive: provider.selectedLeaderboard == 'overall'),
                   ],
                 ),
-                Expanded(child: _getLeaderboard(provider.selectedLeaderboard))
-              ],
-            ),
+              ),
+              Expanded(child: _getLeaderboard(provider.selectedLeaderboard))
+            ],
           ),
         ),
       ),
