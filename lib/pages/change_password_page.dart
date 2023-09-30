@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
-import 'package:kendamanomics_mobile/pages/kenamanomics_leaderboard.dart';
+import 'package:kendamanomics_mobile/pages/leaderboards.dart';
 import 'package:kendamanomics_mobile/providers/change_password_page_provider.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
@@ -109,7 +109,7 @@ class ChangePasswordPage extends StatelessWidget {
                               final updatePasswordSuccessful = await provider.updateUserPassword(email);
                               if (!updatePasswordSuccessful) return;
                               if (context.mounted) {
-                                context.goNamed(KendamanomicsLeaderboard.pageName);
+                                context.goNamed(Leaderboards.pageName);
                               }
                             },
                           ),
