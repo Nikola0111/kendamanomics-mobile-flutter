@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
+import 'package:kendamanomics_mobile/pages/profile.dart';
 import 'package:kendamanomics_mobile/providers/leaderboards_provider.dart';
 import 'package:kendamanomics_mobile/widgets/leaderboard_type.dart';
-import 'package:kendamanomics_mobile/widgets/leaderboards/competition_leaderboard.dart';
-import 'package:kendamanomics_mobile/widgets/leaderboards/kendamanomics_leaderboard.dart';
-import 'package:kendamanomics_mobile/widgets/leaderboards/overall_leaderboard.dart';
+import 'package:kendamanomics_mobile/widgets/player_entry.dart';
 import 'package:provider/provider.dart';
 
 class Leaderboards extends StatelessWidget {
@@ -29,45 +29,42 @@ class Leaderboards extends StatelessWidget {
                       leaderboardName: 'kendamanomics',
                       color: CustomColors.of(context).primaryText,
                       onPressed: () {
-                        provider.changeLeaderBoard('kendamanomics');
+                        provider.setActiveLeaderboard(Leaderboard.kendamanomics);
                       },
-                      isActive: true,
+                      isActive: provider.activeLeaderboard == Leaderboard.kendamanomics,
                     ),
                     LeaderboardType(
                         leaderboardName: 'competition',
                         color: CustomColors.of(context).timelineColor,
                         onPressed: () {
-                          provider.changeLeaderBoard('competition');
+                          provider.setActiveLeaderboard(Leaderboard.competition);
                         },
-                        isActive: false),
+                        isActive: provider.activeLeaderboard == Leaderboard.competition),
                     LeaderboardType(
                         leaderboardName: 'overall',
                         color: CustomColors.of(context).borderColor,
                         onPressed: () {
-                          provider.changeLeaderBoard('overall');
+                          provider.setActiveLeaderboard(Leaderboard.overall);
                         },
-                        isActive: false),
+                        isActive: provider.activeLeaderboard == Leaderboard.overall),
                   ],
                 ),
               ),
-              Expanded(child: _getLeaderboard(provider.selectedLeaderboard))
+              Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: provider.leaderboardData.length,
+                  itemBuilder: (context, index) => PlayerEntry(
+                    onTap: () => context.pushNamed(Profile.pageName),
+                    playerName: '',
+                    points: null,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Widget _getLeaderboard(String leaderboardType) {
-    switch (leaderboardType) {
-      case 'kendamanomics':
-        return const KendamanomicsLeaderboard();
-      case 'competition':
-        return const CompetitionLeaderboard();
-      case 'overall':
-        return const OverallLeaderboard();
-      default:
-        return const SizedBox.shrink();
-    }
   }
 }

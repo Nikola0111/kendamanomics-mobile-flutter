@@ -1,7 +1,7 @@
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LeaderboarsdServices with LoggerMixin {
+class LeaderboardsService with LoggerMixin {
   final _supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> fetchLeaderboardKendamanomicsPoints() async {

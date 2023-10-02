@@ -14,17 +14,7 @@ class CompetitionLeaderboard extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
         child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: 100,
-                itemBuilder: (context, index) => PlayerEntry(
-                  onTap: () => context.pushNamed(Profile.pageName),
-                ),
-              ),
-            ),
-          ],
+          children: [],
         ),
       ),
     );
