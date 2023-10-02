@@ -30,7 +30,7 @@ class PlayerEntry extends StatelessWidget {
             ),
             const SizedBox(width: 8.0),
             Text(
-              points.toString() ?? '',
+              points.toString(),
               style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primaryText),
             ),
             const SizedBox(width: 8.0),

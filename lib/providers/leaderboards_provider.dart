@@ -21,19 +21,30 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   List<Map<String, dynamic>> get competitionLeaderboard => _competitionLeaderboard;
   List<Map<String, dynamic>> get overallLeaderboard => _overallLeaderboard;
 
-  List<Map<String, dynamic>> get leaderboardData {
-    switch (_activeLeaderboard) {
-      case Leaderboard.kendamanomics:
-        return _kendamanomicsLeaderboard;
-      case Leaderboard.competition:
-        return _competitionLeaderboard;
-      case Leaderboard.overall:
-        return _overallLeaderboard;
+  Future<void> fetchLeaderboardData(Leaderboard leaderboardType) async {
+    try {
+      List<Map<String, dynamic>> data;
+      switch (leaderboardType) {
+        case Leaderboard.kendamanomics:
+          data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
+          _kendamanomicsLeaderboard = data;
+          break;
+        case Leaderboard.competition:
+          data = await _leaderboardsService.fetchLeaderboardCompetitionPoints();
+          _competitionLeaderboard = data;
+          break;
+        case Leaderboard.overall:
+          break;
+      }
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching leaderboard data: $e');
     }
   }
 
   void setActiveLeaderboard(Leaderboard type) {
     _activeLeaderboard = type;
+    fetchLeaderboardData(type);
     notifyListeners();
   }
 

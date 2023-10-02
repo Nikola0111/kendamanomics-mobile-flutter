@@ -17,6 +17,7 @@ class LeaderboardsService with LoggerMixin {
             'leaderboard_competition_points': points['leaderboard_competition_points'],
           };
         }).toList();
+        print(leaderboardData);
         return leaderboardData;
       }
       return [];

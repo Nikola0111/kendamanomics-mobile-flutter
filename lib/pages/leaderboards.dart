@@ -26,7 +26,7 @@ class Leaderboards extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     LeaderboardType(
-                      leaderboardName: 'kendamanomics',
+                      leaderboardName: 'kendamanomics', //add localization
                       color: CustomColors.of(context).primaryText,
                       onPressed: () {
                         provider.setActiveLeaderboard(Leaderboard.kendamanomics);
@@ -34,14 +34,14 @@ class Leaderboards extends StatelessWidget {
                       isActive: provider.activeLeaderboard == Leaderboard.kendamanomics,
                     ),
                     LeaderboardType(
-                        leaderboardName: 'competition',
+                        leaderboardName: 'competition', //add localization
                         color: CustomColors.of(context).timelineColor,
                         onPressed: () {
                           provider.setActiveLeaderboard(Leaderboard.competition);
                         },
                         isActive: provider.activeLeaderboard == Leaderboard.competition),
                     LeaderboardType(
-                        leaderboardName: 'overall',
+                        leaderboardName: 'overall', // add localization
                         color: CustomColors.of(context).borderColor,
                         onPressed: () {
                           provider.setActiveLeaderboard(Leaderboard.overall);
@@ -53,12 +53,39 @@ class Leaderboards extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: provider.leaderboardData.length,
-                  itemBuilder: (context, index) => PlayerEntry(
-                    onTap: () => context.pushNamed(Profile.pageName),
-                    playerName: '',
-                    points: null,
-                  ),
+                  itemCount: () {
+                    switch (provider.activeLeaderboard) {
+                      case Leaderboard.kendamanomics:
+                        return provider.kendamanomicsLeaderboard.length;
+                      case Leaderboard.competition:
+                        return provider.competitionLeaderboard.length;
+                      case Leaderboard.overall:
+                        return provider.overallLeaderboard.length;
+                      default:
+                        return 0;
+                    }
+                  }(),
+                  itemBuilder: (context, index) {
+                    final leaderboardData = () {
+                      switch (provider.activeLeaderboard) {
+                        case Leaderboard.kendamanomics:
+                          return provider.kendamanomicsLeaderboard;
+                        case Leaderboard.competition:
+                          return provider.competitionLeaderboard;
+                        case Leaderboard.overall:
+                          return provider.overallLeaderboard;
+                        default:
+                          return [];
+                      }
+                    }();
+                    final playerName = leaderboardData.isNotEmpty ? leaderboardData[index]['playerName'] : '';
+                    final points = leaderboardData.isNotEmpty ? leaderboardData[index]['points'] : null;
+                    return PlayerEntry(
+                      onTap: () => context.pushNamed(Profile.pageName),
+                      playerName: playerName,
+                      points: points,
+                    );
+                  },
                 ),
               ),
             ],
