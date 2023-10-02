@@ -80,20 +80,21 @@ class Leaderboards extends StatelessWidget {
                             return [];
                         }
                       }();
-                      // final playerName = () {
-                      //   switch (provider.activeLeaderboard) {
-                      //     case Leaderboard.kendamanomics:
-                      //       return leaderboardData.isNotEmpty ? leaderboardData[index].playerName : 'Unknown Player';
-                      //     case Leaderboard.competition:
-                      //
-                      //       return leaderboardData.isNotEmpty ? leaderboardData[index].playerName : 'Unknown Player';
-                      //     case Leaderboard.overall:
-                      //
-                      //       return leaderboardData.isNotEmpty ? leaderboardData[index].playerName : 'Unknown Player';
-                      //     default:
-                      //       return '';
-                      //   }
-                      // }();
+                      final playerName = () {
+                        switch (provider.activeLeaderboard) {
+                          case Leaderboard.kendamanomics:
+                          case Leaderboard.competition:
+                          case Leaderboard.overall:
+                            if (leaderboardData.isNotEmpty) {
+                              final player = leaderboardData[index];
+                              return '${player.playerName} ${player.playerLastName}';
+                            } else {
+                              return 'Unknown Player';
+                            }
+                          default:
+                            return '';
+                        }
+                      }();
                       final points = () {
                         switch (provider.activeLeaderboard) {
                           case Leaderboard.kendamanomics:
@@ -108,7 +109,7 @@ class Leaderboards extends StatelessWidget {
                       }();
                       return PlayerEntry(
                         onTap: () => context.pushNamed(Profile.pageName),
-                        playerName: 'random name',
+                        playerName: playerName,
                         points: points,
                       );
                     },

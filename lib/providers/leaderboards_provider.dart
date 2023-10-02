@@ -39,10 +39,12 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
       switch (leaderboardType) {
         case Leaderboard.kendamanomics:
           data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
+          _kendamanomicsLeaderboard.clear();
           _kendamanomicsLeaderboard.addAll(data);
           break;
         case Leaderboard.competition:
           data = await _leaderboardsService.fetchLeaderboardCompetitionPoints();
+          _competitionLeaderboard.clear();
           _competitionLeaderboard.addAll(data);
           break;
         case Leaderboard.overall:
@@ -50,7 +52,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
       }
       notifyListeners();
     } catch (e) {
-      print('Error fetching leaderboard data: $e');
+      logE('Error fetching leaderboard data: $e');
     }
   }
 
