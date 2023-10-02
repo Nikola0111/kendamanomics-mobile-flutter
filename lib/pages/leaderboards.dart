@@ -87,7 +87,8 @@ class Leaderboards extends StatelessWidget {
                           case Leaderboard.overall:
                             if (leaderboardData.isNotEmpty) {
                               final player = leaderboardData[index];
-                              return '${player.playerName} ${player.playerLastName}';
+                              final rankingNumber = index + 1;
+                              return '$rankingNumber. ${player.playerName} ${player.playerLastName}';
                             } else {
                               return 'Unknown Player';
                             }

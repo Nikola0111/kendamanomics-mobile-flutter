@@ -3,12 +3,14 @@ class PlayerPoints {
   final int competitionPoints;
   final String playerName;
   final String playerLastName;
+  final int? rank;
 
   PlayerPoints({
     required this.kendamanomicsPoints,
     required this.competitionPoints,
     required this.playerName,
     required this.playerLastName,
+    this.rank,
   });
 
   factory PlayerPoints.fromJson({required Map<String, dynamic> json}) {
