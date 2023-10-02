@@ -31,7 +31,7 @@ class Leaderboards extends StatelessWidget {
                       onPressed: () {
                         provider.changeLeaderBoard('kendamanomics');
                       },
-                      isActive: provider.selectedLeaderboard == 'kendamanomics',
+                      isActive: true,
                     ),
                     LeaderboardType(
                         leaderboardName: 'competition',
@@ -39,14 +39,14 @@ class Leaderboards extends StatelessWidget {
                         onPressed: () {
                           provider.changeLeaderBoard('competition');
                         },
-                        isActive: provider.selectedLeaderboard == 'competition'),
+                        isActive: false),
                     LeaderboardType(
                         leaderboardName: 'overall',
                         color: CustomColors.of(context).borderColor,
                         onPressed: () {
                           provider.changeLeaderBoard('overall');
                         },
-                        isActive: provider.selectedLeaderboard == 'overall'),
+                        isActive: false),
                   ],
                 ),
               ),
