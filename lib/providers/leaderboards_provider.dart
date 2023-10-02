@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/player_points.dart';
 import 'package:kendamanomics_mobile/services/leaderboards_service.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -12,26 +13,37 @@ enum Leaderboard {
 class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   final _leaderboardsService = KiwiContainer().resolve<LeaderboardsService>();
   Leaderboard _activeLeaderboard = Leaderboard.kendamanomics;
-  List<Map<String, dynamic>> _kendamanomicsLeaderboard = [];
-  List<Map<String, dynamic>> _competitionLeaderboard = [];
+  List<PlayerPoints> _kendamanomicsLeaderboard = [];
+  List<PlayerPoints> _competitionLeaderboard = [];
   List<Map<String, dynamic>> _overallLeaderboard = [];
 
   Leaderboard get activeLeaderboard => _activeLeaderboard;
-  List<Map<String, dynamic>> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
-  List<Map<String, dynamic>> get competitionLeaderboard => _competitionLeaderboard;
+  List<PlayerPoints> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
+  List<PlayerPoints> get competitionLeaderboard => _competitionLeaderboard;
   List<Map<String, dynamic>> get overallLeaderboard => _overallLeaderboard;
+
+  List<dynamic> get leaderboardData {
+    switch (_activeLeaderboard) {
+      case Leaderboard.kendamanomics:
+        return _kendamanomicsLeaderboard;
+      case Leaderboard.competition:
+        return _competitionLeaderboard;
+      case Leaderboard.overall:
+        return _overallLeaderboard;
+    }
+  }
 
   Future<void> fetchLeaderboardData(Leaderboard leaderboardType) async {
     try {
-      List<Map<String, dynamic>> data;
+      List<PlayerPoints> data;
       switch (leaderboardType) {
         case Leaderboard.kendamanomics:
           data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
-          _kendamanomicsLeaderboard = data;
+          _kendamanomicsLeaderboard.addAll(data);
           break;
         case Leaderboard.competition:
           data = await _leaderboardsService.fetchLeaderboardCompetitionPoints();
-          _competitionLeaderboard = data;
+          _competitionLeaderboard.addAll(data);
           break;
         case Leaderboard.overall:
           break;

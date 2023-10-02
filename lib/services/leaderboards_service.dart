@@ -1,50 +1,41 @@
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/player_points.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LeaderboardsService with LoggerMixin {
   final _supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> fetchLeaderboardKendamanomicsPoints() async {
+  Future<List<PlayerPoints>> fetchLeaderboardKendamanomicsPoints() async {
     try {
       final response = await _supabase.rpc('get_leaderboard_kendamanomics_points');
       if (response != null) {
         final data = response as List<dynamic>;
-        final leaderboardData = data.map((points) {
-          return {
-            'created_at': points['created_at'],
-            'leaderboard_player_id': points['leaderboard_player_id'],
-            'leaderboard_kendamanomics_points': points['leaderboard_kendamanomics_points'],
-            'leaderboard_competition_points': points['leaderboard_competition_points'],
-          };
-        }).toList();
-        print(leaderboardData);
+        final leaderboardData = List<PlayerPoints>.from(data.map((points) {
+          return PlayerPoints.fromJson(json: points as Map<String, dynamic>);
+        }));
         return leaderboardData;
+      } else {
+        return [];
       }
-      return [];
     } catch (e) {
-      print('Error fetching leaderboard data: $e');
-      rethrow;
+      logE('Error fetching leaderboard data: $e');
+      return [];
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchLeaderboardCompetitionPoints() async {
+  Future<List<PlayerPoints>> fetchLeaderboardCompetitionPoints() async {
     try {
       final response = await _supabase.rpc('get_leaderboard_competition_points');
       if (response != null) {
         final data = response as List<dynamic>;
-        final leaderboardData = data.map((points) {
-          return {
-            'created_at': points['created_at'],
-            'leaderboard_player_id': points['leaderboard_player_id'],
-            'leaderboard_kendamanomics_points': points['leaderboard_kendamanomics_points'],
-            'leaderboard_competition_points': points['leaderboard_competition_points'],
-          };
-        }).toList();
+        final leaderboardData = List<PlayerPoints>.from(data.map((points) {
+          return PlayerPoints.fromJson(json: points as Map<String, dynamic>);
+        }));
         return leaderboardData;
       }
       return [];
     } catch (e) {
-      print('Error fetching leaderboard data: $e');
+      logE('Error fetching leaderboard data: $e');
       rethrow;
     }
   }

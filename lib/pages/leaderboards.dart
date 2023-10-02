@@ -51,41 +51,68 @@ class Leaderboards extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: () {
-                    switch (provider.activeLeaderboard) {
-                      case Leaderboard.kendamanomics:
-                        return provider.kendamanomicsLeaderboard.length;
-                      case Leaderboard.competition:
-                        return provider.competitionLeaderboard.length;
-                      case Leaderboard.overall:
-                        return provider.overallLeaderboard.length;
-                      default:
-                        return 0;
-                    }
-                  }(),
-                  itemBuilder: (context, index) {
-                    final leaderboardData = () {
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: () {
                       switch (provider.activeLeaderboard) {
                         case Leaderboard.kendamanomics:
-                          return provider.kendamanomicsLeaderboard;
+                          return provider.kendamanomicsLeaderboard.length;
                         case Leaderboard.competition:
-                          return provider.competitionLeaderboard;
+                          return provider.competitionLeaderboard.length;
                         case Leaderboard.overall:
-                          return provider.overallLeaderboard;
+                          return provider.overallLeaderboard.length;
                         default:
-                          return [];
+                          return 0;
                       }
-                    }();
-                    final playerName = leaderboardData.isNotEmpty ? leaderboardData[index]['playerName'] : '';
-                    final points = leaderboardData.isNotEmpty ? leaderboardData[index]['points'] : null;
-                    return PlayerEntry(
-                      onTap: () => context.pushNamed(Profile.pageName),
-                      playerName: playerName,
-                      points: points,
-                    );
-                  },
+                    }(),
+                    itemBuilder: (context, index) {
+                      final leaderboardData = () {
+                        switch (provider.activeLeaderboard) {
+                          case Leaderboard.kendamanomics:
+                            return provider.kendamanomicsLeaderboard;
+                          case Leaderboard.competition:
+                            return provider.competitionLeaderboard;
+                          case Leaderboard.overall:
+                            return provider.overallLeaderboard;
+                          default:
+                            return [];
+                        }
+                      }();
+                      // final playerName = () {
+                      //   switch (provider.activeLeaderboard) {
+                      //     case Leaderboard.kendamanomics:
+                      //       return leaderboardData.isNotEmpty ? leaderboardData[index].playerName : 'Unknown Player';
+                      //     case Leaderboard.competition:
+                      //
+                      //       return leaderboardData.isNotEmpty ? leaderboardData[index].playerName : 'Unknown Player';
+                      //     case Leaderboard.overall:
+                      //
+                      //       return leaderboardData.isNotEmpty ? leaderboardData[index].playerName : 'Unknown Player';
+                      //     default:
+                      //       return '';
+                      //   }
+                      // }();
+                      final points = () {
+                        switch (provider.activeLeaderboard) {
+                          case Leaderboard.kendamanomics:
+                            return leaderboardData.isNotEmpty ? leaderboardData[index].kendamanomicsPoints : 299;
+                          case Leaderboard.competition:
+                            return leaderboardData.isNotEmpty ? leaderboardData[index].competitionPoints : 299;
+                          case Leaderboard.overall:
+                            return leaderboardData.isNotEmpty ? leaderboardData[index].overallPoints : 299;
+                          default:
+                            return 299;
+                        }
+                      }();
+                      return PlayerEntry(
+                        onTap: () => context.pushNamed(Profile.pageName),
+                        playerName: 'random name',
+                        points: points,
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
