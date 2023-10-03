@@ -71,7 +71,8 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
   }
 
   Future<void> updateSubmissionData({required String submissionID, required SubmissionStatus status}) async {
-    await _supabase.rpc('update_submission', params: {'sub_id': submissionID, 'status': status.value});
+    final playerID = _supabase.auth.currentUser?.id;
+    await _supabase.rpc('update_submission', params: {'sub_id': submissionID, 'status': status.value, 'player_id': playerID});
   }
 
   Future<String> getSignedUrl(String path) async {
