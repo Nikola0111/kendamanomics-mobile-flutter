@@ -71,5 +71,10 @@
         "laced": "accepted by admin",
         "revoked": "revoked by user",
         "point_awarded": "+1 point awarded to user for "
+    },
+    "leaderboards": {
+        "kendamanomics": "kendamanomics",
+        "competition": "competition",
+        "overall": "overall"
     }
 }

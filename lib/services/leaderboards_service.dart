@@ -40,6 +40,24 @@ class LeaderboardsService with LoggerMixin {
     }
   }
 
+  Future<List<PlayerPoints>> fetchOverallPoints() async {
+    try {
+      final response = await _supabase.rpc('get_leaderboard_overall_points');
+      if (response != null) {
+        final data = response as List<dynamic>;
+        print(data);
+        final leaderboardData = List<PlayerPoints>.from(data.map((points) {
+          return PlayerPoints.fromJson(json: points as Map<String, dynamic>);
+        }));
+        return leaderboardData;
+      }
+      return [];
+    } catch (e) {
+      logE('Error fetching leaderboard data: $e');
+      rethrow;
+    }
+  }
+
   @override
   String get className => 'LeaderboarsdServices';
 }

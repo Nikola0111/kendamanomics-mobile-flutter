@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
@@ -26,7 +27,7 @@ class Leaderboards extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     LeaderboardType(
-                      leaderboardName: 'kendamanomics', //add localization
+                      leaderboardName: 'leaderboards.kendamanomics'.tr(),
                       color: CustomColors.of(context).primaryText,
                       onPressed: () {
                         provider.setActiveLeaderboard(Leaderboard.kendamanomics);
@@ -34,14 +35,14 @@ class Leaderboards extends StatelessWidget {
                       isActive: provider.activeLeaderboard == Leaderboard.kendamanomics,
                     ),
                     LeaderboardType(
-                        leaderboardName: 'competition', //add localization
+                        leaderboardName: 'leaderboards.competition'.tr(),
                         color: CustomColors.of(context).timelineColor,
                         onPressed: () {
                           provider.setActiveLeaderboard(Leaderboard.competition);
                         },
                         isActive: provider.activeLeaderboard == Leaderboard.competition),
                     LeaderboardType(
-                        leaderboardName: 'overall', // add localization
+                        leaderboardName: 'leaderboards.overall'.tr(),
                         color: CustomColors.of(context).borderColor,
                         onPressed: () {
                           provider.setActiveLeaderboard(Leaderboard.overall);
@@ -99,11 +100,11 @@ class Leaderboards extends StatelessWidget {
                       final points = () {
                         switch (provider.activeLeaderboard) {
                           case Leaderboard.kendamanomics:
-                            return leaderboardData.isNotEmpty ? leaderboardData[index].kendamanomicsPoints : 299;
+                            return leaderboardData.isNotEmpty ? leaderboardData[index].kendamanomicsPoints : 0;
                           case Leaderboard.competition:
-                            return leaderboardData.isNotEmpty ? leaderboardData[index].competitionPoints : 299;
+                            return leaderboardData.isNotEmpty ? leaderboardData[index].competitionPoints : 0;
                           case Leaderboard.overall:
-                            return leaderboardData.isNotEmpty ? leaderboardData[index].overallPoints : 299;
+                            return leaderboardData.isNotEmpty ? leaderboardData[index].overallPoints : 0;
                           default:
                             return 299;
                         }
@@ -115,6 +116,16 @@ class Leaderboards extends StatelessWidget {
                       );
                     },
                   ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: PlayerEntry(
+                  onTap: () {},
+                  playerName: 'ooga booga',
+                  points: 324,
+                  myPoints: true,
+                  rank: 432,
                 ),
               ),
             ],

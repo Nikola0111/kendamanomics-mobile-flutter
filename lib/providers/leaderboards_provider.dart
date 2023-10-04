@@ -15,12 +15,16 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   Leaderboard _activeLeaderboard = Leaderboard.kendamanomics;
   List<PlayerPoints> _kendamanomicsLeaderboard = [];
   List<PlayerPoints> _competitionLeaderboard = [];
-  List<Map<String, dynamic>> _overallLeaderboard = [];
+  List<PlayerPoints> _overallLeaderboard = [];
 
   Leaderboard get activeLeaderboard => _activeLeaderboard;
   List<PlayerPoints> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
   List<PlayerPoints> get competitionLeaderboard => _competitionLeaderboard;
-  List<Map<String, dynamic>> get overallLeaderboard => _overallLeaderboard;
+  List<PlayerPoints> get overallLeaderboard => _overallLeaderboard;
+
+  LeaderboardsProvider() {
+    fetchLeaderboardData(Leaderboard.kendamanomics);
+  }
 
   List<dynamic> get leaderboardData {
     switch (_activeLeaderboard) {
@@ -48,6 +52,9 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
           _competitionLeaderboard.addAll(data);
           break;
         case Leaderboard.overall:
+          data = await _leaderboardsService.fetchOverallPoints();
+          _overallLeaderboard.clear();
+          _overallLeaderboard.addAll(data);
           break;
       }
       notifyListeners();
@@ -58,8 +65,8 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
 
   void setActiveLeaderboard(Leaderboard type) {
     _activeLeaderboard = type;
-    fetchLeaderboardData(type);
     notifyListeners();
+    fetchLeaderboardData(type);
   }
 
   @override

@@ -6,11 +6,15 @@ class PlayerEntry extends StatelessWidget {
   final VoidCallback onTap;
   final String? playerName;
   final int? points;
+  final bool myPoints;
+  final int? rank;
   const PlayerEntry({
     super.key,
     required this.onTap,
     required this.playerName,
     required this.points,
+    this.myPoints = false,
+    this.rank,
   });
 
   @override
@@ -22,16 +26,27 @@ class PlayerEntry extends StatelessWidget {
         decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.black.withOpacity(0.3)))),
         child: Row(
           children: [
+            myPoints
+                ? Text(
+                    '$rank.',
+                    style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primary),
+                  )
+                : const SizedBox.shrink(),
+            myPoints ? const SizedBox(width: 4.0) : const SizedBox.shrink(),
             Expanded(
               child: Text(
                 playerName ?? '',
-                style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primaryText),
+                style: CustomTextStyles.of(context)
+                    .regular16
+                    .apply(color: myPoints ? CustomColors.of(context).primary : CustomColors.of(context).primaryText),
               ),
             ),
             const SizedBox(width: 8.0),
             Text(
               points.toString(),
-              style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primaryText),
+              style: CustomTextStyles.of(context)
+                  .regular16
+                  .apply(color: myPoints ? CustomColors.of(context).primary : CustomColors.of(context).primaryText),
             ),
             const SizedBox(width: 8.0),
           ],
