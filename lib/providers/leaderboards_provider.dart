@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/player.dart';
 import 'package:kendamanomics_mobile/models/player_points.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/leaderboards_service.dart';
@@ -24,6 +25,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   int _usersPosition = 0;
   int _listLength = 0;
   String _userId = '';
+  List<PlayerPoints> _myList = [];
 
   Leaderboard get activeLeaderboard => _activeLeaderboard;
   List<PlayerPoints> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
@@ -35,11 +37,12 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   int get userPosition => _usersPosition;
   int get listLength => _listLength;
   String get userId => _userId;
+  List<PlayerPoints> get myList => _myList;
 
   LeaderboardsProvider() {
     fetchLeaderboardData(Leaderboard.kendamanomics);
     fetchPlayerId();
-    fetchUserInformationFromLeaderboard();
+    fetchKendamaStats();
   }
 
   List<dynamic> get leaderboardData {
@@ -101,27 +104,14 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
     return null;
   }
 
-  Future<void> fetchUserInformationFromLeaderboard() async {
+  Future<List<PlayerPoints>> fetchKendamaStats() async {
     try {
-      final userData = await _leaderboardsService.fetchPlayerInfoById(_userId);
-
-      if (userData != null) {
-        _usersPosition = userData['position'];
-        _playerName = userData['player_firstname'];
-        _playerLastname = userData['player_lastname'];
-        _playerPoints = userData['leaderboard_kendamanomics_points'];
-      } else {
-        _usersPosition = 0;
-        _playerName = '';
-        _playerLastname = '';
-        _playerPoints = 0;
-      }
+      final myData = await _leaderboardsService.fetchMyKendamaStats(_userId);
+      _myList.addAll(myData);
+      notifyListeners();
+      return myData;
     } catch (e) {
-      print('Error fetching user information: $e');
-      _usersPosition = 0;
-      _playerName = '';
-      _playerLastname = '';
-      _playerPoints = 0;
+      return <PlayerPoints>[];
     }
   }
 
