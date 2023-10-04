@@ -56,18 +56,7 @@ class Leaderboards extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: () {
-                      switch (provider.activeLeaderboard) {
-                        case Leaderboard.kendamanomics:
-                          return provider.kendamanomicsLeaderboard.length;
-                        case Leaderboard.competition:
-                          return provider.competitionLeaderboard.length;
-                        case Leaderboard.overall:
-                          return provider.overallLeaderboard.length;
-                        default:
-                          return 0;
-                      }
-                    }(),
+                    itemCount: provider.listLength,
                     itemBuilder: (context, index) {
                       final leaderboardData = () {
                         switch (provider.activeLeaderboard) {
@@ -106,7 +95,7 @@ class Leaderboards extends StatelessWidget {
                           case Leaderboard.overall:
                             return leaderboardData.isNotEmpty ? leaderboardData[index].overallPoints : 0;
                           default:
-                            return 299;
+                            return 0;
                         }
                       }();
                       return PlayerEntry(
@@ -118,16 +107,18 @@ class Leaderboards extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: PlayerEntry(
-                  onTap: () {},
-                  playerName: 'ooga booga',
-                  points: 324,
-                  myPoints: true,
-                  rank: 432,
-                ),
-              ),
+              provider.activeLeaderboard == Leaderboard.kendamanomics
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: PlayerEntry(
+                        onTap: () {},
+                        playerName: provider.playerName + provider.playerLastname,
+                        points: provider.playerPoints,
+                        myPoints: true,
+                        rank: provider.userPosition,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

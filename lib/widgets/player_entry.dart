@@ -23,7 +23,8 @@ class PlayerEntry extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.black.withOpacity(0.3)))),
+        decoration: BoxDecoration(
+            border: Border(bottom: myPoints ? BorderSide.none : BorderSide(width: 0.5, color: Colors.black.withOpacity(0.3)))),
         child: Row(
           children: [
             myPoints

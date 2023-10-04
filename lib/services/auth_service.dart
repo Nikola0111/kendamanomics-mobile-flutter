@@ -74,6 +74,15 @@ class AuthService with LoggerMixin {
     );
   }
 
+  Future<String?> getCurrentUserId() async {
+    final user = _supabase.auth.currentUser;
+    if (user != null) {
+      return user.id;
+    } else {
+      return null;
+    }
+  }
+
   @override
   String get className => 'AuthService';
 }
