@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/providers/main_page_container_provider.dart';
 import 'package:kendamanomics_mobile/providers/upload_trick_provider.dart';
 import 'package:kendamanomics_mobile/widgets/upload_trick/submission_progress.dart';
 import 'package:kendamanomics_mobile/widgets/upload_trick/trick_tutorial.dart';
@@ -18,7 +19,10 @@ class UploadTrick extends StatelessWidget {
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: SafeArea(
         child: ChangeNotifierProvider(
-          create: (context) => UploadTrickProvider(trickID: trickID),
+          create: (context) => UploadTrickProvider(
+            trickID: trickID,
+            calculateViewportHeight: () => context.read<MainPageContainerProvider>().calculateContentHeight(),
+          ),
           builder: (context, child) {
             return Consumer<UploadTrickProvider>(
               builder: (context, provider, child) {

@@ -25,13 +25,14 @@ class TrickVideoSubmissionProvider extends ChangeNotifier with LoggerMixin {
     final path = await _submissionService.getSignedUrl(submission.videoUrl!);
     _controller = VideoPlayerController.networkUrl(Uri.parse(path));
     try {
-      await _controller!.initialize();
-      _initialized = true;
-      _controller!.setLooping(true);
-      if (!_isDisposed) {
-        notifyListeners();
-      }
-      await _controller!.setVolume(0);
+      _controller!.initialize().then((value) {
+        _initialized = true;
+        _controller!.setLooping(true);
+        if (!_isDisposed) {
+          notifyListeners();
+        }
+        _controller!.setVolume(0);
+      });
     } on PlatformException catch (e) {
       logE('error initializing video with url $path: ${e.message}');
     }

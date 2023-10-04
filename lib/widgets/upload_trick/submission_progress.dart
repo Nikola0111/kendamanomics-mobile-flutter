@@ -66,13 +66,15 @@ class SubmissionProgress extends StatelessWidget {
     );
 
     final titleSingleLineHeight = trickName.calculateSize(CustomTextStyles.of(context).regular25).height;
-    int numOfPaddings = 3;
+    int numOfPaddings = 2;
     if (numOfSubtitleLines == 0) {
-      numOfPaddings = 4;
+      numOfPaddings = 1;
     }
+
+    // need to improve this calculation here, for now this works
     return contentHeight -
         (numOfTitleLines + numOfSubtitleLines) * titleSingleLineHeight -
         12 * numOfPaddings -
-        (numOfSubtitleLines == 0 ? 20 : 0);
+        (numOfSubtitleLines == 0 ? 20 : -20);
   }
 }

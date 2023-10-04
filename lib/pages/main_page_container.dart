@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/providers/main_page_container_provider.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
@@ -15,9 +14,6 @@ class MainPageContainer extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MainPageContainerProvider(),
       builder: (context, _) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          context.read<MainPageContainerProvider>().calculateContentHeight();
-        });
         return Scaffold(
           backgroundColor: CustomColors.of(context).backgroundColor,
           body: SafeArea(

@@ -17,7 +17,8 @@ class UploadTrickProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  UploadTrickProvider({required this.trickID}) {
+  UploadTrickProvider({required this.trickID, required VoidCallback calculateViewportHeight}) {
+    calculateViewportHeight();
     _getTrick();
   }
 
