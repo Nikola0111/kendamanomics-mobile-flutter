@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_points.dart';
-import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/leaderboards_service.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -13,28 +12,19 @@ enum Leaderboard {
 
 class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   final _leaderboardsService = KiwiContainer().resolve<LeaderboardsService>();
-  final _authService = KiwiContainer().resolve<AuthService>();
-  Leaderboard _activeLeaderboard = Leaderboard.kendamanomics;
   final List<PlayerPoints> _kendamanomicsLeaderboard = [];
   final List<PlayerPoints> _competitionLeaderboard = [];
   final List<PlayerPoints> _overallLeaderboard = [];
-  String _playerName = '';
-  String _playerLastname = '';
-  int _playerPoints = 0;
-  int _usersPosition = 0;
+  Leaderboard _activeLeaderboard = Leaderboard.kendamanomics;
+  PlayerPoints? _myPlayer;
   int _listLength = 0;
-  final List<PlayerPoints> _kendamanomicsData = [];
 
   Leaderboard get activeLeaderboard => _activeLeaderboard;
   List<PlayerPoints> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
   List<PlayerPoints> get competitionLeaderboard => _competitionLeaderboard;
   List<PlayerPoints> get overallLeaderboard => _overallLeaderboard;
-  String get playerName => _playerName;
-  String get playerLastname => _playerLastname;
-  int get playerPoints => _playerPoints;
-  int get userPosition => _usersPosition;
+  PlayerPoints? get myPlayer => _myPlayer;
   int get listLength => _listLength;
-  List<PlayerPoints> get kendamanomicsData => _kendamanomicsData;
 
   LeaderboardsProvider() {
     fetchLeaderboardData(Leaderboard.kendamanomics);
@@ -83,30 +73,13 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  Future<List<PlayerPoints>> fetchMyKendamaStats() async {
+  Future<void> fetchMyKendamaStats() async {
     try {
-      final userData = await _leaderboardsService.fetchKendamanomicsLeaderboard();
-      _kendamanomicsData.addAll(userData);
-
-      final currentUserId = await _authService.getCurrentUserId();
-
-      int playerPosition = 0;
-
-      for (int i = 0; i < userData.length; i++) {
-        final playerPoints = userData[i];
-
-        if (currentUserId != null && playerPoints.playerId == currentUserId) {
-          _playerName = playerPoints.playerName;
-          _playerLastname = playerPoints.playerLastName;
-          _playerPoints = playerPoints.kendamanomicsPoints;
-          _usersPosition = playerPosition + 1;
-        }
-      }
+      final myPositionData = await _leaderboardsService.fetchKendamanomicsLeaderboard();
+      _myPlayer = myPositionData;
       notifyListeners();
-      return userData;
     } catch (e) {
       logE('Error fetching user data: $e');
-      return <PlayerPoints>[];
     }
   }
 

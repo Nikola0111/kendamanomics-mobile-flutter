@@ -27,13 +27,13 @@ class PlayerEntry extends StatelessWidget {
             border: Border(bottom: myPoints ? BorderSide.none : BorderSide(width: 0.5, color: Colors.black.withOpacity(0.3)))),
         child: Row(
           children: [
-            myPoints
-                ? Text(
-                    '$rank.',
-                    style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primary),
-                  )
-                : const SizedBox.shrink(),
-            myPoints ? const SizedBox(width: 4.0) : const SizedBox.shrink(),
+            if (myPoints) ...[
+              Text(
+                '$rank.',
+                style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primary),
+              ),
+              const SizedBox(width: 4.0)
+            ],
             Expanded(
               child: Text(
                 playerName ?? '',
@@ -43,13 +43,15 @@ class PlayerEntry extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8.0),
-            Text(
-              points.toString(),
-              style: CustomTextStyles.of(context)
-                  .regular16
-                  .apply(color: myPoints ? CustomColors.of(context).primary : CustomColors.of(context).primaryText),
-            ),
-            const SizedBox(width: 8.0),
+            if (points != null) ...[
+              Text(
+                points.toString(),
+                style: CustomTextStyles.of(context)
+                    .regular16
+                    .apply(color: myPoints ? CustomColors.of(context).primary : CustomColors.of(context).primaryText),
+              ),
+              const SizedBox(width: 8.0),
+            ],
           ],
         ),
       ),

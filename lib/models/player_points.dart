@@ -19,11 +19,13 @@ class PlayerPoints {
 
   factory PlayerPoints.fromJson({required Map<String, dynamic> json}) {
     return PlayerPoints(
-        competitionPoints: json['leaderboard_competition_points'] ?? 0,
-        kendamanomicsPoints: json['leaderboard_kendamanomics_points'] ?? 0,
-        overallPoints: json['leaderboard_overall_points'] ?? 0,
-        playerName: json['player_firstname'] ?? 'default name',
-        playerLastName: json['player_lastname'] ?? 'default last name',
-        playerId: json['leaderboard_player_id'] ?? 'no player found');
+      competitionPoints: json['leaderboard_competition_points'] ?? 0,
+      kendamanomicsPoints: json['leaderboard_kendamanomics_points'] ?? 0,
+      overallPoints: json['leaderboard_overall_points'] ?? 0,
+      playerName: json['player_firstname'] ?? 'default name',
+      playerLastName: json['player_lastname'] ?? 'default last name',
+      playerId: json['leaderboard_player_id'] ?? 'no player found',
+      rank: json['leaderboard_kendamanomics_position'],
+    );
   }
 }

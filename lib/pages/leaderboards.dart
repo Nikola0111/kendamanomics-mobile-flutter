@@ -107,18 +107,16 @@ class Leaderboards extends StatelessWidget {
                   ),
                 ),
               ),
-              provider.activeLeaderboard == Leaderboard.kendamanomics
+              provider.activeLeaderboard == Leaderboard.kendamanomics && provider.myPlayer != null
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                      child: provider.kendamanomicsData.isNotEmpty
-                          ? PlayerEntry(
-                              onTap: () {},
-                              playerName: '${provider.playerName} ${provider.playerLastname}',
-                              points: provider.playerPoints,
-                              myPoints: true,
-                              rank: provider.userPosition,
-                            )
-                          : const SizedBox.shrink(),
+                      child: PlayerEntry(
+                        onTap: () {},
+                        playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
+                        points: provider.myPlayer?.kendamanomicsPoints,
+                        myPoints: true,
+                        rank: provider.myPlayer?.rank,
+                      ),
                     )
                   : const SizedBox.shrink(),
             ],

@@ -74,7 +74,6 @@ class SubmissionService with LoggerMixin {
   Future<String> getSignedUrl(String path) async {
     final realPath = path.split('$videoUploadBuckedID/')[1];
     final ret = await _supabase.storage.from(videoUploadBuckedID).createSignedUrl(realPath, 60);
-    print(ret);
 
     return ret;
   }
