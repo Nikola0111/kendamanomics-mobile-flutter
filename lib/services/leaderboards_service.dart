@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_points.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -60,7 +61,8 @@ class LeaderboardsService with LoggerMixin {
 
   Future<List<PlayerPoints>> fetchKendamanomicsLeaderboard() async {
     try {
-      final response = await _supabase.rpc('get_kendamanomics_leaderboard');
+      final id = Supabase.instance.client.auth.currentUser?.id;
+      final response = await _supabase.rpc('get_kendamanomics_leaderboard_position', params: {'p_id': id});
       if (response != null) {
         final data = response as List<dynamic>;
         final leaderboardData = List<PlayerPoints>.from(
