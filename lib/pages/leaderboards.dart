@@ -110,13 +110,13 @@ class Leaderboards extends StatelessWidget {
               provider.activeLeaderboard == Leaderboard.kendamanomics
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                      child: provider.myList.isNotEmpty
+                      child: provider.kendamanomicsData.isNotEmpty
                           ? PlayerEntry(
                               onTap: () {},
-                              playerName: provider.myList[0].playerName,
-                              points: provider.myList[0].kendamanomicsPoints,
+                              playerName: provider.playerName,
+                              points: provider.playerPoints,
                               myPoints: true,
-                              rank: provider.myList[0].rank,
+                              rank: provider.userPosition,
                             )
                           : const SizedBox.shrink(),
                     )
