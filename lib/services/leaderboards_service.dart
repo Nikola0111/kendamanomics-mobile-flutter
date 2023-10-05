@@ -19,7 +19,7 @@ class LeaderboardsService with LoggerMixin {
         return [];
       }
     } catch (e) {
-      logE('Error fetching leaderboard data: $e');
+      logE('Error fetching  kendamanomics leaderboard data: $e');
       return [];
     }
   }
@@ -36,7 +36,7 @@ class LeaderboardsService with LoggerMixin {
       }
       return [];
     } catch (e) {
-      logE('Error fetching leaderboard data: $e');
+      logE('Error fetching competition leaderboard data: $e');
       rethrow;
     }
   }
@@ -53,7 +53,7 @@ class LeaderboardsService with LoggerMixin {
       }
       return [];
     } catch (e) {
-      logE('Error fetching leaderboard data: $e');
+      logE('Error fetching overall leaderboard data: $e');
       rethrow;
     }
   }
@@ -74,7 +74,7 @@ class LeaderboardsService with LoggerMixin {
       }
       return [];
     } catch (e) {
-      logE('Error fetching leaderboard data: $e');
+      logE('Error fetching kendamanomics leaderboard: $e');
       rethrow;
     }
   }

@@ -113,7 +113,7 @@ class Leaderboards extends StatelessWidget {
                       child: provider.kendamanomicsData.isNotEmpty
                           ? PlayerEntry(
                               onTap: () {},
-                              playerName: provider.playerName,
+                              playerName: '${provider.playerName} ${provider.playerLastname}',
                               points: provider.playerPoints,
                               myPoints: true,
                               rank: provider.userPosition,

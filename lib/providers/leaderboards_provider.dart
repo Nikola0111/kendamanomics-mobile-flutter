@@ -59,6 +59,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
         case Leaderboard.kendamanomics:
           data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
           _listLength = data.length;
+
           _kendamanomicsLeaderboard.clear();
           _kendamanomicsLeaderboard.addAll(data);
 
