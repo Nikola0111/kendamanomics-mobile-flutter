@@ -16,6 +16,7 @@ class CustomColors {
   Color get timelineColor => Theme.of(_context).extension<CustomColorScheme>()!.timelineColor!;
   Color get logLabel => Theme.of(_context).extension<CustomColorScheme>()!.logLabel!;
   Color get logBorder => Theme.of(_context).extension<CustomColorScheme>()!.logBorder!;
+  Color get selectedLeaderboard => Theme.of(_context).extension<CustomColorScheme>()!.selectedLeaderboard!;
 }
 
 @immutable
@@ -32,6 +33,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
   final Color? timelineColor;
   final Color? logLabel;
   final Color? logBorder;
+  final Color? selectedLeaderboard;
 
   const CustomColorScheme({
     required this.primary,
@@ -46,6 +48,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     required this.timelineColor,
     required this.logLabel,
     required this.logBorder,
+    required this.selectedLeaderboard,
   });
 
   const CustomColorScheme.classic({
@@ -61,6 +64,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     this.timelineColor = const Color(0xff854b23),
     this.logLabel = const Color(0xffFAE2B2),
     this.logBorder = const Color(0xffd9bc95),
+    this.selectedLeaderboard = const Color(0xffDEC7AC),
   });
 
   @override
@@ -77,6 +81,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
     Color? timelineColor,
     Color? logLabel,
     Color? logBorder,
+    Color? selectedLeaderboard,
   }) {
     return CustomColorScheme(
       primary: primary ?? this.primary,
@@ -91,6 +96,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
       timelineColor: timelineColor ?? this.timelineColor,
       logLabel: logLabel ?? this.logLabel,
       logBorder: logBorder ?? this.logBorder,
+      selectedLeaderboard: selectedLeaderboard ?? this.selectedLeaderboard,
     );
   }
 
@@ -112,6 +118,7 @@ class CustomColorScheme extends ThemeExtension<CustomColorScheme> {
       timelineColor: Color.lerp(timelineColor, other.timelineColor, t),
       logLabel: Color.lerp(logLabel, other.logLabel, t),
       logBorder: Color.lerp(logBorder, other.logBorder, t),
+      selectedLeaderboard: Color.lerp(selectedLeaderboard, other.selectedLeaderboard, t),
     );
   }
 }
