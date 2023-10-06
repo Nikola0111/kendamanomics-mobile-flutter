@@ -66,7 +66,9 @@ class Leaderboards extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: PlayerEntry(
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(Profile.pageName);
+                        },
                         playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
                         points: provider.myPlayer?.kendamanomicsPoints,
                         myPoints: true,
