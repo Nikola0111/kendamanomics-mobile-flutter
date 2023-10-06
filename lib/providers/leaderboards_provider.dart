@@ -4,6 +4,13 @@ import 'package:kendamanomics_mobile/models/player_points.dart';
 import 'package:kendamanomics_mobile/services/leaderboards_service.dart';
 import 'package:kiwi/kiwi.dart';
 
+enum LeaderboardsProviderState {
+  loading,
+  none,
+  success,
+  errorFetchingLeaderboard,
+}
+
 enum Leaderboard {
   kendamanomics,
   competition,
@@ -16,10 +23,12 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   final List<PlayerPoints> _competitionLeaderboard = [];
   final List<PlayerPoints> _overallLeaderboard = [];
   Leaderboard _activeLeaderboard = Leaderboard.kendamanomics;
+  LeaderboardsProviderState _state = LeaderboardsProviderState.loading;
   PlayerPoints? _myPlayer;
   int _listLength = 0;
 
   Leaderboard get activeLeaderboard => _activeLeaderboard;
+  LeaderboardsProviderState get state => _state;
   List<PlayerPoints> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
   List<PlayerPoints> get competitionLeaderboard => _competitionLeaderboard;
   List<PlayerPoints> get overallLeaderboard => _overallLeaderboard;
@@ -48,43 +57,48 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
       switch (leaderboardType) {
         case Leaderboard.kendamanomics:
           data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
+          _state = LeaderboardsProviderState.success;
           _listLength = data.length;
-
           _kendamanomicsLeaderboard.clear();
           _kendamanomicsLeaderboard.addAll(data);
-
           break;
         case Leaderboard.competition:
           data = await _leaderboardsService.fetchLeaderboardCompetitionPoints();
+          _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _competitionLeaderboard.clear();
           _competitionLeaderboard.addAll(data);
           break;
         case Leaderboard.overall:
           data = await _leaderboardsService.fetchOverallPoints();
+          _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _overallLeaderboard.clear();
           _overallLeaderboard.addAll(data);
           break;
       }
-      notifyListeners();
     } catch (e) {
       logE('Error fetching leaderboard data: $e');
+      _state = LeaderboardsProviderState.errorFetchingLeaderboard;
     }
+    notifyListeners();
   }
 
   Future<void> fetchMyKendamaStats() async {
     try {
       final myPositionData = await _leaderboardsService.fetchKendamanomicsLeaderboard();
       _myPlayer = myPositionData;
-      notifyListeners();
+      _state = LeaderboardsProviderState.success;
     } catch (e) {
       logE('Error fetching user data: $e');
+      _state = LeaderboardsProviderState.errorFetchingLeaderboard;
     }
+    notifyListeners();
   }
 
   void setActiveLeaderboard(Leaderboard type) {
     _activeLeaderboard = type;
+    _state = LeaderboardsProviderState.loading;
     notifyListeners();
     fetchLeaderboardData(type);
   }
