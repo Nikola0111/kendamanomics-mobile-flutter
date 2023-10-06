@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
+import 'package:kendamanomics_mobile/services/trick_service.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TricksProvider extends ChangeNotifier with LoggerMixin {
   final _presistentDataService = KiwiContainer().resolve<PersistentDataService>();
+  final _trickService = KiwiContainer().resolve<TrickService>();
   final _tamaTricksRelation = <Map<String, dynamic>>[];
   final String? tamaId;
 
@@ -19,6 +22,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
   String? get tamaGroupName => _tamaGroupName;
 
   TricksProvider({required this.tamaId}) {
+    _fetchTricksProgress();
     _fetchTamaNameById(tamaId);
     _populateTricks(tamaId);
     _fetchTamaGroupNameById(tamaId);
@@ -42,6 +46,23 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
       return;
     }
     _tamaGroupName = _presistentDataService.fetchTamaGroupName(tamaId) ?? '';
+  }
+
+  void _fetchTricksProgress() async {
+    if (tamaId == null) return;
+    try {
+      final data = await _trickService.fetchTrickProgress(tamaID: tamaId!);
+      for (final trickID in data.keys) {
+        final tricks = _tricks.where((element) => element.trick?.id == trickID);
+        if (tricks.isNotEmpty) {
+          tricks.first.trickStatus = data[trickID]!;
+        }
+      }
+
+      notifyListeners();
+    } on PostgrestException catch (e) {
+      logE('error fetching tricks progress for tamaID - $tamaId: ${e.toString()}');
+    }
   }
 
   @override

@@ -9,8 +9,10 @@ import 'package:video_player/video_player.dart';
 class TrickVideoSubmissionProvider extends ChangeNotifier with LoggerMixin {
   final _submissionService = KiwiContainer().resolve<SubmissionService>();
   final Submission submission;
+  bool _isPlaying = false;
   VideoPlayerController? _controller;
   bool _initialized = false;
+  bool _isDisposed = false;
 
   VideoPlayerController? get controller => _controller;
   bool get initialized => _initialized;
@@ -23,12 +25,35 @@ class TrickVideoSubmissionProvider extends ChangeNotifier with LoggerMixin {
     final path = await _submissionService.getSignedUrl(submission.videoUrl!);
     _controller = VideoPlayerController.networkUrl(Uri.parse(path));
     try {
-      await _controller!.initialize();
-      _initialized = true;
-      notifyListeners();
+      _controller!.initialize().then((value) {
+        _initialized = true;
+        _controller!.setLooping(true);
+        if (!_isDisposed) {
+          notifyListeners();
+        }
+        _controller!.setVolume(0);
+      });
     } on PlatformException catch (e) {
       logE('error initializing video with url $path: ${e.message}');
     }
+  }
+
+  void playPauseVideo() async {
+    if (_controller == null) return;
+
+    if (_isPlaying) {
+      _isPlaying = false;
+      _controller!.pause();
+    } else {
+      _isPlaying = true;
+      _controller!.play();
+    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   @override

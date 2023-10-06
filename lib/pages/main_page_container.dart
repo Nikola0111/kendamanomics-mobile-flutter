@@ -13,28 +13,33 @@ class MainPageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MainPageContainerProvider(),
-      child: Scaffold(
-        backgroundColor: CustomColors.of(context).backgroundColor,
-        body: SafeArea(
-          child: Column(
-            children: [
-              const AppHeader(),
-              const SizedBox(height: 12),
-              Expanded(child: child),
-              Selector<MainPageContainerProvider, int>(
-                selector: (_, provider) => provider.pageIndex,
-                builder: (context, pageIndex, child) {
-                  return BottomNavigation(
-                    items: context.read<MainPageContainerProvider>().bottomNav,
-                    pageIndex: pageIndex,
-                    onPageUpdated: (index) => context.read<MainPageContainerProvider>().pageIndex = index,
-                  );
-                },
-              ),
-            ],
+      builder: (context, _) {
+        return Scaffold(
+          backgroundColor: CustomColors.of(context).backgroundColor,
+          body: SafeArea(
+            child: Column(
+              children: [
+                const AppHeader(),
+                const SizedBox(height: 12),
+                Expanded(
+                  key: context.read<MainPageContainerProvider>().contentGlobalKey,
+                  child: child,
+                ),
+                Selector<MainPageContainerProvider, int>(
+                  selector: (_, provider) => provider.pageIndex,
+                  builder: (context, pageIndex, child) {
+                    return BottomNavigation(
+                      items: context.read<MainPageContainerProvider>().bottomNav,
+                      pageIndex: pageIndex,
+                      onPageUpdated: (index) => context.read<MainPageContainerProvider>().pageIndex = index,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

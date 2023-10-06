@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/widgets/custom_loading_indicator.dart';
 
 enum CustomButtonStyle { big, small }
 
@@ -52,15 +53,7 @@ class CustomButton extends StatelessWidget {
           maximumSize: MaterialStateProperty.all<Size>(Size(_width, _height)),
         ),
         onPressed: isEnabled && !isLoading ? onPressed : null,
-        child: Center(
-          child: child ??
-              Text(
-                text!,
-                style: CustomTextStyles.of(context)
-                    .medium24
-                    .copyWith(color: _getButtonColor(context), height: _textHeight, fontSize: _fontSize),
-              ),
-        ),
+        child: Center(child: _getChild(context)),
       ),
     );
   }
@@ -76,6 +69,18 @@ class CustomButton extends StatelessWidget {
     } else {
       return CustomColors.of(context).primaryText.withOpacity(0.6);
     }
+  }
+
+  Widget _getChild(BuildContext context) {
+    if (isLoading) return const CustomLoadingIndicator();
+    if (child != null) return child!;
+
+    return Text(
+      text!,
+      style: CustomTextStyles.of(context)
+          .medium24
+          .copyWith(color: _getButtonColor(context), height: _textHeight, fontSize: _fontSize),
+    );
   }
 
   double get _width {

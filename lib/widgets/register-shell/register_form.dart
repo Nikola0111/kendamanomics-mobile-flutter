@@ -20,6 +20,7 @@ class RegisterForm extends StatelessWidget {
     return Consumer<RegisterProvider>(
       builder: (context, provider, child) {
         switch (provider.state) {
+          case RegisterState.loading:
           case RegisterState.waiting:
           case RegisterState.success:
             break;
@@ -138,6 +139,7 @@ class RegisterForm extends StatelessWidget {
                     heightFactor: 2.075,
                     alignment: Alignment.bottomCenter,
                     child: CustomButton(
+                      isLoading: provider.state == RegisterState.loading,
                       isEnabled: provider.isButtonEnabled,
                       text: 'buttons.create_an_account'.tr(),
                       customTextColor: CustomColors.of(context).primary,

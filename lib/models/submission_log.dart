@@ -3,7 +3,7 @@ import 'package:kendamanomics_mobile/models/submission.dart';
 
 class SubmissionLog {
   final DateTime timestamp;
-  final UploadTrickVideoStatus status;
+  final SubmissionStatus status;
   final String formattedDate;
   final String formattedTime;
 
@@ -25,7 +25,7 @@ class SubmissionLog {
       timestamp: timestamp,
       formattedDate: dateFormatter.format(timestamp),
       formattedTime: timeFormatter.format(timestamp),
-      status: UploadTrickVideoStatus.fromString(data['submission_log_event']),
+      status: SubmissionStatus.fromString(data['submission_log_event']),
     );
   }
 }

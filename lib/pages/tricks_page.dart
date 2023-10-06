@@ -21,7 +21,7 @@ class TricksPage extends StatelessWidget {
           child: Consumer<TricksProvider>(
             builder: (context, provider, child) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Column(
                   children: [
                     Text(
@@ -35,6 +35,7 @@ class TricksPage extends StatelessWidget {
                         itemBuilder: (context, index) => SingleTrick(trickProgress: provider.tricks[index]),
                       ),
                     ),
+                    const SizedBox(height: 4),
                   ],
                 ),
               );

@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:kendamanomics_mobile/constants.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/mixins/subscription_mixin.dart';
 import 'package:kendamanomics_mobile/models/submission.dart';
 import 'package:kendamanomics_mobile/models/submission_log.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SubmissionService with LoggerMixin {
+enum SubmissionServiceEvent { submissionStatusChanged, submissionLogsFetched }
+
+class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEvent> {
   final _supabase = Supabase.instance.client;
 
   Future<String?> uploadVideoFile({required File videoFile, required String trickName}) async {
@@ -67,8 +70,9 @@ class SubmissionService with LoggerMixin {
     return ret;
   }
 
-  Future<void> updateSubmissionData({required String submissionID, required UploadTrickVideoStatus status}) async {
-    await _supabase.rpc('update_submission', params: {'sub_id': submissionID, 'status': status.value});
+  Future<void> updateSubmissionData({required String submissionID, required SubmissionStatus status}) async {
+    final playerID = _supabase.auth.currentUser?.id;
+    await _supabase.rpc('update_submission', params: {'sub_id': submissionID, 'status': status.value, 'player_id': playerID});
   }
 
   Future<String> getSignedUrl(String path) async {
@@ -97,7 +101,12 @@ class SubmissionService with LoggerMixin {
       data.add(SubmissionLog.fromJson(json: ret[i]));
     }
 
+    sendEvent(SubmissionServiceEvent.submissionLogsFetched, params: [data.isNotEmpty]);
     return data;
+  }
+
+  void notifyRebuildParentScreen(Submission submission) {
+    sendEvent(SubmissionServiceEvent.submissionStatusChanged, params: [submission]);
   }
 
   @override

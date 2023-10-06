@@ -19,10 +19,11 @@ class Tama {
 
   factory Tama.fromJson({required Map<String, dynamic> json}) {
     return Tama(
-        id: json['tama_id'],
-        name: json['tama_name'],
-        imageUrl: json['tama_image_url'],
-        numOfTricks: json['tama_number_of_tricks'],
-        tamasGroupID: json['tama_group_id']);
+      id: json['tama_id'],
+      name: json['tama_name'],
+      imageUrl: json['tama_image_url'],
+      numOfTricks: json['tama_number_of_tricks'],
+      tamasGroupID: json['tama_group_id'],
+    );
   }
 }

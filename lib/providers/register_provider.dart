@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
@@ -10,7 +9,7 @@ import 'package:kendamanomics_mobile/widgets/register-shell/register_welcome.dar
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-enum RegisterState { waiting, success, errorEmail, errorServer }
+enum RegisterState { waiting, loading, success, errorEmail, errorServer }
 
 class RegisterProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
@@ -91,6 +90,8 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> signUp(String email, String password) async {
+    _state = RegisterState.loading;
+    notifyListeners();
     try {
       await _authService.signUp(email, password);
       _state = RegisterState.success;
@@ -100,7 +101,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         logE(e.message);
         _state = RegisterState.errorEmail;
       } else {
-        logE('${'register_provider_errors'.tr()}${e.message}');
+        logE('error while signing up: ${e.message}');
         _state = RegisterState.errorServer;
       }
       notifyListeners();
@@ -120,7 +121,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
       );
       return true;
     } on PostgrestException catch (e) {
-      logE('${'register_provider_errors'.tr()}${e.message} - code: ${e.code}');
+      logE('error while updating data: message - ${e.message}, code: ${e.code}');
       return false;
     }
   }

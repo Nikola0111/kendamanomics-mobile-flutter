@@ -33,6 +33,7 @@ class LoginPage extends StatelessWidget {
             child: Consumer<LoginPageProvider>(
               builder: (context, provider, child) {
                 switch (provider.state) {
+                  case LoginState.loading:
                   case LoginState.waiting:
                   case LoginState.success:
                     break;
@@ -105,13 +106,14 @@ class LoginPage extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: CustomButton(
+                            isLoading: provider.state == LoginState.loading,
                             text: 'buttons.login'.tr(),
                             isEnabled: provider.isButtonEnabled,
                             customTextColor: CustomColors.of(context).primary,
                             onPressed: () async {
                               FocusManager.instance.primaryFocus?.unfocus();
-                              final logInSuccesfull = await provider.signIn();
-                              if (!logInSuccesfull) return;
+                              final logInSuccessful = await provider.signIn();
+                              if (!logInSuccessful) return;
                               if (context.mounted) {
                                 context.goNamed(TamasPage.pageName);
                               }
