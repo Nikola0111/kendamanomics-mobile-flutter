@@ -1,4 +1,5 @@
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/tama.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,6 +23,15 @@ class TamaService with LoggerMixin {
     }
 
     return progressData;
+  }
+
+  Future<List<Tama>> fetchTamas() async {
+    final data = await _supabase.rpc('fetch_all_tamas');
+    final tamas = <Tama>[];
+    for (final map in data) {
+      tamas.add(Tama.fromJson(json: map));
+    }
+    return tamas;
   }
 
   @override

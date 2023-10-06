@@ -29,6 +29,9 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   TamasProvider() {
     _populateGroups();
     _updatePlayerTamasData();
+
+    // TODO: missing condition if data on backend is same as locally
+    _fetchTamas();
   }
 
   void _populateGroups() {
@@ -68,6 +71,23 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       } else {
         _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(completedTricks: 0);
       }
+    }
+  }
+
+  // this should be called if we know there are differing tamas
+  void _fetchTamas({int retry = 2}) async {
+    try {
+      final newTamas = await _tamasService.fetchTamas();
+      _persistentDataService.updateTamas(tamas: newTamas);
+    } on PostgrestException catch (e) {
+      logE('error fetching tamas: ${e.toString()}');
+      if (retry > 0) {
+        logI('retrying: attempts left: $retry');
+        return _updatePlayerTamasData(retry: --retry);
+      }
+
+      _state = TamasProviderState.errorFetchingProgress;
+      notifyListeners();
     }
   }
 

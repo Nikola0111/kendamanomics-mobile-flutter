@@ -1,5 +1,6 @@
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/submission.dart';
+import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TrickService with LoggerMixin {
@@ -17,6 +18,18 @@ class TrickService with LoggerMixin {
     }
 
     return progress;
+  }
+
+  Future<List<Trick>> fetchTricksByTamaID({required String tamaID}) async {
+    final data = await _supabase.rpc('fetch_tricks_by_tama_id', params: {'filter_tama_id': tamaID});
+
+    final newTricks = <Trick>[];
+
+    for (final item in data) {
+      newTricks.add(Trick.fromJson(json: item, tamaID: tamaID));
+    }
+
+    return newTricks;
   }
 
   @override

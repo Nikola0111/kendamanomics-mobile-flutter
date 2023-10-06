@@ -6,30 +6,37 @@ import 'package:kendamanomics_mobile/services/trick_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+enum TrickState { loading, done, error }
+
 class TricksProvider extends ChangeNotifier with LoggerMixin {
-  final _presistentDataService = KiwiContainer().resolve<PersistentDataService>();
+  final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _trickService = KiwiContainer().resolve<TrickService>();
   final _tamaTricksRelation = <Map<String, dynamic>>[];
   final String? tamaId;
-
+  TrickState _state = TrickState.loading;
   List<TamaTrickProgress> _tricks = <TamaTrickProgress>[];
   String? _tamaName;
   String? _tamaGroupName;
 
+  TrickState get state => _state;
   List<Map<String, dynamic>> get tamaTricksRelation => _tamaTricksRelation;
   List<TamaTrickProgress> get tricks => _tricks;
   String? get tamaName => _tamaName;
   String? get tamaGroupName => _tamaGroupName;
 
   TricksProvider({required this.tamaId}) {
-    _fetchTricksProgress();
-    _fetchTamaNameById(tamaId);
     _populateTricks(tamaId);
+    _fetchTamaNameById(tamaId);
     _fetchTamaGroupNameById(tamaId);
+    _fetchTricksForTama();
   }
 
   void _populateTricks(String? tamaId) {
-    _tricks = _presistentDataService.filterTricksByTamaId(tamaId);
+    _tricks = _persistentDataService.filterTricksByTamaId(tamaId);
+    if (_tricks.isNotEmpty) {
+      _state = TrickState.done;
+      _fetchTricksProgress();
+    }
   }
 
   void _fetchTamaNameById(String? tamaId) {
@@ -37,7 +44,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
       _tamaName = null;
       return;
     }
-    _tamaName = _presistentDataService.fetchTamaNameById(tamaId) ?? '';
+    _tamaName = _persistentDataService.fetchTamaNameById(tamaId) ?? '';
   }
 
   void _fetchTamaGroupNameById(String? tamaId) {
@@ -45,7 +52,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
       _tamaGroupName = null;
       return;
     }
-    _tamaGroupName = _presistentDataService.fetchTamaGroupName(tamaId) ?? '';
+    _tamaGroupName = _persistentDataService.fetchTamaGroupName(tamaId) ?? '';
   }
 
   void _fetchTricksProgress() async {
@@ -60,6 +67,23 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
       }
 
       notifyListeners();
+    } on PostgrestException catch (e) {
+      logE('error fetching tricks progress for tamaID - $tamaId: ${e.toString()}');
+    }
+  }
+
+  void _fetchTricksForTama() async {
+    if (tamaId == null) return;
+    try {
+      final newTricks = await _trickService.fetchTricksByTamaID(tamaID: tamaId!);
+      _persistentDataService.updateTricks(newTricks: newTricks, tamaID: tamaId!);
+
+      if (_state == TrickState.loading) {
+        _populateTricks(tamaId);
+        _state = TrickState.done;
+        _fetchTricksProgress();
+        notifyListeners();
+      }
     } on PostgrestException catch (e) {
       logE('error fetching tricks progress for tamaID - $tamaId: ${e.toString()}');
     }

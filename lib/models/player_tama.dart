@@ -8,7 +8,7 @@ class PlayerTama {
 
   const PlayerTama({required this.tama, this.completedTricks, this.badgeType});
 
-  factory PlayerTama.fromTama({required Tama tama}) {
+  factory PlayerTama.fromTama({required Tama tama, int completed = 0}) {
     return PlayerTama(
       tama: Tama(
         id: tama.id,
@@ -17,6 +17,7 @@ class PlayerTama {
         numOfTricks: tama.numOfTricks,
         tamasGroupID: tama.tamasGroupID,
       ),
+      completedTricks: completed,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:kendamanomics_mobile/constants.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/mixins/subscription_mixin.dart';
@@ -11,6 +12,9 @@ enum SubmissionServiceEvent { submissionStatusChanged, submissionLogsFetched }
 
 class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEvent> {
   final _supabase = Supabase.instance.client;
+  final _currentSubmissionLogs = <SubmissionLog>[];
+
+  List<SubmissionLog> get currentSubmissionLogs => _currentSubmissionLogs;
 
   Future<String?> uploadVideoFile({required File videoFile, required String trickName}) async {
     String path = '';
@@ -67,12 +71,14 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
       },
     );
 
+    _addSubmissionLog(status: SubmissionStatus.inReview);
     return ret;
   }
 
   Future<void> updateSubmissionData({required String submissionID, required SubmissionStatus status}) async {
     final playerID = _supabase.auth.currentUser?.id;
     await _supabase.rpc('update_submission', params: {'sub_id': submissionID, 'status': status.value, 'player_id': playerID});
+    _addSubmissionLog(status: status);
   }
 
   Future<String> getSignedUrl(String path) async {
@@ -96,17 +102,34 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
       'tama_id': tamaID,
       'trick_id': trickID,
     });
-    final data = <SubmissionLog>[];
+    _currentSubmissionLogs.clear();
     for (int i = 0; i < ret.length; i++) {
-      data.add(SubmissionLog.fromJson(json: ret[i]));
+      _currentSubmissionLogs.add(SubmissionLog.fromJson(json: ret[i]));
     }
 
-    sendEvent(SubmissionServiceEvent.submissionLogsFetched, params: [data.isNotEmpty]);
-    return data;
+    sendEvent(SubmissionServiceEvent.submissionLogsFetched, params: [_currentSubmissionLogs.isNotEmpty]);
+    return _currentSubmissionLogs;
   }
 
   void notifyRebuildParentScreen(Submission submission) {
     sendEvent(SubmissionServiceEvent.submissionStatusChanged, params: [submission]);
+  }
+
+  void _addSubmissionLog({required SubmissionStatus status}) {
+    final timestamp = DateTime.now();
+    final dateFormatter = DateFormat('d/M/yyyy');
+    final timeFormatter = DateFormat('HH:mm');
+
+    _currentSubmissionLogs.add(
+      SubmissionLog(
+        timestamp: timestamp,
+        status: status,
+        formattedDate: dateFormatter.format(timestamp),
+        formattedTime: timeFormatter.format(timestamp),
+      ),
+    );
+
+    sendEvent(SubmissionServiceEvent.submissionLogsFetched, params: [_currentSubmissionLogs.isNotEmpty]);
   }
 
   @override

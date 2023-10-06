@@ -28,9 +28,9 @@ class SubmissionLogs extends StatelessWidget {
                 Expanded(
                   child: ListView.builder(
                     physics: const ClampingScrollPhysics(),
-                    itemCount: provider.logs.length,
+                    itemCount: provider.submissionLogs.length,
                     itemBuilder: (context, index) {
-                      final log = provider.logs[index];
+                      final log = provider.submissionLogs[index];
                       return DecoratedBox(
                         decoration: BoxDecoration(color: CustomColors.of(context).borderColor),
                         child: IntrinsicHeight(

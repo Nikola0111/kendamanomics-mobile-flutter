@@ -5,6 +5,7 @@ import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/providers/tricks_provider.dart';
 import 'package:kendamanomics_mobile/widgets/single_trick.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TricksPage extends StatelessWidget {
   static const pageName = 'tricks-page';
@@ -28,13 +29,7 @@ class TricksPage extends StatelessWidget {
                       _formatTitle(provider),
                       style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: provider.tricks.length,
-                        itemBuilder: (context, index) => SingleTrick(trickProgress: provider.tricks[index]),
-                      ),
-                    ),
+                    Expanded(child: _getContent(context, provider: provider)),
                     const SizedBox(height: 4),
                   ],
                 ),
@@ -43,6 +38,25 @@ class TricksPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _getContent(BuildContext context, {required TricksProvider provider}) {
+    if (provider.state == TrickState.loading) {
+      return Column(
+        children: [
+          _shimmer(context),
+          _shimmer(context),
+          _shimmer(context),
+          _shimmer(context),
+        ],
+      );
+    }
+
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: provider.tricks.length,
+      itemBuilder: (context, index) => SingleTrick(trickProgress: provider.tricks[index]),
     );
   }
 
@@ -60,5 +74,29 @@ class TricksPage extends StatelessWidget {
     }
 
     return 'default_titles.tama'.tr();
+  }
+
+  Container _shimmer(BuildContext context) {
+    return Container(
+      height: 19 + 2 * 16 - 0.5,
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.black.withOpacity(0.3)))),
+      child: Row(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 2 * 18,
+            height: 19, // height of text
+            child: Shimmer.fromColors(
+              baseColor: Colors.transparent,
+              highlightColor: Colors.grey.withOpacity(0.5),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width - 2 * 18,
+                height: 19,
+                child: Container(color: Colors.grey),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

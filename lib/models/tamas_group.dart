@@ -17,4 +17,8 @@ class TamasGroup {
     }
     return TamasGroup(id: json['tamas_group_id'], name: json['tamas_group_name'], playerTamas: playerTamas);
   }
+
+  void addTama({required Tama tama, int numOfCompletedTricks = 0}) {
+    playerTamas.add(PlayerTama.fromTama(tama: tama, completed: numOfCompletedTricks));
+  }
 }

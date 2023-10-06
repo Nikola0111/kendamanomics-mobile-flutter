@@ -184,6 +184,52 @@ class PersistentDataService with LoggerMixin {
     }
   }
 
+  // TODO: investigate why are tamas instantly updated, they should be updated after changing screen (rebuilding)
+  void updateTamas({required List<Tama> tamas}) {
+    _tamas.clear();
+
+    final groupCopy = List<TamasGroup>.from(_tamaGroups);
+
+    for (final group in _tamaGroups) {
+      group.playerTamas.clear();
+    }
+
+    for (final tama in tamas) {
+      if (tama.id == null) continue;
+
+      _tamas[tama.id!] = tama;
+
+      int numberOfCompleted = 0;
+      final tamaGroup = groupCopy.where((element) => element.id == tama.tamasGroupID);
+      if (tamaGroup.isNotEmpty) {
+        final group = tamaGroup.first;
+        final previousTama = group.playerTamas.where((element) => element.tama.id == tama.id);
+        if (previousTama.isNotEmpty) {
+          numberOfCompleted = previousTama.first.completedTricks ?? 0;
+        }
+      }
+
+      _tamaGroups.where((element) => element.id == tama.tamasGroupID).first.addTama(
+            tama: tama,
+            numOfCompletedTricks: numberOfCompleted,
+          );
+    }
+  }
+
+  void updateTricks({required List<Trick> newTricks, required String tamaID}) {
+    _tricks.removeWhere((element) => element.tamaID == tamaID);
+    _tricks.addAll(newTricks);
+    _tamas[tamaID]?.tricks?.clear();
+
+    for (int i = 0; i < newTricks.length; i++) {
+      final trick = newTricks[i];
+      final trickIndex = i + 1;
+      if (_tamas.containsKey(trick.tamaID)) {
+        _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick, trickPosition: trickIndex));
+      }
+    }
+  }
+
   @override
   String get className => 'PersistentDataService';
 }
