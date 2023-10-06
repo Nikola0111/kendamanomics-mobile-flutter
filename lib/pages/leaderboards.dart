@@ -31,27 +31,25 @@ class Leaderboards extends StatelessWidget {
                       leaderboardName: 'leaderboards.kendamanomics'.tr(),
                       color: CustomColors.of(context).primaryText,
                       onPressed: () {
-                        provider.setActiveLeaderboard(
-                          Leaderboard.kendamanomics,
-                        );
+                        provider.setActiveLeaderboard(LeaderboardTab.kendamanomics);
                       },
-                      isActive: provider.activeLeaderboard == Leaderboard.kendamanomics,
+                      isActive: provider.activeLeaderboard == LeaderboardTab.kendamanomics,
                     ),
                     LeaderboardType(
                       leaderboardName: 'leaderboards.competition'.tr(),
                       color: CustomColors.of(context).timelineColor,
                       onPressed: () {
-                        provider.setActiveLeaderboard(Leaderboard.competition);
+                        provider.setActiveLeaderboard(LeaderboardTab.competition);
                       },
-                      isActive: provider.activeLeaderboard == Leaderboard.competition,
+                      isActive: provider.activeLeaderboard == LeaderboardTab.competition,
                     ),
                     LeaderboardType(
                       leaderboardName: 'leaderboards.overall'.tr(),
                       color: CustomColors.of(context).borderColor,
                       onPressed: () {
-                        provider.setActiveLeaderboard(Leaderboard.overall);
+                        provider.setActiveLeaderboard(LeaderboardTab.overall);
                       },
-                      isActive: provider.activeLeaderboard == Leaderboard.overall,
+                      isActive: provider.activeLeaderboard == LeaderboardTab.overall,
                     ),
                   ],
                 ),
@@ -62,7 +60,7 @@ class Leaderboards extends StatelessWidget {
                   child: getList(context, provider),
                 ),
               ),
-              provider.activeLeaderboard == Leaderboard.kendamanomics && provider.myPlayer != null
+              provider.activeLeaderboard == LeaderboardTab.kendamanomics && provider.myPlayer != null
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: PlayerEntry(
@@ -110,7 +108,11 @@ class Leaderboards extends StatelessWidget {
   Widget getList(BuildContext context, LeaderboardsProvider provider) {
     if (provider.state == LeaderboardsProviderState.loading) {
       return Column(
-        children: [_shimmer(context)],
+        children: [
+          _shimmer(context),
+          _shimmer(context),
+          _shimmer(context),
+        ],
       );
     }
     return ListView.builder(
@@ -119,11 +121,11 @@ class Leaderboards extends StatelessWidget {
       itemBuilder: (context, index) {
         final leaderboardData = () {
           switch (provider.activeLeaderboard) {
-            case Leaderboard.kendamanomics:
+            case LeaderboardTab.kendamanomics:
               return provider.kendamanomicsLeaderboard;
-            case Leaderboard.competition:
+            case LeaderboardTab.competition:
               return provider.competitionLeaderboard;
-            case Leaderboard.overall:
+            case LeaderboardTab.overall:
               return provider.overallLeaderboard;
             default:
               return [];
@@ -131,9 +133,9 @@ class Leaderboards extends StatelessWidget {
         }();
         final playerName = () {
           switch (provider.activeLeaderboard) {
-            case Leaderboard.kendamanomics:
-            case Leaderboard.competition:
-            case Leaderboard.overall:
+            case LeaderboardTab.kendamanomics:
+            case LeaderboardTab.competition:
+            case LeaderboardTab.overall:
               if (leaderboardData.isNotEmpty) {
                 final player = leaderboardData[index];
                 final rankingNumber = index + 1;
@@ -147,11 +149,11 @@ class Leaderboards extends StatelessWidget {
         }();
         final points = () {
           switch (provider.activeLeaderboard) {
-            case Leaderboard.kendamanomics:
+            case LeaderboardTab.kendamanomics:
               return leaderboardData.isNotEmpty ? leaderboardData[index].kendamanomicsPoints : 0;
-            case Leaderboard.competition:
+            case LeaderboardTab.competition:
               return leaderboardData.isNotEmpty ? leaderboardData[index].competitionPoints : 0;
-            case Leaderboard.overall:
+            case LeaderboardTab.overall:
               return leaderboardData.isNotEmpty ? leaderboardData[index].overallPoints : 0;
             default:
               return 0;

@@ -11,7 +11,7 @@ enum LeaderboardsProviderState {
   errorFetchingLeaderboard,
 }
 
-enum Leaderboard {
+enum LeaderboardTab {
   kendamanomics,
   competition,
   overall,
@@ -22,12 +22,12 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   final List<PlayerPoints> _kendamanomicsLeaderboard = [];
   final List<PlayerPoints> _competitionLeaderboard = [];
   final List<PlayerPoints> _overallLeaderboard = [];
-  Leaderboard _activeLeaderboard = Leaderboard.kendamanomics;
+  LeaderboardTab _activeLeaderboard = LeaderboardTab.kendamanomics;
   LeaderboardsProviderState _state = LeaderboardsProviderState.loading;
   PlayerPoints? _myPlayer;
   int _listLength = 0;
 
-  Leaderboard get activeLeaderboard => _activeLeaderboard;
+  LeaderboardTab get activeLeaderboard => _activeLeaderboard;
   LeaderboardsProviderState get state => _state;
   List<PlayerPoints> get kendamanomicsLeaderboard => _kendamanomicsLeaderboard;
   List<PlayerPoints> get competitionLeaderboard => _competitionLeaderboard;
@@ -36,40 +36,40 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   int get listLength => _listLength;
 
   LeaderboardsProvider() {
-    fetchLeaderboardData(Leaderboard.kendamanomics);
+    fetchLeaderboardData(LeaderboardTab.kendamanomics);
     fetchMyKendamaStats();
   }
 
   List<dynamic> get leaderboardData {
     switch (_activeLeaderboard) {
-      case Leaderboard.kendamanomics:
+      case LeaderboardTab.kendamanomics:
         return _kendamanomicsLeaderboard;
-      case Leaderboard.competition:
+      case LeaderboardTab.competition:
         return _competitionLeaderboard;
-      case Leaderboard.overall:
+      case LeaderboardTab.overall:
         return _overallLeaderboard;
     }
   }
 
-  Future<void> fetchLeaderboardData(Leaderboard leaderboardType) async {
+  Future<void> fetchLeaderboardData(LeaderboardTab leaderboardType) async {
     try {
       List<PlayerPoints> data;
       switch (leaderboardType) {
-        case Leaderboard.kendamanomics:
+        case LeaderboardTab.kendamanomics:
           data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
           _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _kendamanomicsLeaderboard.clear();
           _kendamanomicsLeaderboard.addAll(data);
           break;
-        case Leaderboard.competition:
+        case LeaderboardTab.competition:
           data = await _leaderboardsService.fetchLeaderboardCompetitionPoints();
           _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _competitionLeaderboard.clear();
           _competitionLeaderboard.addAll(data);
           break;
-        case Leaderboard.overall:
+        case LeaderboardTab.overall:
           data = await _leaderboardsService.fetchOverallPoints();
           _state = LeaderboardsProviderState.success;
           _listLength = data.length;
@@ -96,7 +96,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
     notifyListeners();
   }
 
-  void setActiveLeaderboard(Leaderboard type) {
+  void setActiveLeaderboard(LeaderboardTab type) {
     _activeLeaderboard = type;
     _state = LeaderboardsProviderState.loading;
     notifyListeners();
