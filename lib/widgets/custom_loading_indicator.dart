@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 
 class CustomLoadingIndicator extends StatelessWidget {
-  const CustomLoadingIndicator({super.key});
+  final Color? customColor;
+  const CustomLoadingIndicator({super.key, this.customColor});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class CustomLoadingIndicator extends StatelessWidget {
         child: SizedBox(
           height: 32,
           width: 32,
-          child: CircularProgressIndicator(color: CustomColors.of(context).backgroundColor),
+          child: CircularProgressIndicator(color: customColor ?? CustomColors.of(context).backgroundColor),
         ),
       ),
     );

@@ -28,9 +28,9 @@ class SubmissionProgress extends StatelessWidget {
             numOfSubtitleLines: provider.numberOfSubtitleLines,
           );
 
-          return ListView(
+          return PageView(
             controller: provider.controller,
-            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
             children: [
               SizedBox(
                 height: listItemHeight,

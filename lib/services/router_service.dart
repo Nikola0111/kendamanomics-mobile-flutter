@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/pages/change_password_page.dart';
 import 'package:kendamanomics_mobile/pages/forgot_password_page.dart';
@@ -35,7 +38,7 @@ class RouterService {
           parentNavigatorKey: _rootNavigatorKey,
           path: '/${LoginPage.pageName}',
           name: LoginPage.pageName,
-          pageBuilder: (context, state) => NoTransitionPage<void>(
+          pageBuilder: (context, state) => _getPage(
             key: state.pageKey,
             child: const LoginPage(),
           ),
@@ -43,7 +46,7 @@ class RouterService {
         GoRoute(
           path: '/${ForgotPasswordPage.pageName}',
           name: ForgotPasswordPage.pageName,
-          pageBuilder: (context, state) => NoTransitionPage<void>(
+          pageBuilder: (context, state) => _getPage(
             key: state.pageKey,
             child: const ForgotPasswordPage(),
           ),
@@ -53,7 +56,7 @@ class RouterService {
           name: ChangePasswordPage.pageName,
           pageBuilder: (context, state) {
             final email = state.extra as String;
-            return NoTransitionPage<void>(
+            return _getPage(
               key: state.pageKey,
               child: ChangePasswordPage(email: email),
             );
@@ -62,7 +65,7 @@ class RouterService {
         GoRoute(
           path: '/${RegisterShell.pageName}',
           name: RegisterShell.pageName,
-          pageBuilder: (context, state) => NoTransitionPage<void>(
+          pageBuilder: (context, state) => _getPage(
             key: state.pageKey,
             child: const RegisterShell(),
           ),
@@ -96,7 +99,7 @@ class RouterService {
                     name: TricksPage.pageName,
                     pageBuilder: (context, state) {
                       final tamaId = state.extra as String?;
-                      return NoTransitionPage<void>(
+                      return _getPage(
                         key: state.pageKey,
                         child: TricksPage(tamaId: tamaId),
                       );
@@ -107,7 +110,7 @@ class RouterService {
                         name: UploadTrick.pageName,
                         pageBuilder: (context, state) {
                           final trickID = state.extra as String?;
-                          return NoTransitionPage<void>(
+                          return _getPage(
                             key: state.pageKey,
                             child: UploadTrick(trickID: trickID),
                           );
@@ -128,5 +131,19 @@ class RouterService {
         )
       ],
     );
+  }
+
+  Page _getPage({required ValueKey key, required Widget child}) {
+    if (Platform.isAndroid) {
+      return MaterialPage(
+        key: key,
+        child: child,
+      );
+    } else {
+      return CupertinoPage(
+        key: key,
+        child: child,
+      );
+    }
   }
 }

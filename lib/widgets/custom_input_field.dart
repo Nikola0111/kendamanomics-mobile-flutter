@@ -66,6 +66,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 textAlignVertical: TextAlignVertical.center,
                 textInputAction: widget.textInputAction,
                 keyboardType: widget.keyboardType,
+                cursorColor: CustomColors.of(context).primary,
                 onChanged: (text) {
                   if (_hasText && text.isEmpty) _toggleHasText();
                   if (!_hasText && text.isNotEmpty) _toggleHasText();

@@ -73,6 +73,7 @@ class ForgotPasswordPage extends StatelessWidget {
                           child: CustomButton(
                             text: 'buttons.reset_password'.tr(),
                             isEnabled: provider.isButtonEnabled,
+                            isLoading: provider.state == ForgotPasswordPageState.waiting,
                             customTextColor: CustomColors.of(context).primary,
                             onPressed: () async {
                               FocusManager.instance.primaryFocus?.unfocus();

@@ -12,7 +12,7 @@ enum SubmissionProgressEnum { loading, success, error }
 class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _submissionService = KiwiContainer().resolve<SubmissionService>();
-  final _controller = ScrollController();
+  final _controller = PageController();
   final String? trickID;
   final Submission _submission = Submission();
   double listItemHeight = 0.0;
@@ -22,7 +22,7 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   Trick? get trick => _trick;
   Submission get submission => _submission;
   SubmissionProgressEnum get state => _state;
-  ScrollController get controller => _controller;
+  PageController get controller => _controller;
   int get numberOfSubtitleLines {
     switch (_submission.status) {
       case SubmissionStatus.revoked:

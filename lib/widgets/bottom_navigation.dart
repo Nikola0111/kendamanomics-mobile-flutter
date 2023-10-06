@@ -5,7 +5,7 @@ import 'package:kendamanomics_mobile/models/bottom_navigation_data.dart';
 
 class BottomNavigation extends StatelessWidget {
   static const double _sidePadding = 20.0;
-  static const double iconSize = 70.0;
+  static const double iconSize = 80.0;
 
   final List<BottomNavigationData> items;
   final int pageIndex;
@@ -23,12 +23,12 @@ class BottomNavigation extends StatelessWidget {
           curve: Curves.linearToEaseOut,
           padding: EdgeInsets.only(left: _calculateIndicatorOffset(context)),
           child: Container(
-            width: 70,
+            width: iconSize,
             height: 1,
             color: CustomColors.of(context).primary,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         Row(
           children: [
             for (int i = 0; i < items.length; i++) ...[
@@ -42,7 +42,7 @@ class BottomNavigation extends StatelessWidget {
                     context.goNamed(items[i].pageName);
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(2),
                     width: iconSize,
                     height: iconSize,
                     child: _getItem(data: items[i]),
@@ -60,7 +60,7 @@ class BottomNavigation extends StatelessWidget {
 
   Widget _getItem({required BottomNavigationData data}) {
     if (data.isLocal) {
-      return Image.asset(data.pathOrUrl, fit: BoxFit.cover);
+      return Image.asset(data.pathOrUrl, fit: BoxFit.fitHeight);
     } else {
       return Image.network(data.pathOrUrl, fit: BoxFit.cover);
     }
