@@ -14,4 +14,8 @@ class Trick {
       tamaID: tamaID,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {'trick_id': id, 'trick_name': name, 'trick_url': trickTutorialUrl, 'tama_id': tamaID};
+  }
 }

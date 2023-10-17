@@ -76,6 +76,8 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
     if (tamaId == null) return;
     try {
       final newTricks = await _trickService.fetchTricksByTamaID(tamaID: tamaId!);
+      if (newTricks == null) return;
+
       _persistentDataService.updateTricks(newTricks: newTricks, tamaID: tamaId!);
 
       if (_state == TrickState.loading) {

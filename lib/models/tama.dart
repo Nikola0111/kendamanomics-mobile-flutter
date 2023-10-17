@@ -26,4 +26,14 @@ class Tama {
       tamasGroupID: json['tama_group_id'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'tama_id': id,
+      'tama_name': name,
+      'tama_image_url': imageUrl,
+      'tama_number_of_tricks': numOfTricks,
+      'tama_group_id': tamasGroupID,
+    };
+  }
 }

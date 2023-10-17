@@ -21,4 +21,8 @@ class TamasGroup {
   void addTama({required Tama tama, int numOfCompletedTricks = 0}) {
     playerTamas.add(PlayerTama.fromTama(tama: tama, completed: numOfCompletedTricks));
   }
+
+  Map<String, dynamic> toJson() {
+    return {'tamas_group_id': id, 'tamas_group_name': name};
+  }
 }

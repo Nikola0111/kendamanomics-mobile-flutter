@@ -21,7 +21,7 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
     final userID = _supabase.auth.currentUser?.id;
     final videoName = _formatFileName(trickName);
     if (_supabase.auth.currentUser?.id != null) {
-      path = await _supabase.storage.from(videoUploadBuckedID).upload(
+      path = await _supabase.storage.from(kVideoUploadBuckedID).upload(
             '$userID/$videoName',
             videoFile,
             fileOptions: const FileOptions(cacheControl: '3600', contentType: 'video/mp4', upsert: false),
@@ -31,8 +31,8 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
   }
 
   Future<void> removeVideoFromStorage({required String videoName}) async {
-    final realPath = videoName.split('$videoUploadBuckedID/')[1];
-    await _supabase.storage.from(videoUploadBuckedID).remove([realPath]);
+    final realPath = videoName.split('$kVideoUploadBuckedID/')[1];
+    await _supabase.storage.from(kVideoUploadBuckedID).remove([realPath]);
   }
 
   Future<Submission> checkForActiveSubmission({
@@ -82,8 +82,8 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
   }
 
   Future<String> getSignedUrl(String path) async {
-    final realPath = path.split('$videoUploadBuckedID/')[1];
-    final ret = await _supabase.storage.from(videoUploadBuckedID).createSignedUrl(realPath, 60);
+    final realPath = path.split('$kVideoUploadBuckedID/')[1];
+    final ret = await _supabase.storage.from(kVideoUploadBuckedID).createSignedUrl(realPath, 60);
 
     return ret;
   }

@@ -3,6 +3,7 @@ import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
+import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,6 +12,7 @@ enum TamasProviderState { loading, none, success, errorFetchingProgress }
 class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
+  final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
   final _tamasGroups = <TamasGroup>[];
   final _progressData = <String, int>{};
   TamasProviderState _state = TamasProviderState.loading;
@@ -30,7 +32,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     _populateGroups();
     _updatePlayerTamasData();
 
-    // TODO: missing condition if data on backend is same as locally
+    _fetchTamaGroups();
     _fetchTamas();
   }
 
@@ -78,12 +80,28 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   void _fetchTamas({int retry = 2}) async {
     try {
       final newTamas = await _tamasService.fetchTamas();
+      if (newTamas == null) return;
       _persistentDataService.updateTamas(tamas: newTamas);
     } on PostgrestException catch (e) {
       logE('error fetching tamas: ${e.toString()}');
       if (retry > 0) {
         logI('retrying: attempts left: $retry');
-        return _updatePlayerTamasData(retry: --retry);
+        return _fetchTamas(retry: --retry);
+      }
+    }
+  }
+
+  // this should be called if we know there are differing tamas
+  void _fetchTamaGroups({int retry = 2}) async {
+    try {
+      final newTamasGroups = await _tamaGroupService.fetchTamaGroups();
+      if (newTamasGroups == null) return;
+      _persistentDataService.updateTamasGroups(tamasGroups: newTamasGroups);
+    } on PostgrestException catch (e) {
+      logE('error fetching tamas groups: ${e.toString()}');
+      if (retry > 0) {
+        logI('retrying: attempts left: $retry');
+        return _fetchTamaGroups(retry: --retry);
       }
 
       _state = TamasProviderState.errorFetchingProgress;
