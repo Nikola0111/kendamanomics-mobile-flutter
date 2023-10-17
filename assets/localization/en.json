@@ -4,7 +4,10 @@
         "app_description": "kendamanomics is an app to help players progress their Kendama skill",
         "app_ranking_description": "we also have a ranking system that ranks players based on tricks laced and competitions won",
         "fill_in_fields": "please make sure to fill in your information correctly:"
-    },  
+    },
+    "select_company_page": {
+        "title": "who do you support"
+    },
     "buttons": {
         "create_an_account": "create an account",
         "login": "login",

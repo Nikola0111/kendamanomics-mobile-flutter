@@ -1,3 +1,5 @@
+import 'package:kendamanomics_mobile/models/company.dart';
+
 class Player {
   final String id;
   final String email;
@@ -5,7 +7,7 @@ class Player {
   final String lastName;
   final int yearsPlaying;
   String? instagram;
-  String? supportTeamID;
+  Company? company;
 
   Player({
     required this.email,
@@ -14,7 +16,7 @@ class Player {
     required this.lastName,
     required this.yearsPlaying,
     this.instagram,
-    this.supportTeamID,
+    this.company,
   });
 
   Player.empty({required this.id, required this.email})
@@ -22,14 +24,14 @@ class Player {
         lastName = '',
         yearsPlaying = -1,
         instagram = null,
-        supportTeamID = null;
+        company = null;
 
   Player copyWith({
     String? firstName,
     String? lastName,
     int? yearsPlaying,
     String? instagram,
-    String? supportTeamID,
+    Company? company,
   }) {
     return Player(
       email: email,
@@ -38,7 +40,7 @@ class Player {
       lastName: lastName ?? this.lastName,
       yearsPlaying: yearsPlaying ?? this.yearsPlaying,
       instagram: instagram ?? this.instagram,
-      supportTeamID: supportTeamID ?? this.supportTeamID,
+      company: company ?? this.company,
     );
   }
 
@@ -50,7 +52,7 @@ class Player {
       lastName: json['player_lastname'],
       yearsPlaying: json['player_years'],
       instagram: json['player_instagram'] ?? '',
-      supportTeamID: json['player_company_id'] ?? '',
+      company: json['player_company'] != null ? Company.fromJson(json: json['player_company']) : null,
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
+import 'package:kendamanomics_mobile/pages/select_company_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/register_provider.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
@@ -108,7 +109,14 @@ class RegisterForm extends StatelessWidget {
                         CustomInputField(
                           textInputAction: TextInputAction.next,
                           hintText: 'input_fields.support'.tr(),
-                          onChanged: (supportTeamID) => provider.supportTeamID = supportTeamID,
+                          controller: provider.supportTeamNameController,
+                          onTap: () async {
+                            final data = await context.pushNamed(SelectCompanyPage.pageName);
+                            if (data != null) {
+                              final map = data as Map<String, dynamic>;
+                              provider.setSupportTeamID(map['id'], map['name']);
+                            }
+                          },
                         ),
                         const SizedBox(height: 6.0),
                         CustomInputField(

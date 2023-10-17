@@ -10,6 +10,7 @@ import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/main_page_container.dart';
 import 'package:kendamanomics_mobile/pages/profile.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
+import 'package:kendamanomics_mobile/pages/select_company_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:kendamanomics_mobile/pages/upload_trick.dart';
@@ -68,6 +69,14 @@ class RouterService {
           pageBuilder: (context, state) => _getPage(
             key: state.pageKey,
             child: const RegisterShell(),
+          ),
+        ),
+        GoRoute(
+          path: '/${SelectCompanyPage.pageName}',
+          name: SelectCompanyPage.pageName,
+          pageBuilder: (context, state) => _getPage(
+            key: state.pageKey,
+            child: const SelectCompanyPage(),
           ),
         ),
         ShellRoute(

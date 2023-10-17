@@ -1,5 +1,6 @@
 import 'package:kendamanomics_mobile/services/appearance_service.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/services/company_service.dart';
 import 'package:kendamanomics_mobile/services/connectivity_service.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/leaderboards_service.dart';
@@ -25,4 +26,5 @@ void initKiwi() {
   KiwiContainer().registerSingleton((container) => TamasGroupService());
   KiwiContainer().registerSingleton((container) => SubmissionService());
   KiwiContainer().registerSingleton((container) => LeaderboardsService());
+  KiwiContainer().registerSingleton((container) => CompanyService());
 }

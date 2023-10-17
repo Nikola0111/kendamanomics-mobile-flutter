@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/services/company_service.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_form.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
@@ -13,6 +14,7 @@ enum RegisterState { waiting, loading, success, errorEmail, errorServer }
 
 class RegisterProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
+
   List<Widget> pages = [
     const RegisterWelcome(),
     const RegisterDescription(),
@@ -27,6 +29,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   String? _instagramUsername;
   int _yearsPlaying = -1;
   String? _supportTeamID;
+  TextEditingController supportTeamNameController = TextEditingController();
   String _password = '';
   String _confirmPassword = '';
   int _currentPage = 0;
@@ -79,14 +82,27 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
     _isAllInputValid();
   }
 
-  set supportTeamID(String? value) {
-    _supportTeamID = value;
-    _isAllInputValid();
+  void setSupportTeamID(String? id, String? name) {
+    _supportTeamID = id;
+    supportTeamNameController.text = name ?? '';
+    notifyListeners();
   }
 
   void setCurrentPage(int page) {
     _currentPage = page;
     notifyListeners();
+  }
+
+  RegisterProvider() {
+    _fetchCompanies();
+  }
+
+  void _fetchCompanies() async {
+    try {
+      KiwiContainer().resolve<CompanyService>().fetchCompanies();
+    } catch (e) {
+      logE('error fetching companies ${e.toString()}');
+    }
   }
 
   Future<bool> signUp(String email, String password) async {
@@ -117,7 +133,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         lastname: _lastName,
         yearsOfPlaying: _yearsPlaying,
         instagram: _instagramUsername,
-        //supportTeamID: _supportTeamID,
+        supportTeamID: _supportTeamID,
       );
       return true;
     } on PostgrestException catch (e) {

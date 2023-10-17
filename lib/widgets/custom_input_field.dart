@@ -12,6 +12,7 @@ class CustomInputField extends StatefulWidget {
   final bool obscurable;
   final String? initialData;
   final TextEditingController? controller;
+  final VoidCallback? onTap;
 
   const CustomInputField({
     super.key,
@@ -24,6 +25,7 @@ class CustomInputField extends StatefulWidget {
     this.obscurable = false,
     this.initialData,
     this.controller,
+    this.onTap,
   });
 
   @override
@@ -61,12 +63,15 @@ class _CustomInputFieldState extends State<CustomInputField> {
             child: SizedBox(
               height: _validatorFailed ? 52.0 : 42.2,
               child: TextFormField(
+                canRequestFocus: widget.onTap == null,
+                controller: widget.controller,
                 initialValue: widget.initialData,
                 focusNode: _focusNode,
                 textAlignVertical: TextAlignVertical.center,
                 textInputAction: widget.textInputAction,
                 keyboardType: widget.keyboardType,
                 cursorColor: CustomColors.of(context).primary,
+                onTap: widget.onTap,
                 onChanged: (text) {
                   if (_hasText && text.isEmpty) _toggleHasText();
                   if (!_hasText && text.isNotEmpty) _toggleHasText();
