@@ -19,10 +19,9 @@ void main() async {
   initKiwi();
   await EnvironmentService.init();
 
-  await KiwiContainer().resolve<PersistentDataService>().init();
   final supabaseService = KiwiContainer().resolve<SupabaseService>();
-
   await supabaseService.init();
+  await KiwiContainer().resolve<PersistentDataService>().init();
 
   final hasSession = supabaseService.checkHasSession();
   String initialRoute = LoginPage.pageName;

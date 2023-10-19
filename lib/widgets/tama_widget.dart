@@ -79,8 +79,28 @@ class TamaWidget extends StatelessWidget {
 
   Image tamaImageWidget(BuildContext context, {required PlayerTama tama}) {
     final size = MediaQuery.of(context).size.width * 0.4;
-    if (playerTama.tama.imageUrl != null && playerTama.tama.imageUrl!.isNotEmpty) {
-      return Image.asset(playerTama.tama.imageUrl!, height: size, width: size);
+    if (playerTama.tama.imagePath!.isNotEmpty) {
+      return Image.network(
+        playerTama.tama.imageUrl,
+        height: size,
+        width: size,
+        loadingBuilder: (context, child, chunk) {
+          if (chunk == null) {
+            return child;
+          }
+          return Shimmer.fromColors(
+            baseColor: Colors.transparent,
+            highlightColor: Colors.grey.withOpacity(0.5),
+            child: ClipOval(
+              child: SizedBox(
+                width: size,
+                height: size,
+                child: Container(color: Colors.grey),
+              ),
+            ),
+          );
+        },
+      );
     }
     return Image.asset('assets/images/birch_tama.png', height: size, width: size);
   }

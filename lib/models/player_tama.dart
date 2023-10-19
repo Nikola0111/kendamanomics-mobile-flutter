@@ -14,6 +14,7 @@ class PlayerTama {
         id: tama.id,
         name: tama.name,
         imageUrl: tama.imageUrl,
+        imagePath: tama.imagePath,
         numOfTricks: tama.numOfTricks,
         tamasGroupID: tama.tamasGroupID,
       ),

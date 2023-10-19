@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:kendamanomics_mobile/constants.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tama.dart';
 import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
@@ -397,6 +398,18 @@ class PersistentDataService with LoggerMixin {
   }
 
   void updateTamasGroups({required List<TamasGroup> tamasGroups}) {
+    _tamaGroups.clear();
+    final tamas = _tamas.values.toList();
+    for (final group in tamasGroups) {
+      final tamasForGroup =
+          tamas.where((element) => element.tamasGroupID == group.id).toList().map((e) => PlayerTama.fromTama(tama: e)).toList();
+
+      final newGroup = TamasGroup(id: group.id, name: group.name, playerTamas: tamasForGroup);
+      if (group.id != null) {
+        _tamaGroups.add(newGroup);
+      }
+    }
+
     writeData();
   }
 
