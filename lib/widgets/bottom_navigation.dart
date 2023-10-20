@@ -39,7 +39,10 @@ class BottomNavigation extends StatelessWidget {
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
                     onPageUpdated(i);
-                    context.goNamed(items[i].pageName);
+                    context.goNamed(
+                      items[i].pageName,
+                      extra: items[i].extraData,
+                    );
                   },
                   child: Container(
                     padding: const EdgeInsets.all(2),
@@ -60,9 +63,28 @@ class BottomNavigation extends StatelessWidget {
 
   Widget _getItem({required BottomNavigationData data}) {
     if (data.isLocal) {
-      return Image.asset(data.pathOrUrl, fit: BoxFit.fitHeight);
+      return Image.asset(data.pathOrUrl!, fit: BoxFit.fitHeight);
     } else {
-      return Image.network(data.pathOrUrl, fit: BoxFit.cover);
+      if (data.pathOrUrl == null || data.pathOrUrl!.isEmpty) {
+        return Padding(
+          padding: const EdgeInsets.all(4),
+          child: Image.asset('assets/images/user_image_placeholder.png', fit: BoxFit.fitHeight),
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.all(4),
+          child: ClipOval(
+            child: Image.network(
+              data.pathOrUrl!,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, chunk) {
+                if (chunk == null) return child;
+                return Image.asset('assets/images/user_image_placeholder.png');
+              },
+            ),
+          ),
+        );
+      }
     }
   }
 

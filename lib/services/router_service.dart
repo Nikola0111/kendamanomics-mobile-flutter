@@ -8,9 +8,10 @@ import 'package:kendamanomics_mobile/pages/forgot_password_page.dart';
 import 'package:kendamanomics_mobile/pages/leaderboards.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/main_page_container.dart';
-import 'package:kendamanomics_mobile/pages/profile.dart';
+import 'package:kendamanomics_mobile/pages/profile_page.dart';
 import 'package:kendamanomics_mobile/pages/register_shell.dart';
 import 'package:kendamanomics_mobile/pages/select_company_page.dart';
+import 'package:kendamanomics_mobile/pages/settings_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:kendamanomics_mobile/pages/upload_trick.dart';
@@ -88,10 +89,12 @@ class RouterService {
             GoRoute(
               path: '/${Leaderboards.pageName}',
               name: Leaderboards.pageName,
-              pageBuilder: (context, state) => NoTransitionPage<void>(
-                key: state.pageKey,
-                child: const Leaderboards(),
-              ),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const Leaderboards(),
+                );
+              },
             ),
             GoRoute(
               path: '/${TamasPage.pageName}',
@@ -104,37 +107,53 @@ class RouterService {
               },
               routes: <RouteBase>[
                 GoRoute(
-                    path: TricksPage.pageName,
-                    name: TricksPage.pageName,
-                    pageBuilder: (context, state) {
-                      final tamaId = state.extra as String?;
-                      return _getPage(
-                        key: state.pageKey,
-                        child: TricksPage(tamaId: tamaId),
-                      );
-                    },
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: UploadTrick.pageName,
-                        name: UploadTrick.pageName,
-                        pageBuilder: (context, state) {
-                          final trickID = state.extra as String?;
-                          return _getPage(
-                            key: state.pageKey,
-                            child: UploadTrick(trickID: trickID),
-                          );
-                        },
-                      ),
-                    ]),
+                  path: TricksPage.pageName,
+                  name: TricksPage.pageName,
+                  pageBuilder: (context, state) {
+                    final tamaId = state.extra as String?;
+                    return _getPage(
+                      key: state.pageKey,
+                      child: TricksPage(tamaId: tamaId),
+                    );
+                  },
+                  routes: <RouteBase>[
+                    GoRoute(
+                      path: UploadTrick.pageName,
+                      name: UploadTrick.pageName,
+                      pageBuilder: (context, state) {
+                        final trickID = state.extra as String?;
+                        return _getPage(
+                          key: state.pageKey,
+                          child: UploadTrick(trickID: trickID),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
             GoRoute(
-              path: '/${Profile.pageName}',
-              name: Profile.pageName,
-              pageBuilder: (context, state) => NoTransitionPage<void>(
-                key: state.pageKey,
-                child: const Profile(),
-              ),
+              path: '/${ProfilePage.pageName}',
+              name: ProfilePage.pageName,
+              pageBuilder: (context, state) {
+                final userId = state.extra as String;
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: ProfilePage(userId: userId),
+                );
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                  path: SettingsPage.pageName,
+                  name: SettingsPage.pageName,
+                  pageBuilder: (context, state) {
+                    return NoTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const SettingsPage(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         )

@@ -9,15 +9,23 @@ class CompanyService with LoggerMixin {
 
   List<Company> get companies => _companies;
 
-  void fetchCompanies() async {
-    if (_fetched) return;
-    final data = await _supabase.rpc('fetch_all_companies');
-    _companies.clear();
+  CompanyService() {
+    fetchCompanies();
+  }
 
-    for (final map in data) {
-      _companies.add(Company.fromJson(json: map));
+  void fetchCompanies() async {
+    try {
+      if (_fetched) return;
+      final data = await _supabase.rpc('fetch_all_companies');
+      _companies.clear();
+
+      for (final map in data) {
+        _companies.add(Company.fromJson(json: map));
+      }
+      _fetched = true;
+    } catch (e) {
+      logE('error fetching companies ${e.toString()}');
     }
-    _fetched = true;
   }
 
   @override

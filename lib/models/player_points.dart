@@ -24,7 +24,7 @@ class PlayerPoints {
       overallPoints: json['leaderboard_overall_points'] ?? 0,
       playerName: json['player_firstname'] ?? 'default name',
       playerLastName: json['player_lastname'] ?? 'default last name',
-      playerId: json['leaderboard_player_id'] ?? 'no player found',
+      playerId: json['player_id'] ?? 'no player found',
       rank: json['leaderboard_kendamanomics_position'],
     );
   }

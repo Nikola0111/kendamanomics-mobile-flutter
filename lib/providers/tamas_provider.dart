@@ -51,6 +51,8 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
       // in compute fill the tricks for other tamas?
       _state = TamasProviderState.success;
+
+      // TODO add check if disposed
       notifyListeners();
     } on PostgrestException catch (e) {
       logE('error updating tamas data: ${e.toString()}');

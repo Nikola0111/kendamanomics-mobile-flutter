@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/services/user_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,6 +10,7 @@ enum LoginState { waiting, loading, success, errorCredentials, errorServer }
 
 class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
+  final _userService = KiwiContainer().resolve<UserService>();
   String _email = '';
   String _password = '';
   bool _isButtonEnabled = false;
@@ -35,6 +37,7 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
     try {
       await _authService.signIn(_email, _password);
       await _authService.fetchPlayerData();
+      await getSignedUrl();
       _state = LoginState.success;
       return true;
     } on AuthException catch (e) {
@@ -54,6 +57,16 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
     if (isValid != _isButtonEnabled) {
       _isButtonEnabled = isValid;
       notifyListeners();
+    }
+  }
+
+  Future<void> getSignedUrl() async {
+    if (_authService.player == null && _authService.player!.playerImageUrl != null) return;
+    try {
+      final ret = await _userService.getSignedProfilePictureUrl();
+      _authService.player = _authService.player!.copyWith(playerImageUrl: ret);
+    } catch (e) {
+      logE('Error getting signed URL: $e');
     }
   }
 

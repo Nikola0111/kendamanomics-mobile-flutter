@@ -7,6 +7,7 @@ class Tama {
   final String? name;
   final String? imagePath;
   final String? tamasGroupID;
+  String? tamaGroupName;
   final int? numOfTricks;
   final List<TamaTrickProgress>? tricks;
   String imageUrl;
@@ -18,6 +19,7 @@ class Tama {
     required this.numOfTricks,
     required this.imageUrl,
     this.tamasGroupID,
+    this.tamaGroupName,
     List<TamaTrickProgress>? tricks,
   }) : tricks = tricks ?? <TamaTrickProgress>[];
 

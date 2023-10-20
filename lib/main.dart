@@ -5,10 +5,12 @@ import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/app_provider.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/services/company_service.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
 import 'package:kendamanomics_mobile/services/supabase_service.dart';
+import 'package:kendamanomics_mobile/services/user_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
@@ -21,13 +23,28 @@ void main() async {
 
   final supabaseService = KiwiContainer().resolve<SupabaseService>();
   await supabaseService.init();
+  KiwiContainer().resolve<CompanyService>();
+
   await KiwiContainer().resolve<PersistentDataService>().init();
 
   final hasSession = supabaseService.checkHasSession();
   String initialRoute = LoginPage.pageName;
   if (hasSession) {
-    initialRoute = TamasPage.pageName;
-    await KiwiContainer().resolve<AuthService>().fetchPlayerData();
+    try {
+      await KiwiContainer().resolve<AuthService>().fetchPlayerData();
+      initialRoute = TamasPage.pageName;
+    } catch (e) {
+      initialRoute = LoginPage.pageName;
+      print('failed fetching player ${e.toString()}');
+    }
+
+    try {
+      await KiwiContainer().resolve<UserService>().getSignedProfilePictureUrl();
+      initialRoute = TamasPage.pageName;
+    } catch (e) {
+      initialRoute = LoginPage.pageName;
+      print('failed fetching profile image ${e.toString()}');
+    }
   }
 
   KiwiContainer().resolve<RouterService>().init(initialRoute: initialRoute);

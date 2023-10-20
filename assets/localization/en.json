@@ -11,6 +11,7 @@
     "buttons": {
         "create_an_account": "create an account",
         "login": "login",
+        "logout": "logout",
         "change_password": "change password",
         "reset_password": "send email",
         "forgot_password": "forgot password?",
@@ -75,5 +76,17 @@
         "kendamanomics": "kendamanomics",
         "competition": "competition",
         "overall": "overall"
+    },
+    "profile_page" : {
+        "settings": "settings",
+        "damx": "damx",
+        "points": "points",
+        "pick_team":"Pick team"
+    },
+    "settings_page": {
+        "name": "name",
+        "team": "team",
+        "username": "username",
+        "email": "email"
     }
 }

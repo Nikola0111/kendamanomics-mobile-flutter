@@ -1,5 +1,6 @@
-import 'package:kendamanomics_mobile/models/badge.dart';
 import 'package:kendamanomics_mobile/models/tama.dart';
+
+enum BadgeType { completedTama, boughtTama, none }
 
 class PlayerTama {
   final Tama tama;

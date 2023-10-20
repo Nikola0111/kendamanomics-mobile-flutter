@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
-import 'package:kendamanomics_mobile/services/company_service.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_description.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_form.dart';
 import 'package:kendamanomics_mobile/widgets/register-shell/register_ranking.dart';
@@ -91,18 +90,6 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   void setCurrentPage(int page) {
     _currentPage = page;
     notifyListeners();
-  }
-
-  RegisterProvider() {
-    _fetchCompanies();
-  }
-
-  void _fetchCompanies() async {
-    try {
-      KiwiContainer().resolve<CompanyService>().fetchCompanies();
-    } catch (e) {
-      logE('error fetching companies ${e.toString()}');
-    }
   }
 
   Future<bool> signUp(String email, String password) async {

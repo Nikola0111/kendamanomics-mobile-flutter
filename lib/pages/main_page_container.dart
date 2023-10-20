@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
+import 'package:kendamanomics_mobile/models/bottom_navigation_data.dart';
 import 'package:kendamanomics_mobile/providers/main_page_container_provider.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class MainPageContainer extends StatelessWidget {
   final Widget child;
@@ -25,12 +27,12 @@ class MainPageContainer extends StatelessWidget {
                   key: context.read<MainPageContainerProvider>().contentGlobalKey,
                   child: child,
                 ),
-                Selector<MainPageContainerProvider, int>(
-                  selector: (_, provider) => provider.pageIndex,
-                  builder: (context, pageIndex, child) {
+                Selector<MainPageContainerProvider, Tuple2<int, List<BottomNavigationData>>>(
+                  selector: (_, provider) => Tuple2(provider.pageIndex, provider.bottomNav),
+                  builder: (context, tuple, child) {
                     return BottomNavigation(
-                      items: context.read<MainPageContainerProvider>().bottomNav,
-                      pageIndex: pageIndex,
+                      items: tuple.item2,
+                      pageIndex: tuple.item1,
                       onPageUpdated: (index) => context.read<MainPageContainerProvider>().pageIndex = index,
                     );
                   },

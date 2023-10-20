@@ -20,20 +20,43 @@ class LeaderboardType extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: ColoredBox(
-        color: isActive ? CustomColors.of(context).selectedLeaderboard : color,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-          child: Center(
-            child: Text(
-              leaderboardName,
-              style: CustomTextStyles.of(context).light16.apply(
-                    color: isActive ? CustomColors.of(context).primaryText : CustomColors.of(context).selectedLeaderboard,
-                  ),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.27,
+        child: ColoredBox(
+          color: isActive ? CustomColors.of(context).selectedLeaderboard : color,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4.0),
+            child: Center(
+              child: Text(
+                overflow: TextOverflow.ellipsis,
+                leaderboardName,
+                maxLines: 1,
+                style: getFontSize(context, leaderboardName).apply(
+                  color: isActive ? CustomColors.of(context).primaryText : CustomColors.of(context).selectedLeaderboard,
+                ),
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  TextStyle getFontSize(BuildContext context, String text) {
+    double boxWidth = MediaQuery.of(context).size.width * 0.27;
+    if (boxWidth > 110.0) {
+      final customResize = CustomTextStyles.of(context).light16;
+      return customResize;
+    } else if (boxWidth < 102.0) {
+      final customResize = CustomTextStyles.of(context).light15;
+      return customResize;
+    } else if (boxWidth <= 95.0) {
+      final customResize = CustomTextStyles.of(context).light13;
+      return customResize;
+    } else if (boxWidth <= 89.0) {
+      final customResize = CustomTextStyles.of(context).light12;
+      return customResize;
+    }
+    return CustomTextStyles.of(context).light15;
   }
 }

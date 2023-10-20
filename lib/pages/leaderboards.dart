@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
-import 'package:kendamanomics_mobile/pages/profile.dart';
+import 'package:kendamanomics_mobile/pages/profile_page.dart';
 import 'package:kendamanomics_mobile/providers/leaderboards_provider.dart';
+import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/widgets/leaderboard_type.dart';
 import 'package:kendamanomics_mobile/widgets/player_entry.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,31 +27,39 @@ class Leaderboards extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    LeaderboardType(
-                      leaderboardName: 'leaderboards.kendamanomics'.tr(),
-                      color: CustomColors.of(context).primaryText,
-                      onPressed: () {
-                        provider.setActiveLeaderboard(LeaderboardTab.kendamanomics);
-                      },
-                      isActive: provider.activeLeaderboard == LeaderboardTab.kendamanomics,
+                    Expanded(
+                      child: LeaderboardType(
+                        leaderboardName: 'leaderboards.kendamanomics'.tr(),
+                        color: CustomColors.of(context).primaryText,
+                        onPressed: () {
+                          provider.setActiveLeaderboard(LeaderboardTab.kendamanomics);
+                        },
+                        isActive: provider.activeLeaderboard == LeaderboardTab.kendamanomics,
+                      ),
                     ),
-                    LeaderboardType(
-                      leaderboardName: 'leaderboards.competition'.tr(),
-                      color: CustomColors.of(context).timelineColor,
-                      onPressed: () {
-                        provider.setActiveLeaderboard(LeaderboardTab.competition);
-                      },
-                      isActive: provider.activeLeaderboard == LeaderboardTab.competition,
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      child: LeaderboardType(
+                        leaderboardName: 'leaderboards.competition'.tr(),
+                        color: CustomColors.of(context).timelineColor,
+                        onPressed: () {
+                          provider.setActiveLeaderboard(LeaderboardTab.competition);
+                        },
+                        isActive: provider.activeLeaderboard == LeaderboardTab.competition,
+                      ),
                     ),
-                    LeaderboardType(
-                      leaderboardName: 'leaderboards.overall'.tr(),
-                      color: CustomColors.of(context).borderColor,
-                      onPressed: () {
-                        provider.setActiveLeaderboard(LeaderboardTab.overall);
-                      },
-                      isActive: provider.activeLeaderboard == LeaderboardTab.overall,
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      child: LeaderboardType(
+                        leaderboardName: 'leaderboards.overall'.tr(),
+                        color: CustomColors.of(context).borderColor,
+                        onPressed: () {
+                          provider.setActiveLeaderboard(LeaderboardTab.overall);
+                        },
+                        isActive: provider.activeLeaderboard == LeaderboardTab.overall,
+                      ),
                     ),
                   ],
                 ),
@@ -65,7 +75,11 @@ class Leaderboards extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: PlayerEntry(
                         onTap: () {
-                          context.pushNamed(Profile.pageName);
+                          final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
+                          context.pushNamed(
+                            ProfilePage.pageName,
+                            extra: ret,
+                          );
                         },
                         playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
                         points: provider.myPlayer?.kendamanomicsPoints,
@@ -160,7 +174,12 @@ class Leaderboards extends StatelessWidget {
           }
         }();
         return PlayerEntry(
-          onTap: () => context.pushNamed(Profile.pageName),
+          onTap: () {
+            context.pushNamed(
+              ProfilePage.pageName,
+              extra: leaderboardData[index].playerId,
+            );
+          },
           playerName: playerName,
           points: points,
         );

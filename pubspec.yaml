@@ -26,8 +26,10 @@ dependencies:
   video_player: ^2.7.2
   webview_flutter: ^4.2.4
   url_launcher: ^6.1.14
+  tuple: ^2.0.2
   app_group_directory: ^2.0.0
   path_provider: ^2.1.1
+  flutter_gif: ^0.0.4
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +44,7 @@ flutter:
     - assets/images/
     - assets/icon/
     - assets/config/
+    - assets/gif/
     - assets/statics/
     - assets/release_configs/
 

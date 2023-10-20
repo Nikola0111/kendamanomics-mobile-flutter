@@ -11,10 +11,9 @@ class LeaderboardsService with LoggerMixin {
     try {
       final response = await _supabase.rpc('get_leaderboard_kendamanomics_points');
       if (response != null) {
-        //remove afterwards , test if its needed for every function
         final data = response as List<dynamic>;
         final leaderboardData = List<PlayerPoints>.from(data.map((points) {
-          return PlayerPoints.fromJson(json: points as Map<String, dynamic>);
+          return PlayerPoints.fromJson(json: points);
         }));
         return leaderboardData;
       } else {

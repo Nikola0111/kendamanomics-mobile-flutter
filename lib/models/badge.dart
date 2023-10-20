@@ -1,1 +1,0 @@
-enum BadgeType { completedTama, boughtTama }
