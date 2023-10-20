@@ -17,6 +17,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _progressData = <String, int>{};
   TamasProviderState _state = TamasProviderState.loading;
   int _currentPage = 0;
+  bool _isDisposed = false;
 
   List<TamasGroup> get tamasGroup => _tamasGroups;
   int get currentPage => _currentPage;
@@ -52,8 +53,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       // in compute fill the tricks for other tamas?
       _state = TamasProviderState.success;
 
-      // TODO add check if disposed
-      notifyListeners();
+      _notify();
     } on PostgrestException catch (e) {
       logE('error updating tamas data: ${e.toString()}');
       if (retry > 0) {
@@ -62,7 +62,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       }
 
       _state = TamasProviderState.errorFetchingProgress;
-      notifyListeners();
+      _notify();
     }
   }
 
@@ -107,8 +107,20 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       }
 
       _state = TamasProviderState.errorFetchingProgress;
+      _notify();
+    }
+  }
+
+  void _notify() {
+    if (!_isDisposed) {
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   @override

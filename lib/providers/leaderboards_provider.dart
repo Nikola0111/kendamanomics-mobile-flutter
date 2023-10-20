@@ -26,6 +26,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   LeaderboardsProviderState _state = LeaderboardsProviderState.loading;
   PlayerPoints? _myPlayer;
   int _listLength = 0;
+  bool _isDisposed = false;
 
   LeaderboardTab get activeLeaderboard => _activeLeaderboard;
   LeaderboardsProviderState get state => _state;
@@ -81,7 +82,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
       logE('Error fetching leaderboard data: $e');
       _state = LeaderboardsProviderState.errorFetchingLeaderboard;
     }
-    notifyListeners();
+    _notify();
   }
 
   Future<void> fetchMyKendamaStats() async {
@@ -93,7 +94,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
       logE('Error fetching user data: $e');
       _state = LeaderboardsProviderState.errorFetchingLeaderboard;
     }
-    notifyListeners();
+    _notify();
   }
 
   void setActiveLeaderboard(LeaderboardTab type) {
@@ -101,6 +102,18 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
     _state = LeaderboardsProviderState.loading;
     notifyListeners();
     fetchLeaderboardData(type);
+  }
+
+  void _notify() {
+    if (!_isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   @override

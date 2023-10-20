@@ -22,6 +22,7 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
   String _playerName = '';
   Company? _company;
   ProfilePageState _state = ProfilePageState.waiting;
+  bool _isDisposed = false;
 
   List<PlayerTama> get playerTamas => _playerTamas;
   Player? get player => _player;
@@ -59,7 +60,7 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
         _authService.updatePlayerImage(_player!.playerImageUrl!);
         if (_player?.playerImageUrl != null) await getSignedUrl();
       }
-      notifyListeners();
+      _notify();
     } catch (e) {
       logE('Error uploading user image, ${e.toString}');
     }
@@ -81,7 +82,7 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
       _player = ret;
       _playerName = '${_player!.firstName} ${_player!.lastName}';
       if (_player?.playerImageUrl != null && _player!.playerImageUrl!.isNotEmpty) await getSignedUrl();
-      notifyListeners();
+      _notify();
     } catch (e) {
       logE('Error fetching  player data: $e');
     }
@@ -97,7 +98,7 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
       logE('Error fetching player badges data: $e');
       _state = ProfilePageState.error;
     }
-    notifyListeners();
+    _notify();
   }
 
   Future<void> updateCompany(String companyID) async {
@@ -106,10 +107,22 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
       final comp = await _userService.updateCompany(companyID: companyID, playerID: _player!.id);
       _authService.player = _authService.player!.copyWith(company: comp);
       _company = comp;
-      notifyListeners();
+      _notify();
     } catch (e) {
       logE('error updating company: ${e.toString()}');
     }
+  }
+
+  void _notify() {
+    if (!_isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   @override
