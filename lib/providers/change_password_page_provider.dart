@@ -4,14 +4,14 @@ import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kiwi/kiwi.dart';
 
-enum ChangePasswordState { waiting, success, errorPassword, errorServer }
+enum ChangePasswordState { none, loading, success, errorPassword, errorServer }
 
 class ChangePasswordPageProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
   String _verificationCode = '';
   String _newPassword = '';
   String _confirmNewPassword = '';
-  ChangePasswordState _state = ChangePasswordState.waiting;
+  ChangePasswordState _state = ChangePasswordState.none;
   bool _isButtonEnabled = false;
 
   String get verificationCode => _verificationCode;
@@ -49,8 +49,11 @@ class ChangePasswordPageProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> updateUserPassword(String email) async {
+    _state = ChangePasswordState.loading;
+    notifyListeners();
     try {
       await _authService.updatePassword(email, _confirmNewPassword);
+      await _authService.signOut();
       _state = ChangePasswordState.success;
       return true;
     } catch (e) {
@@ -71,7 +74,7 @@ class ChangePasswordPageProvider extends ChangeNotifier with LoggerMixin {
   }
 
   void resetState() {
-    _state = ChangePasswordState.waiting;
+    _state = ChangePasswordState.none;
   }
 
   @override

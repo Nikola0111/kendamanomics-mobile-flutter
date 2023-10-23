@@ -4,7 +4,7 @@ import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kiwi/kiwi.dart';
 
-enum ForgotPasswordPageState { waiting, success, errorEmail }
+enum ForgotPasswordPageState { loading, waiting, success, errorEmail }
 
 class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
@@ -30,18 +30,20 @@ class ForgotPasswordPageProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> sendPasswordResetCode() async {
-    _state = ForgotPasswordPageState.waiting;
+    _state = ForgotPasswordPageState.loading;
     notifyListeners();
+    bool ret = false;
     try {
       await _authService.passwordResetRequest(_email);
       _state = ForgotPasswordPageState.success;
-      return true;
+      ret = true;
     } catch (e) {
       logE('Error requesting password reset with the email: $_email ${e.toString()}');
       _state = ForgotPasswordPageState.errorEmail;
-      notifyListeners();
-      return false;
+      ret = false;
     }
+    notifyListeners();
+    return ret;
   }
 
   void resetState() {

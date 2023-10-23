@@ -30,6 +30,7 @@ class ForgotPasswordPage extends StatelessWidget {
             child: Consumer<ForgotPasswordPageProvider>(
               builder: (context, provider, child) {
                 switch (provider.state) {
+                  case ForgotPasswordPageState.loading:
                   case ForgotPasswordPageState.waiting:
                   case ForgotPasswordPageState.success:
                     break;
@@ -71,9 +72,9 @@ class ForgotPasswordPage extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: CustomButton(
-                            text: 'buttons.reset_password'.tr(),
+                            isLoading: provider.state == ForgotPasswordPageState.loading,
                             isEnabled: provider.isButtonEnabled,
-                            isLoading: provider.state == ForgotPasswordPageState.waiting,
+                            text: 'buttons.reset_password'.tr(),
                             customTextColor: CustomColors.of(context).primary,
                             onPressed: () async {
                               FocusManager.instance.primaryFocus?.unfocus();

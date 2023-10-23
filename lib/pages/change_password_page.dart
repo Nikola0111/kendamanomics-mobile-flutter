@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
-import 'package:kendamanomics_mobile/pages/leaderboards.dart';
+import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/providers/change_password_page_provider.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
@@ -31,7 +31,8 @@ class ChangePasswordPage extends StatelessWidget {
             child: Consumer<ChangePasswordPageProvider>(
               builder: (context, provider, child) {
                 switch (provider.state) {
-                  case ChangePasswordState.waiting:
+                  case ChangePasswordState.none:
+                  case ChangePasswordState.loading:
                   case ChangePasswordState.success:
                     break;
                   case ChangePasswordState.errorPassword:
@@ -101,6 +102,7 @@ class ChangePasswordPage extends StatelessWidget {
                           child: CustomButton(
                             text: 'buttons.change_password'.tr(),
                             isEnabled: provider.isButtonEnabled,
+                            isLoading: provider.state == ChangePasswordState.loading,
                             customTextColor: CustomColors.of(context).primary,
                             onPressed: () async {
                               FocusManager.instance.primaryFocus?.unfocus();
@@ -109,7 +111,7 @@ class ChangePasswordPage extends StatelessWidget {
                               final updatePasswordSuccessful = await provider.updateUserPassword(email);
                               if (!updatePasswordSuccessful) return;
                               if (context.mounted) {
-                                context.goNamed(Leaderboards.pageName);
+                                context.goNamed(LoginPage.pageName);
                               }
                             },
                           ),
