@@ -71,5 +71,5 @@ class LeaderboardsService with LoggerMixin {
   }
 
   @override
-  String get className => 'LeaderboarsdServices';
+  String get className => 'LeaderboardServices';
 }
