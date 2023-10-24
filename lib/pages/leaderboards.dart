@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
+import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/extensions/string_extension.dart';
 import 'package:kendamanomics_mobile/pages/profile_page.dart';
 import 'package:kendamanomics_mobile/providers/leaderboards_provider.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
@@ -17,6 +19,14 @@ class Leaderboards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tabWidth = MediaQuery.sizeOf(context).width * 0.27;
+    final tabFontSize = 'leaderboards.kendamanomics'.tr().calculateConstrainedFontSize(
+          context: context,
+          textStyle: CustomTextStyles.of(context).light16,
+          maxWidth: tabWidth,
+          maxHeight: 16,
+          minFontSize: 10,
+        );
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: ChangeNotifierProvider(
@@ -31,6 +41,7 @@ class Leaderboards extends StatelessWidget {
                   children: [
                     Expanded(
                       child: LeaderboardType(
+                        fontSize: tabFontSize,
                         leaderboardName: 'leaderboards.kendamanomics'.tr(),
                         color: CustomColors.of(context).primaryText,
                         onPressed: () {
@@ -42,6 +53,7 @@ class Leaderboards extends StatelessWidget {
                     const SizedBox(width: 10.0),
                     Expanded(
                       child: LeaderboardType(
+                        fontSize: tabFontSize,
                         leaderboardName: 'leaderboards.competition'.tr(),
                         color: CustomColors.of(context).timelineColor,
                         onPressed: () {
@@ -53,6 +65,7 @@ class Leaderboards extends StatelessWidget {
                     const SizedBox(width: 10.0),
                     Expanded(
                       child: LeaderboardType(
+                        fontSize: tabFontSize,
                         leaderboardName: 'leaderboards.overall'.tr(),
                         color: CustomColors.of(context).borderColor,
                         onPressed: () {

@@ -50,7 +50,9 @@ class AuthService with LoggerMixin {
 
     if (supportTeamID != null) {
       final companyJson = await _supabase.from('companies').select().eq('company_id', supportTeamID).single();
-      player = player!.copyWith(company: Company.fromJson(json: companyJson));
+      final comp = Company.fromJson(json: companyJson);
+      player = player!.copyWith(company: comp);
+      playerCompany = comp;
     }
   }
 

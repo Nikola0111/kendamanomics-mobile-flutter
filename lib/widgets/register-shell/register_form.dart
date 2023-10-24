@@ -111,6 +111,7 @@ class RegisterForm extends StatelessWidget {
                           hintText: 'input_fields.support'.tr(),
                           controller: provider.supportTeamNameController,
                           onTap: () async {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             final data = await context.pushNamed(SelectCompanyPage.pageName);
                             if (data != null) {
                               final map = data as Map<String, dynamic>;

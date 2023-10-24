@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/extensions/string_extension.dart';
 import 'package:kendamanomics_mobile/pages/select_company_page.dart';
 import 'package:kendamanomics_mobile/pages/settings_page.dart';
 import 'package:kendamanomics_mobile/providers/profile_page_provider.dart';
@@ -27,6 +28,14 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tabWidth = MediaQuery.sizeOf(context).width * 0.27;
+    final tabFontSize = 'leaderboards.kendamanomics'.tr().calculateConstrainedFontSize(
+          context: context,
+          textStyle: CustomTextStyles.of(context).light16,
+          maxWidth: tabWidth,
+          maxHeight: 16,
+          minFontSize: 10,
+        );
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: ChangeNotifierProvider(
@@ -60,52 +69,38 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      children: [
-                        LeaderboardType(
-                          leaderboardName: 'leaderboards.kendamanomics'.tr(),
-                          color: CustomColors.of(context).primaryText,
-                          onPressed: () {},
-                          isActive: true,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          (provider.player?.playerPoints?.kendamanomicsPoints ?? 0).toString(),
-                          style: CustomTextStyles.of(context).regular18.apply(color: CustomColors.of(context).primaryText),
-                        )
-                      ],
+                    Expanded(
+                      child: _leaderboardTab(
+                        context,
+                        tabFontSize: tabFontSize,
+                        title: 'leaderboards.kendamanomics'.tr(),
+                        backgroundColor: CustomColors.of(context).primaryText,
+                        isActive: true,
+                        points: provider.player?.playerPoints?.kendamanomicsPoints,
+                      ),
                     ),
-                    Column(
-                      children: [
-                        LeaderboardType(
-                          leaderboardName: 'leaderboards.competition'.tr(),
-                          color: CustomColors.of(context).timelineColor,
-                          onPressed: () {},
-                          isActive: false,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          (provider.player?.playerPoints?.competitionPoints ?? 0).toString(),
-                          style: CustomTextStyles.of(context).regular18.apply(color: CustomColors.of(context).primaryText),
-                        )
-                      ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _leaderboardTab(
+                        context,
+                        tabFontSize: tabFontSize,
+                        title: 'leaderboards.competition'.tr(),
+                        backgroundColor: CustomColors.of(context).timelineColor,
+                        isActive: false,
+                        points: provider.player?.playerPoints?.competitionPoints,
+                      ),
                     ),
-                    Column(
-                      children: [
-                        LeaderboardType(
-                          leaderboardName: 'leaderboards.overall'.tr(),
-                          color: CustomColors.of(context).borderColor,
-                          onPressed: () {},
-                          isActive: false,
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          (provider.player?.playerPoints?.overallPoints ?? 0).toString(),
-                          style: CustomTextStyles.of(context).regular18.apply(color: CustomColors.of(context).primaryText),
-                        )
-                      ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _leaderboardTab(
+                        context,
+                        tabFontSize: tabFontSize,
+                        title: 'leaderboards.overall'.tr(),
+                        backgroundColor: CustomColors.of(context).borderColor,
+                        isActive: false,
+                        points: provider.player?.playerPoints?.overallPoints,
+                      ),
                     ),
                   ],
                 ),
@@ -132,6 +127,33 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _leaderboardTab(
+    BuildContext context, {
+    required double tabFontSize,
+    required String title,
+    required Color backgroundColor,
+    required bool isActive,
+    int? points,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        LeaderboardType(
+          fontSize: tabFontSize,
+          leaderboardName: title,
+          color: backgroundColor,
+          isActive: isActive,
+        ),
+        const SizedBox(height: 4.0),
+        Text(
+          (points ?? 0).toString(),
+          textAlign: TextAlign.center,
+          style: CustomTextStyles.of(context).regular18.apply(color: CustomColors.of(context).primaryText),
+        )
+      ],
     );
   }
 }
