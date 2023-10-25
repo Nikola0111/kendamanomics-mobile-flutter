@@ -68,6 +68,10 @@
     "submission_log_texts": {
         "submitted": "user submitted",
         "denied": "denied by admin",
+        "denied_out_of_frame": "denied for \"out of frame\" ",
+        "denied_incorrect_trick": "denied for \"incorrect trick\" ",
+        "denied_inappropriate_behaviour": "denied for \"inappropriate behaviour\" ",
+        "denied_too_long": "denied for \"video too long\" ",
         "laced": "accepted by admin",
         "revoked": "revoked by user",
         "awarded": "+1 point awarded to user for "

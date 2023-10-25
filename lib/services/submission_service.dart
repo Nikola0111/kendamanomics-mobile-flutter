@@ -103,8 +103,16 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
       'trick_id': trickID,
     });
     _currentSubmissionLogs.clear();
+    final deniedList = [
+      SubmissionStatus.deniedIncorrectTrick,
+      SubmissionStatus.deniedInappropriateBehaviour,
+      SubmissionStatus.deniedTooLong,
+      SubmissionStatus.deniedOutOfFrame,
+    ];
     for (int i = 0; i < ret.length; i++) {
-      _currentSubmissionLogs.add(SubmissionLog.fromJson(json: ret[i]));
+      final log = SubmissionLog.fromJson(json: ret[i]);
+      if (deniedList.contains(log.status)) _currentSubmissionLogs.add(log.copyWith(newStatus: SubmissionStatus.denied));
+      _currentSubmissionLogs.add(log);
     }
 
     sendEvent(SubmissionServiceEvent.submissionLogsFetched, params: [_currentSubmissionLogs.isNotEmpty]);

@@ -48,6 +48,10 @@ class TrickProgress extends StatelessWidget {
         );
       case SubmissionStatus.inReview:
       case SubmissionStatus.denied:
+      case SubmissionStatus.deniedOutOfFrame:
+      case SubmissionStatus.deniedTooLong:
+      case SubmissionStatus.deniedInappropriateBehaviour:
+      case SubmissionStatus.deniedIncorrectTrick:
       case SubmissionStatus.awarded:
       case SubmissionStatus.laced:
         return TrickVideoPlayer(submission: submission);
@@ -81,6 +85,10 @@ class TrickProgress extends StatelessWidget {
         return const [SizedBox.shrink()];
       case SubmissionStatus.inReview:
       case SubmissionStatus.denied:
+      case SubmissionStatus.deniedOutOfFrame:
+      case SubmissionStatus.deniedTooLong:
+      case SubmissionStatus.deniedInappropriateBehaviour:
+      case SubmissionStatus.deniedIncorrectTrick:
         return [
           CustomButton(
             text: 'buttons.revoke'.tr(),

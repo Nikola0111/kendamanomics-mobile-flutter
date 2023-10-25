@@ -28,4 +28,13 @@ class SubmissionLog {
       status: SubmissionStatus.fromString(data['submission_log_event']),
     );
   }
+
+  SubmissionLog copyWith({SubmissionStatus? newStatus}) {
+    return SubmissionLog(
+      timestamp: timestamp,
+      status: newStatus ?? status,
+      formattedDate: formattedDate,
+      formattedTime: formattedTime,
+    );
+  }
 }

@@ -67,7 +67,7 @@ class TamaWidget extends StatelessWidget {
         ),
         Text(
           playerTama.tama.name ?? 'default_titles.tama'.tr(),
-          style: CustomTextStyles.of(context).regular16,
+          style: CustomTextStyles.of(context).regular18.copyWith(letterSpacing: 1),
         ),
       ],
     );

@@ -44,6 +44,10 @@ class SingleTrick extends StatelessWidget {
       case SubmissionStatus.laced:
         return Image.asset('assets/icon/icon_trick_approved.png', height: 18, width: 18);
       case SubmissionStatus.denied:
+      case SubmissionStatus.deniedOutOfFrame:
+      case SubmissionStatus.deniedTooLong:
+      case SubmissionStatus.deniedInappropriateBehaviour:
+      case SubmissionStatus.deniedIncorrectTrick:
       case SubmissionStatus.revoked:
         return Image.asset('assets/icon/icon_trick_denied.png', height: 18, width: 18);
       case SubmissionStatus.inReview:

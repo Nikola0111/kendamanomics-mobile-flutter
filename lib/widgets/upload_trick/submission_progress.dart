@@ -5,6 +5,7 @@ import 'package:kendamanomics_mobile/providers/main_page_container_provider.dart
 import 'package:kendamanomics_mobile/providers/submission_progress_provider.dart';
 import 'package:kendamanomics_mobile/widgets/upload_trick/submission_logs.dart';
 import 'package:kendamanomics_mobile/widgets/upload_trick/trick_progress.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 
 class SubmissionProgress extends StatelessWidget {
@@ -28,9 +29,10 @@ class SubmissionProgress extends StatelessWidget {
             numOfSubtitleLines: provider.numberOfSubtitleLines,
           );
 
-          return PageView(
+          return PreloadPageView(
             controller: provider.controller,
             scrollDirection: Axis.vertical,
+            preloadPagesCount: 1,
             children: [
               SizedBox(
                 height: listItemHeight,

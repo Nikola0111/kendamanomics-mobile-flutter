@@ -5,6 +5,7 @@ import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/submission_service.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum SubmissionProgressEnum { loading, success, error }
@@ -12,7 +13,7 @@ enum SubmissionProgressEnum { loading, success, error }
 class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
   final _submissionService = KiwiContainer().resolve<SubmissionService>();
-  final _controller = PageController();
+  final _controller = PreloadPageController();
   final String? trickID;
   final Submission _submission = Submission();
   double listItemHeight = 0.0;
@@ -22,7 +23,7 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   Trick? get trick => _trick;
   Submission get submission => _submission;
   SubmissionProgressEnum get state => _state;
-  PageController get controller => _controller;
+  PreloadPageController get controller => _controller;
   int get numberOfSubtitleLines {
     switch (_submission.status) {
       case SubmissionStatus.revoked:
@@ -30,6 +31,10 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
         return 0;
       case SubmissionStatus.inReview:
       case SubmissionStatus.denied:
+      case SubmissionStatus.deniedOutOfFrame:
+      case SubmissionStatus.deniedTooLong:
+      case SubmissionStatus.deniedInappropriateBehaviour:
+      case SubmissionStatus.deniedIncorrectTrick:
       case SubmissionStatus.laced:
       case SubmissionStatus.awarded:
         return 1;

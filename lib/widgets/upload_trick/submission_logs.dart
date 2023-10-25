@@ -121,6 +121,30 @@ class SubmissionLogs extends StatelessWidget {
           TextSpan(text: '$first ', style: normalStyle),
           TextSpan(text: trick?.name, style: statusStyle),
         ];
+      case SubmissionStatus.deniedOutOfFrame:
+        final second = 'submission_log_texts.denied_out_of_frame'.tr();
+        return [
+          TextSpan(text: trick?.name, style: statusStyle),
+          TextSpan(text: ' $second', style: normalStyle),
+        ];
+      case SubmissionStatus.deniedTooLong:
+        final second = 'submission_log_texts.denied_too_long'.tr();
+        return [
+          TextSpan(text: trick?.name, style: statusStyle),
+          TextSpan(text: ' $second', style: normalStyle),
+        ];
+      case SubmissionStatus.deniedInappropriateBehaviour:
+        final second = 'submission_log_texts.denied_inappropriate_behaviour'.tr();
+        return [
+          TextSpan(text: trick?.name, style: statusStyle),
+          TextSpan(text: ' $second', style: normalStyle),
+        ];
+      case SubmissionStatus.deniedIncorrectTrick:
+        final second = 'submission_log_texts.denied_incorrect_trick'.tr();
+        return [
+          TextSpan(text: trick?.name, style: statusStyle),
+          TextSpan(text: ' $second', style: normalStyle),
+        ];
       case SubmissionStatus.denied:
         final second = 'submission_log_texts.denied'.tr();
         return [

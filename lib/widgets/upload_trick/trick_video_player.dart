@@ -70,6 +70,10 @@ class TrickVideoPlayer extends StatelessWidget {
           ).tr(),
           const SizedBox(height: 12),
         ];
+      case SubmissionStatus.deniedIncorrectTrick:
+      case SubmissionStatus.deniedInappropriateBehaviour:
+      case SubmissionStatus.deniedOutOfFrame:
+      case SubmissionStatus.deniedTooLong:
       case SubmissionStatus.denied:
         return [
           Text(

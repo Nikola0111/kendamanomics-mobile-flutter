@@ -3,6 +3,10 @@ enum SubmissionStatus {
   inReview('inReview'),
   denied('denied'),
   revoked('revoked'),
+  deniedIncorrectTrick('denied_incorrect_trick'),
+  deniedOutOfFrame('denied_out_of_frame'),
+  deniedInappropriateBehaviour('denied_inappropriate_behaviour'),
+  deniedTooLong('denied_too_long'),
   laced('laced'),
   awarded('awarded');
 
@@ -17,6 +21,14 @@ enum SubmissionStatus {
         return SubmissionStatus.inReview;
       case 'denied':
         return SubmissionStatus.denied;
+      case 'denied_incorrect_trick':
+        return SubmissionStatus.deniedIncorrectTrick;
+      case 'denied_inappropriate_behaviour':
+        return SubmissionStatus.deniedInappropriateBehaviour;
+      case 'denied_out_of_frame':
+        return SubmissionStatus.deniedOutOfFrame;
+      case 'denied_too_long':
+        return SubmissionStatus.deniedTooLong;
       case 'revoked':
         return SubmissionStatus.revoked;
       case 'laced':
