@@ -23,7 +23,7 @@ class TrickProgress extends StatelessWidget {
         builder: (context, provider, child) {
           return Column(
             children: [
-              Expanded(child: _getChild(provider)),
+              Expanded(child: _getChild(context, provider)),
               const SizedBox(height: 12),
               ..._getBottomWidget(provider, context),
               const SizedBox(height: 12),
@@ -34,7 +34,7 @@ class TrickProgress extends StatelessWidget {
     );
   }
 
-  Widget _getChild(TrickProgressProvider provider) {
+  Widget _getChild(BuildContext context, TrickProgressProvider provider) {
     switch (submission.status) {
       case SubmissionStatus.waitingForSubmission:
         return Center(
@@ -54,7 +54,10 @@ class TrickProgress extends StatelessWidget {
       case SubmissionStatus.deniedIncorrectTrick:
       case SubmissionStatus.awarded:
       case SubmissionStatus.laced:
-        return TrickVideoPlayer(submission: submission);
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width * 0.1),
+          child: TrickVideoPlayer(submission: submission),
+        );
       case SubmissionStatus.revoked:
         return const SizedBox.shrink();
     }
