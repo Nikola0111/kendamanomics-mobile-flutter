@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import 'package:kendamanomics_mobile/providers/settings_page_provider.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
 import 'package:kendamanomics_mobile/widgets/settings_row.dart';
+import 'package:kendamanomics_mobile/widgets/title_widget.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +30,9 @@ class SettingsPage extends StatelessWidget {
           builder: (context, child) => Consumer<SettingsPageProvider>(
             builder: (context, provider, child) => Column(
               children: [
-                Center(
-                  child: Text(
-                    'profile_page.settings',
-                    style: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).primary),
-                  ).tr(),
+                TitleWidget(
+                  angle: pi / 2,
+                  title: 'profile_page.settings'.tr(),
                 ),
                 const SizedBox(height: 10.0),
                 SettingsRow(
@@ -68,6 +69,7 @@ class SettingsPage extends StatelessWidget {
                   },
                   clickableTextStyle: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).primary),
                 ),
+                const SizedBox(height: 8),
               ],
             ),
           ),

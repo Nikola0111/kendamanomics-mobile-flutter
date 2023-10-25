@@ -58,26 +58,24 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
       switch (leaderboardType) {
         case LeaderboardTab.kendamanomics:
           data = await _leaderboardsService.fetchLeaderboardKendamanomicsPoints();
-          _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _kendamanomicsLeaderboard.clear();
           _kendamanomicsLeaderboard.addAll(data);
           break;
         case LeaderboardTab.competition:
           data = await _leaderboardsService.fetchLeaderboardCompetitionPoints();
-          _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _competitionLeaderboard.clear();
           _competitionLeaderboard.addAll(data);
           break;
         case LeaderboardTab.overall:
           data = await _leaderboardsService.fetchOverallPoints();
-          _state = LeaderboardsProviderState.success;
           _listLength = data.length;
           _overallLeaderboard.clear();
           _overallLeaderboard.addAll(data);
           break;
       }
+      _state = LeaderboardsProviderState.success;
     } catch (e) {
       logE('Error fetching leaderboard data: $e');
       _state = LeaderboardsProviderState.errorFetchingLeaderboard;
@@ -89,12 +87,10 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
     try {
       final myPositionData = await _leaderboardsService.fetchKendamanomicsLeaderboard();
       _myPlayer = myPositionData;
-      _state = LeaderboardsProviderState.success;
+      _notify();
     } catch (e) {
       logE('Error fetching user data: $e');
-      _state = LeaderboardsProviderState.errorFetchingLeaderboard;
     }
-    _notify();
   }
 
   void setActiveLeaderboard(LeaderboardTab type) {

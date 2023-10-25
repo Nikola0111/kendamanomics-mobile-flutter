@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -6,6 +8,7 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
+import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/pages/select_company_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
 import 'package:kendamanomics_mobile/providers/register_provider.dart';
@@ -56,7 +59,7 @@ class RegisterForm extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 8.0),
+                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 11.0),
                           child: Text(
                             'register_page.fill_in_fields',
                             style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primaryText),
@@ -107,6 +110,13 @@ class RegisterForm extends StatelessWidget {
                         ),
                         const SizedBox(height: 6.0),
                         CustomInputField(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Transform.rotate(
+                              angle: -pi / 2,
+                              child: Image.asset('assets/icon/icon_arrow.png', height: 16.0, width: 16.0),
+                            ),
+                          ),
                           textInputAction: TextInputAction.next,
                           hintText: 'input_fields.support'.tr(),
                           controller: provider.supportTeamNameController,
@@ -144,29 +154,41 @@ class RegisterForm extends StatelessWidget {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  child: Align(
-                    heightFactor: 2.075,
-                    alignment: Alignment.bottomCenter,
-                    child: CustomButton(
-                      isLoading: provider.state == RegisterState.loading,
-                      isEnabled: provider.isButtonEnabled,
-                      text: 'buttons.create_an_account'.tr(),
-                      customTextColor: CustomColors.of(context).primary,
-                      onPressed: () async {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        final signUpSuccessful = await provider.signUp(provider.email, provider.password);
-                        if (!signUpSuccessful) return;
+                  child: Column(
+                    children: [
+                      CustomButton(
+                        isBackButton: true,
+                        buttonStyle: CustomButtonStyle.medium,
+                        isEnabled: true,
+                        customTextColor: Colors.black,
+                        text: 'register_page.back_to_login'.tr(),
+                        onPressed: () {
+                          context.goNamed(LoginPage.pageName);
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                      CustomButton(
+                        buttonStyle: CustomButtonStyle.medium,
+                        isLoading: provider.state == RegisterState.loading,
+                        isEnabled: provider.isButtonEnabled,
+                        text: 'buttons.create_an_account'.tr(),
+                        customTextColor: CustomColors.of(context).primary,
+                        onPressed: () async {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          final signUpSuccessful = await provider.signUp(provider.email, provider.password);
+                          if (!signUpSuccessful) return;
 
-                        final updateDataSuccessful = await provider.updateData();
-                        if (!updateDataSuccessful) return;
+                          final updateDataSuccessful = await provider.updateData();
+                          if (!updateDataSuccessful) return;
 
-                        if (context.mounted) {
-                          context.goNamed(TamasPage.pageName);
-                        }
-                      },
-                    ),
+                          if (context.mounted) {
+                            context.goNamed(TamasPage.pageName);
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
           ),

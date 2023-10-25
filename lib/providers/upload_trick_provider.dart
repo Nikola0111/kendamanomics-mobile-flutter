@@ -5,6 +5,7 @@ import 'package:kiwi/kiwi.dart';
 
 class UploadTrickProvider extends ChangeNotifier {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
+  final controller = PageController();
   final String? trickID;
   Trick? _trick;
   int _pageIndex = 0;
@@ -20,6 +21,14 @@ class UploadTrickProvider extends ChangeNotifier {
   UploadTrickProvider({required this.trickID, required VoidCallback calculateViewportHeight}) {
     calculateViewportHeight();
     _getTrick();
+  }
+
+  void goToExample() {
+    controller.animateToPage(1, duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+  }
+
+  void goToSubmission() {
+    controller.animateToPage(0, duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
   }
 
   void _getTrick() {

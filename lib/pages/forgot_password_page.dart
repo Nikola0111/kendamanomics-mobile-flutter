@@ -6,6 +6,7 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/helpers/helper.dart';
 import 'package:kendamanomics_mobile/helpers/snackbar_helper.dart';
 import 'package:kendamanomics_mobile/pages/change_password_page.dart';
+import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/providers/forgot_password_provider.dart';
 import 'package:kendamanomics_mobile/widgets/app_header.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
@@ -66,25 +67,37 @@ class ForgotPasswordPage extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        left: 0.0,
-                        right: 0.0,
-                        bottom: 0.0,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: CustomButton(
-                            isLoading: provider.state == ForgotPasswordPageState.loading,
-                            isEnabled: provider.isButtonEnabled,
-                            text: 'buttons.reset_password'.tr(),
-                            customTextColor: CustomColors.of(context).primary,
-                            onPressed: () async {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              final successful = await provider.sendPasswordResetCode();
-                              if (!successful) return;
-                              if (context.mounted) {
-                                context.pushNamed(ChangePasswordPage.pageName, extra: provider.email);
-                              }
-                            },
-                          ),
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Column(
+                          children: [
+                            CustomButton(
+                              buttonStyle: CustomButtonStyle.medium,
+                              isBackButton: true,
+                              isEnabled: true,
+                              customTextColor: Colors.black,
+                              text: 'register_page.back_to_login'.tr(),
+                              onPressed: () {
+                                context.goNamed(LoginPage.pageName);
+                              },
+                            ),
+                            const SizedBox(height: 10.0),
+                            CustomButton(
+                              buttonStyle: CustomButtonStyle.medium,
+                              isLoading: provider.state == ForgotPasswordPageState.loading,
+                              isEnabled: provider.isButtonEnabled,
+                              text: 'buttons.reset_password'.tr(),
+                              onPressed: () async {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                final successful = await provider.sendPasswordResetCode();
+                                if (!successful) return;
+                                if (context.mounted) {
+                                  context.pushNamed(ChangePasswordPage.pageName, extra: provider.email);
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],

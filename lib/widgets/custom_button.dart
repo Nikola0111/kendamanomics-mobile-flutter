@@ -3,7 +3,7 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/widgets/custom_loading_indicator.dart';
 
-enum CustomButtonStyle { big, small }
+enum CustomButtonStyle { big, small, medium }
 
 class CustomButton extends StatelessWidget {
   final String? text;
@@ -13,6 +13,8 @@ class CustomButton extends StatelessWidget {
   final bool isEnabled;
   final bool isLoading;
   final CustomButtonStyle buttonStyle;
+  final bool isBackButton;
+
   const CustomButton({
     super.key,
     this.text,
@@ -22,6 +24,7 @@ class CustomButton extends StatelessWidget {
     this.isEnabled = true,
     this.isLoading = false,
     this.buttonStyle = CustomButtonStyle.big,
+    this.isBackButton = false,
   });
 
   @override
@@ -30,7 +33,7 @@ class CustomButton extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isEnabled ? 0.5 : 0.1),
+            color: Colors.black.withOpacity(0.5),
             spreadRadius: -4,
             blurRadius: 7,
             offset: const Offset(0, 0),
@@ -58,13 +61,15 @@ class CustomButton extends StatelessWidget {
     );
   }
 
-  Color _getButtonColor(BuildContext context) {
+  Color _getButtonTextColor(BuildContext context) {
     if (isEnabled) {
       switch (buttonStyle) {
         case CustomButtonStyle.big:
           return CustomColors.of(context).backgroundColor;
         case CustomButtonStyle.small:
           return CustomColors.of(context).deniedColor;
+        case CustomButtonStyle.medium:
+          return !isBackButton ? CustomColors.of(context).backgroundColor : CustomColors.of(context).primary;
       }
     } else {
       return CustomColors.of(context).primaryText.withOpacity(0.6);
@@ -72,14 +77,14 @@ class CustomButton extends StatelessWidget {
   }
 
   Widget _getChild(BuildContext context) {
-    if (isLoading) return const CustomLoadingIndicator();
+    if (isLoading) return CustomLoadingIndicator(customColor: CustomColors.of(context).backgroundColor);
     if (child != null) return child!;
 
     return Text(
       text!,
       style: CustomTextStyles.of(context)
           .medium24
-          .copyWith(color: _getButtonColor(context), height: _textHeight, fontSize: _fontSize),
+          .copyWith(color: _getButtonTextColor(context), height: _textHeight, fontSize: _fontSize),
     );
   }
 
@@ -89,6 +94,8 @@ class CustomButton extends StatelessWidget {
         return 240.0;
       case CustomButtonStyle.small:
         return 160.0;
+      case CustomButtonStyle.medium:
+        return 200.0;
     }
   }
 
@@ -98,6 +105,8 @@ class CustomButton extends StatelessWidget {
         return 80.0;
       case CustomButtonStyle.small:
         return 50.0;
+      case CustomButtonStyle.medium:
+        return 65.0;
     }
   }
 
@@ -107,6 +116,8 @@ class CustomButton extends StatelessWidget {
         return CustomColors.of(context).primary;
       case CustomButtonStyle.small:
         return CustomColors.of(context).secondary;
+      case CustomButtonStyle.medium:
+        return isBackButton ? CustomColors.of(context).secondary : CustomColors.of(context).primary;
     }
   }
 
@@ -116,6 +127,8 @@ class CustomButton extends StatelessWidget {
         return 24.0;
       case CustomButtonStyle.small:
         return 20.0;
+      case CustomButtonStyle.medium:
+        return 22.0;
     }
   }
 
@@ -125,6 +138,8 @@ class CustomButton extends StatelessWidget {
         return 2.0;
       case CustomButtonStyle.small:
         return 1.5;
+      case CustomButtonStyle.medium:
+        return 1.75;
     }
   }
 
@@ -133,6 +148,8 @@ class CustomButton extends StatelessWidget {
       case CustomButtonStyle.big:
         return Colors.white.withOpacity(0.09);
       case CustomButtonStyle.small:
+        return CustomColors.of(context).primary.withOpacity(0.09);
+      case CustomButtonStyle.medium:
         return CustomColors.of(context).primary.withOpacity(0.09);
     }
   }

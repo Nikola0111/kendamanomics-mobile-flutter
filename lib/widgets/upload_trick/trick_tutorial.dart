@@ -1,6 +1,12 @@
+import 'dart:math';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
+import 'package:kendamanomics_mobile/providers/upload_trick_provider.dart';
 import 'package:kendamanomics_mobile/widgets/custom_loading_indicator.dart';
+import 'package:kendamanomics_mobile/widgets/text_icon_link.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -43,26 +49,42 @@ class _TrickTutorialState extends State<TrickTutorial> {
   @override
   Widget build(BuildContext context) {
     if (_webviewController != null && _isLoaded) {
-      return Stack(
+      return Column(
         children: [
-          Positioned.fill(
-            child: WebViewWidget(
-              controller: _webviewController!,
+          Expanded(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: WebViewWidget(
+                    controller: _webviewController!,
+                  ),
+                ),
+                Positioned.fill(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () async {
+                      if (widget.trickTutorialUrl == null) return;
+                      final uri = Uri.parse(widget.trickTutorialUrl!);
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri);
+                      }
+                    },
+                    child: Container(),
+                  ),
+                )
+              ],
             ),
           ),
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () async {
-                if (widget.trickTutorialUrl == null) return;
-                final uri = Uri.parse(widget.trickTutorialUrl!);
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri);
-                }
-              },
-              child: Container(),
+          const SizedBox(height: 12),
+          TextIconLink(
+            title: 'upload_trick.upload'.tr(),
+            onPressed: context.read<UploadTrickProvider>().goToSubmission,
+            iconPosition: IconPosition.leading,
+            icon: Transform.rotate(
+              angle: pi / 2,
+              child: Image.asset('assets/icon/icon_arrow.png', height: 12, width: 12),
             ),
-          )
+          ),
         ],
       );
     }

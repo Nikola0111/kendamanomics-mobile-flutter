@@ -97,24 +97,37 @@ class ChangePasswordPage extends StatelessWidget {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: CustomButton(
-                            text: 'buttons.change_password'.tr(),
-                            isEnabled: provider.isButtonEnabled,
-                            isLoading: provider.state == ChangePasswordState.loading,
-                            customTextColor: CustomColors.of(context).primary,
-                            onPressed: () async {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              final verifyOTPSuccessful = await provider.verifyOTP(email);
-                              if (!verifyOTPSuccessful) return;
-                              final updatePasswordSuccessful = await provider.updateUserPassword(email);
-                              if (!updatePasswordSuccessful) return;
-                              if (context.mounted) {
+                        child: Column(
+                          children: [
+                            CustomButton(
+                              isBackButton: true,
+                              buttonStyle: CustomButtonStyle.medium,
+                              isEnabled: true,
+                              customTextColor: Colors.black,
+                              text: 'register_page.back_to_login'.tr(),
+                              onPressed: () {
                                 context.goNamed(LoginPage.pageName);
-                              }
-                            },
-                          ),
+                              },
+                            ),
+                            const SizedBox(height: 10.0),
+                            CustomButton(
+                              buttonStyle: CustomButtonStyle.medium,
+                              text: 'buttons.change_password'.tr(),
+                              isEnabled: provider.isButtonEnabled,
+                              isLoading: provider.state == ChangePasswordState.loading,
+                              customTextColor: CustomColors.of(context).primary,
+                              onPressed: () async {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                final verifyOTPSuccessful = await provider.verifyOTP(email);
+                                if (!verifyOTPSuccessful) return;
+                                final updatePasswordSuccessful = await provider.updateUserPassword(email);
+                                if (!updatePasswordSuccessful) return;
+                                if (context.mounted) {
+                                  context.goNamed(LoginPage.pageName);
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],

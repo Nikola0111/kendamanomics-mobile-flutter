@@ -13,6 +13,7 @@ class CustomInputField extends StatefulWidget {
   final String? initialData;
   final TextEditingController? controller;
   final VoidCallback? onTap;
+  final Widget? suffixIcon;
 
   const CustomInputField({
     super.key,
@@ -26,6 +27,7 @@ class CustomInputField extends StatefulWidget {
     this.initialData,
     this.controller,
     this.onTap,
+    this.suffixIcon,
   });
 
   @override
@@ -109,7 +111,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 obscureText: widget.obscurable ? _obscured : false,
                 maxLines: 1,
                 decoration: InputDecoration(
-                  isDense: true,
+                  isDense: true, suffixIcon: widget.suffixIcon,
+                  suffixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 24, minWidth: 32, minHeight: 16),
                   // prefixIconConstraints: const BoxConstraints(maxWidth: 48, maxHeight: 36, minWidth: 48, minHeight: 36),
                   contentPadding: EdgeInsets.only(
                     left: 6,

@@ -3,7 +3,8 @@
         "title": "welcome to kendamanomics",
         "app_description": "kendamanomics is an app to help players progress their Kendama skill",
         "app_ranking_description": "we also have a ranking system that ranks players based on tricks laced and competitions won",
-        "fill_in_fields": "please make sure to fill in your information correctly:"
+        "fill_in_fields": "please make sure to fill in your information correctly:",
+        "back_to_login": "back to login"
     },
     "select_company_page": {
         "title": "who do you support"
@@ -63,7 +64,9 @@
         "denied": "denied",
         "laced": "laced",
         "timeline": "timeline",
-        "back_to_trick": "back to trick"
+        "back_to_trick": "back to trick",
+        "example": "example",
+        "upload": "upload"
     },
     "submission_log_texts": {
         "submitted": "user submitted",
@@ -79,7 +82,8 @@
     "leaderboards": {
         "kendamanomics": "kendamanomics",
         "competition": "competition",
-        "overall": "overall"
+        "overall": "overall",
+        "empty_placeholder": "Complete your first trick to compete with other players"
     },
     "profile_page" : {
         "settings": "settings",

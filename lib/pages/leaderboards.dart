@@ -32,11 +32,11 @@ class Leaderboards extends StatelessWidget {
       body: ChangeNotifierProvider(
         create: (context) => LeaderboardsProvider(),
         child: Consumer<LeaderboardsProvider>(
-          builder: (context, provider, child) => Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Row(
+          builder: (context, provider, child) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Column(
+              children: [
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
@@ -76,32 +76,44 @@ class Leaderboards extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                  child: getList(context, provider),
-                ),
-              ),
-              provider.activeLeaderboard == LeaderboardTab.kendamanomics && provider.myPlayer != null
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                      child: PlayerEntry(
-                        onTap: () {
-                          final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
-                          context.pushNamed(
-                            ProfilePage.pageName,
-                            extra: ret,
-                          );
-                        },
-                        playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
-                        points: provider.myPlayer?.kendamanomicsPoints,
-                        myPoints: true,
-                        rank: provider.myPlayer?.rank,
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ],
+                if (provider.state == LeaderboardsProviderState.loading) ...[
+                  _shimmer(context),
+                  _shimmer(context),
+                  _shimmer(context),
+                ],
+                if (provider.leaderboardData.isNotEmpty && provider.state == LeaderboardsProviderState.success) ...[
+                  Expanded(child: _getList(provider)),
+                ],
+                if (provider.leaderboardData.isEmpty && provider.state == LeaderboardsProviderState.success) ...[
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'leaderboards.empty_placeholder',
+                        style: CustomTextStyles.of(context).regular20,
+                        textAlign: TextAlign.center,
+                      ).tr(),
+                    ),
+                  ),
+                ],
+                if (provider.activeLeaderboard == LeaderboardTab.kendamanomics &&
+                    provider.myPlayer != null &&
+                    provider.myPlayer!.kendamanomicsPoints != 0) ...[
+                  PlayerEntry(
+                    onTap: () {
+                      final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
+                      context.pushNamed(
+                        ProfilePage.pageName,
+                        extra: ret,
+                      );
+                    },
+                    playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
+                    points: provider.myPlayer?.kendamanomicsPoints,
+                    myPoints: true,
+                    rank: provider.myPlayer?.rank,
+                  )
+                ],
+              ],
+            ),
           ),
         ),
       ),
@@ -116,7 +128,7 @@ class Leaderboards extends StatelessWidget {
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width - 2 * 18,
-            height: 19, // height of text
+            height: 19,
             child: Shimmer.fromColors(
               baseColor: Colors.transparent,
               highlightColor: Colors.grey.withOpacity(0.5),
@@ -132,16 +144,7 @@ class Leaderboards extends StatelessWidget {
     );
   }
 
-  Widget getList(BuildContext context, LeaderboardsProvider provider) {
-    if (provider.state == LeaderboardsProviderState.loading) {
-      return Column(
-        children: [
-          _shimmer(context),
-          _shimmer(context),
-          _shimmer(context),
-        ],
-      );
-    }
+  Widget _getList(LeaderboardsProvider provider) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: provider.listLength,
@@ -187,12 +190,7 @@ class Leaderboards extends StatelessWidget {
           }
         }();
         return PlayerEntry(
-          onTap: () {
-            context.pushNamed(
-              ProfilePage.pageName,
-              extra: leaderboardData[index].playerId,
-            );
-          },
+          onTap: () => context.pushNamed(ProfilePage.pageName, extra: leaderboardData[index].playerId),
           playerName: playerName,
           points: points,
         );

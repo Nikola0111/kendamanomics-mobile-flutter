@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
-import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/providers/tricks_provider.dart';
 import 'package:kendamanomics_mobile/widgets/single_trick.dart';
+import 'package:kendamanomics_mobile/widgets/title_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,9 +27,9 @@ class TricksPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Column(
                   children: [
-                    Text(
-                      _formatTitle(provider),
-                      style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
+                    TitleWidget(
+                      angle: pi / 2,
+                      title: _formatTitle(provider),
                     ),
                     Expanded(child: _getContent(context, provider: provider)),
                     const SizedBox(height: 4),

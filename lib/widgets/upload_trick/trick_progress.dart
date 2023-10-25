@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
@@ -5,7 +7,9 @@ import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/models/submission.dart';
 import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:kendamanomics_mobile/providers/trick_progress_provider.dart';
+import 'package:kendamanomics_mobile/providers/upload_trick_provider.dart';
 import 'package:kendamanomics_mobile/widgets/custom_button.dart';
+import 'package:kendamanomics_mobile/widgets/text_icon_link.dart';
 import 'package:kendamanomics_mobile/widgets/upload_trick/trick_video_player.dart';
 import 'package:provider/provider.dart';
 
@@ -37,14 +41,28 @@ class TrickProgress extends StatelessWidget {
   Widget _getChild(BuildContext context, TrickProgressProvider provider) {
     switch (submission.status) {
       case SubmissionStatus.waitingForSubmission:
-        return Center(
-          child: CustomButton(
-            isLoading: provider.state == TrickProgressProviderState.uploadingSubmission,
-            text: 'buttons.upload'.tr(),
-            onPressed: () async {
-              await provider.uploadTrickSubmission();
-            },
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: CustomButton(
+                isLoading: provider.state == TrickProgressProviderState.uploadingSubmission,
+                text: 'buttons.upload'.tr(),
+                onPressed: () async {
+                  await provider.uploadTrickSubmission();
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextIconLink(
+              title: 'upload_trick.example'.tr(),
+              onPressed: context.read<UploadTrickProvider>().goToExample,
+              icon: Transform.rotate(
+                angle: -pi / 2,
+                child: Image.asset('assets/icon/icon_arrow.png', height: 12, width: 12),
+              ),
+            ),
+          ],
         );
       case SubmissionStatus.inReview:
       case SubmissionStatus.denied:
