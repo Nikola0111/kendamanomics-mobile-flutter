@@ -163,15 +163,9 @@ class RouterService {
 
   Page _getPage({required ValueKey key, required Widget child}) {
     if (Platform.isAndroid) {
-      return MaterialPage(
-        key: key,
-        child: child,
-      );
+      return NoTransitionPage(key: key, child: child);
     } else {
-      return CupertinoPage(
-        key: key,
-        child: child,
-      );
+      return CupertinoPage(key: key, child: child);
     }
   }
 }
