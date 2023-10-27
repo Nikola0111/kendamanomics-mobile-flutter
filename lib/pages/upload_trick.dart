@@ -47,7 +47,8 @@ class UploadTrick extends StatelessWidget {
                         },
                         children: [
                           SubmissionProgress(trickID: trickID),
-                          TrickTutorial(trickTutorialUrl: provider.trick?.trickTutorialUrl),
+                          if (provider.trick?.trickTutorialUrl != null)
+                            TrickTutorial(trickTutorialUrl: provider.trick?.trickTutorialUrl),
                         ],
                       ),
                     ),
