@@ -391,6 +391,26 @@ class PersistentDataService with LoggerMixin {
       final trickIndex = i + 1;
       if (_tamas.containsKey(trick.tamaID)) {
         _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick, trickPosition: trickIndex));
+        _tamaTricksRelation.add({
+          'tama_id': trick.tamaID,
+          'trick_id': trick.id,
+          'trick_points': 1,
+          'trick_order': i,
+        });
+      }
+    }
+
+    // TODO refactor code, extract to func
+    final tamaGroupID = _tamas[tamaID]!.tamasGroupID;
+    final groupIndex = _tamaGroups.indexWhere((element) => element.id == tamaGroupID);
+    final tamas = _tamas.values;
+    if (groupIndex != -1) {
+      _tamaGroups[groupIndex].playerTamas.clear();
+      final tamasForGroup = tamas.where((element) => element.tamasGroupID == tamaGroupID).toList();
+      for (final tama in tamasForGroup) {
+        _tamaGroups[groupIndex].playerTamas.add(PlayerTama.fromTama(tama: tama));
+        _tamaGroups[groupIndex].playerTamas.last.tama.tricks!.clear();
+        _tamaGroups[groupIndex].playerTamas.last.tama.tricks!.addAll(tama.tricks!);
       }
     }
 
