@@ -31,6 +31,7 @@ class _TrickTutorialState extends State<TrickTutorial> {
   void _initializeWebviewController() async {
     if (widget.trickTutorialUrl != null) {
       _webviewController = WebViewController();
+      _webviewController?.setJavaScriptMode(JavaScriptMode.unrestricted);
       _webviewController?.setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
