@@ -78,7 +78,6 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  // this should be called if we know there are differing tamas
   void _fetchTamas({int retry = 2}) async {
     try {
       final newTamas = await _tamasService.fetchTamas();
