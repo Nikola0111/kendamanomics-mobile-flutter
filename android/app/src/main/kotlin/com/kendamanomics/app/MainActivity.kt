@@ -1,4 +1,4 @@
-package com.lotus.kendamanomics
+package com.kendamanomics.app
 
 import io.flutter.embedding.android.FlutterActivity
 

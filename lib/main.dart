@@ -77,7 +77,7 @@ class KendamanomicsApp extends StatelessWidget {
             child: Builder(
               builder: (context) {
                 return MaterialApp.router(
-                  title: 'Kendama',
+                  title: 'Kendamanomics',
                   theme: themeData,
                   locale: context.locale,
                   supportedLocales: context.supportedLocales,
