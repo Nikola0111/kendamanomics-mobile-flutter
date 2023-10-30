@@ -372,6 +372,17 @@ class PersistentDataService with LoggerMixin {
         }
       }
 
+      final tamaTricks = _tricks.where((element) => element.tamaID == tama.id);
+      for (final trick in tamaTricks) {
+        final position = _tamaTricksRelation
+            .where((element) => element['tama_id'] == tama.id && element['trick_id'] == trick.id)
+            .singleOrNull;
+
+        if (position != null) {
+          tama.tricks?.add(TamaTrickProgress.fromTrick(trick: trick, trickPosition: position['trick_order']));
+        }
+      }
+
       final data = _tamaGroups.where((element) => element.id == tama.tamasGroupID);
       if (data.isNotEmpty) {
         data.first.addTama(tama: tama, numOfCompletedTricks: numberOfCompleted);

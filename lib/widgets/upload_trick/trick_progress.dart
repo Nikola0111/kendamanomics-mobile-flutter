@@ -54,14 +54,15 @@ class TrickProgress extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            TextIconLink(
-              title: 'upload_trick.example'.tr(),
-              onPressed: context.read<UploadTrickProvider>().goToExample,
-              icon: Transform.rotate(
-                angle: -pi / 2,
-                child: Image.asset('assets/icon/icon_arrow.png', height: 12, width: 12),
+            if (provider.trick?.trickTutorialUrl != null)
+              TextIconLink(
+                title: 'upload_trick.example'.tr(),
+                onPressed: context.read<UploadTrickProvider>().goToExample,
+                icon: Transform.rotate(
+                  angle: -pi / 2,
+                  child: Image.asset('assets/icon/icon_arrow.png', height: 12, width: 12),
+                ),
               ),
-            ),
           ],
         );
       case SubmissionStatus.inReview:
