@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:kendamanomics_mobile/constants.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/company.dart';
 import 'package:kendamanomics_mobile/models/player.dart';
@@ -104,7 +105,11 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
   Future<void> updateCompany(String companyID) async {
     if (_player?.id == null) return;
     try {
-      final comp = await _userService.updateCompany(companyID: companyID, playerID: _player!.id);
+      Company comp = await _userService.updateCompany(companyID: companyID, playerID: _player!.id);
+      if (comp.imageUrl != null) {
+        final imageUrl = Supabase.instance.client.storage.from(kCompanyBucketID).getPublicUrl(comp.imageUrl!);
+        comp = comp.copyWith(imageUrl: imageUrl);
+      }
       _authService.player = _authService.player!.copyWith(company: comp);
       _company = comp;
       _notify();

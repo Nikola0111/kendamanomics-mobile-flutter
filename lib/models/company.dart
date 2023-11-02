@@ -14,4 +14,12 @@ class Company {
       imageUrl: imageUrl,
     );
   }
+
+  Company copyWith({String? imageUrl}) {
+    return Company(
+      id: id,
+      name: name,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }
