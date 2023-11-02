@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
@@ -71,7 +72,10 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       final playerTama = _tamasGroups[_currentPage].playerTamas[i];
       final tamaID = playerTama.tama.id;
       if (_progressData.containsKey(tamaID)) {
-        _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(completedTricks: _progressData[tamaID]);
+        _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(
+          completedTricks: _progressData[tamaID],
+          badgeType: _progressData[tamaID] == playerTama.tama.numOfTricks ? BadgeType.completedTama : BadgeType.none,
+        );
       } else {
         _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(completedTricks: 0);
       }

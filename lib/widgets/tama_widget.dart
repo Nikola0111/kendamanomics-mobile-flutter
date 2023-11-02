@@ -57,12 +57,7 @@ class TamaWidget extends StatelessWidget {
             // for some reason scoreSize.width on both sides doesn't center the tama
             // maybe the image itself has some padding
             const SizedBox(width: 4),
-            if (playerTama.badgeType != null)
-              Image.asset(
-                'assets/icon/icon_trophy_completed.png',
-                width: scoreSize.width,
-              ),
-            if (playerTama.badgeType == null) SizedBox(width: scoreSize.width),
+            getTrophy(context, tama: playerTama, width: scoreSize.width),
           ],
         ),
         Text(
@@ -103,5 +98,17 @@ class TamaWidget extends StatelessWidget {
       );
     }
     return Image.asset('assets/images/birch_tama.png', height: size, width: size);
+  }
+
+  Widget getTrophy(BuildContext context, {required PlayerTama tama, required double width}) {
+    switch (tama.badgeType) {
+      case BadgeType.boughtTama:
+        return Image.asset('assets/icon/icon_trophy_completed.png', width: width);
+      case BadgeType.completedTama:
+        return Image.asset('assets/icon/icon_trophy_default.png', width: width);
+      case BadgeType.none:
+      case null:
+        return SizedBox(width: width);
+    }
   }
 }
