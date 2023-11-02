@@ -91,6 +91,14 @@ class ProfileHeader extends StatelessWidget {
           company!.imageUrl!,
           height: MediaQuery.of(context).size.width / 5.5,
           width: MediaQuery.of(context).size.width / 5.5,
+          errorBuilder: (p1, p2, p3) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width / 5.5,
+              child: Center(
+                child: Text(company!.name, style: CustomTextStyles.of(context).regular18),
+              ),
+            );
+          },
         );
       } else {
         return SizedBox(

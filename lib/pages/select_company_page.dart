@@ -62,7 +62,7 @@ class SelectCompanyPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: CustomColors.of(context).borderColor),
         ),
-        child: Text(company.name, style: CustomTextStyles.of(context).light24Opacity),
+        child: Text(company.name.trim(), style: CustomTextStyles.of(context).light24Opacity),
       ),
     );
   }
