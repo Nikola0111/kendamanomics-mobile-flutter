@@ -23,10 +23,11 @@ class TrickService with LoggerMixin {
     return progress;
   }
 
+  // fix the check below, issue is if it gets the tricks for one tama it wont fetch tricks for other tama
   Future<List<Trick>?> fetchTricksByTamaID({required String tamaID}) async {
-    final uuid = await _supabase.rpc('fetch_data_tracking', params: {'filter_tracking_name': 'trick'});
-    if (uuid == _persistantDataService.trickValue) return null;
-    _persistantDataService.trickValue = uuid;
+    // final uuid = await _supabase.rpc('fetch_data_tracking', params: {'filter_tracking_name': 'trick'});
+    // if (uuid == _persistantDataService.trickValue) return null;
+    // _persistantDataService.trickValue = uuid;
     final data = await _supabase.rpc('fetch_tricks_by_tama_id', params: {'filter_tama_id': tamaID});
     if (data == null) return null;
 

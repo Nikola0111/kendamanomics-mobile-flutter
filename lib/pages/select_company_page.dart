@@ -52,9 +52,7 @@ class SelectCompanyPage extends StatelessWidget {
 
   Widget _companyItem(BuildContext context, {required Company company}) {
     return GestureDetector(
-      onTap: () {
-        context.pop({'id': company.id, 'name': company.name});
-      },
+      onTap: () => context.pop({'id': company.id, 'name': company.name}),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
@@ -62,7 +60,7 @@ class SelectCompanyPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: CustomColors.of(context).borderColor),
         ),
-        child: Text(company.name, style: CustomTextStyles.of(context).light24Opacity),
+        child: Text(company.name.trim(), style: CustomTextStyles.of(context).light24Opacity),
       ),
     );
   }
