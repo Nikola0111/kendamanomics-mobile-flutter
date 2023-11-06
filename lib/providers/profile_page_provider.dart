@@ -33,8 +33,17 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
   ProfilePageState get state => _state;
 
   ProfilePageProvider({required this.userId}) {
+    _resolveCompanyData();
     _fetchPlayerData(userId);
     _fetchPlayerBadges(userId);
+  }
+
+  void _resolveCompanyData() {
+    _company = _authService.playerCompany;
+    if (_company?.imageUrl != null && !_company!.imageUrl!.contains('https://')) {
+      final imageUrl = Supabase.instance.client.storage.from(kCompanyBucketID).getPublicUrl(_company!.imageUrl!);
+      _company = _company!.copyWith(imageUrl: imageUrl);
+    }
   }
 
   bool availableForUpload(String id) {
@@ -78,7 +87,6 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
 
   Future<void> _fetchPlayerData(String playerId) async {
     try {
-      _company = _authService.playerCompany;
       final ret = await _userService.fetchPlayerData(playerId);
       _player = ret;
       _playerName = '${_player!.firstName} ${_player!.lastName}';

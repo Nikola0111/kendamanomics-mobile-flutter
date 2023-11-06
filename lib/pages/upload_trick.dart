@@ -47,7 +47,8 @@ class UploadTrick extends StatelessWidget {
                         },
                         children: [
                           SubmissionProgress(trickID: trickID),
-                          if (provider.trick?.trickTutorialUrl != null)
+                          // TODO improve this condition
+                          if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty)
                             TrickTutorial(trickTutorialUrl: provider.trick?.trickTutorialUrl),
                         ],
                       ),

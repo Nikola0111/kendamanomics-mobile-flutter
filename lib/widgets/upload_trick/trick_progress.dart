@@ -54,7 +54,7 @@ class TrickProgress extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            if (provider.trick?.trickTutorialUrl != null)
+            if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty)
               TextIconLink(
                 title: 'upload_trick.example'.tr(),
                 onPressed: context.read<UploadTrickProvider>().goToExample,
