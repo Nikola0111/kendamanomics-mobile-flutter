@@ -15,6 +15,22 @@
       "tama_image_url": "birch_tama.png",
       "tama_number_of_tricks": 10,
       "tama_group_id": "87be012a-52ec-11ee-b9a0-0242ac150002"
+    },
+    {
+      "tama_id": "fd56cd26-b546-4a54-9e20-bb0458930d70",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "tama_name": "bamboo",
+      "tama_image_url": "bamboo_tama.png",
+      "tama_number_of_tricks": 20,
+      "tama_group_id": "87be012a-52ec-11ee-b9a0-0242ac150002"
+    },
+    {
+      "tama_id": "a57abcfa-8273-4a06-992a-2338fd9d1844",
+      "created_at": "2023-09-14 10:50:33.819442+00",
+      "tama_name": "purpleheart",
+      "tama_image_url": "purpleheart_tama.png",
+      "tama_number_of_tricks": 20,
+      "tama_group_id": "87be012a-52ec-11ee-b9a0-0242ac150002"
     }
   ]
 }
