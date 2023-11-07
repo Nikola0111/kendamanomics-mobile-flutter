@@ -9,12 +9,16 @@ class RegisterRanking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-      child: Text(
-        'register_page.app_ranking_description',
-        style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primaryText),
-        textAlign: TextAlign.center,
-      ).tr(),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Center(
+        child: Text(
+          'register_page.app_ranking_description',
+          style: CustomTextStyles.of(context)
+              .regular25
+              .apply(color: CustomColors.of(context).primaryText, letterSpacingFactor: 0.5),
+          textAlign: TextAlign.center,
+        ).tr(),
+      ),
     );
   }
 }
