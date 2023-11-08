@@ -19,7 +19,7 @@ class Leaderboards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tabWidth = MediaQuery.sizeOf(context).width * 0.27;
+    final tabWidth = MediaQuery.sizeOf(context).width * 0.27 - 8;
     final tabFontSize = 'leaderboards.kendamanomics'.tr().calculateConstrainedFontSize(
           context: context,
           textStyle: CustomTextStyles.of(context).light16,
@@ -27,6 +27,9 @@ class Leaderboards extends StatelessWidget {
           maxHeight: 16,
           minFontSize: 10,
         );
+
+    print(tabFontSize);
+
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: ChangeNotifierProvider(

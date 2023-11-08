@@ -22,9 +22,12 @@ class TamaWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (state == TamasProviderState.success)
-              SizedBox(
-                width: scoreSize.width,
-                child: Text(scoreText, style: CustomTextStyles.of(context).light20),
+              Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: SizedBox(
+                  width: scoreSize.width,
+                  child: Text(scoreText, style: CustomTextStyles.of(context).light20),
+                ),
               ),
             if (state == TamasProviderState.loading)
               SizedBox(
