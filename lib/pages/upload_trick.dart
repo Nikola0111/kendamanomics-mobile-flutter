@@ -53,8 +53,10 @@ class UploadTrick extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    buildIndicator(context, provider.pageIndex),
+                    if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      buildIndicator(context, provider.pageIndex),
+                    ],
                     const SizedBox(height: 8),
                   ],
                 );
