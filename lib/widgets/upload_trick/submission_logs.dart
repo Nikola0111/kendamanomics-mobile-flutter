@@ -5,19 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/models/submission.dart';
+import 'package:kendamanomics_mobile/models/submission_log.dart';
 import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:kendamanomics_mobile/providers/submission_logs_provider.dart';
 import 'package:provider/provider.dart';
 
 class SubmissionLogs extends StatelessWidget {
   final Trick? trick;
+  final List<SubmissionLog> logs;
   final VoidCallback onBackToTrickPressed;
-  const SubmissionLogs({super.key, required this.trick, required this.onBackToTrickPressed});
+  const SubmissionLogs({super.key, required this.trick, required this.onBackToTrickPressed, required this.logs});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SubmissionLogsProvider(context, trick: trick),
+      create: (context) => SubmissionLogsProvider(context, trick: trick, submissionLogs: logs),
       builder: (context, child) => Consumer<SubmissionLogsProvider>(
         builder: (context, provider, child) {
           return Padding(

@@ -42,10 +42,15 @@ class SubmissionProgress extends StatelessWidget {
                   onTimelinePressed: provider.scrollToTimeline,
                 ),
               ),
-              SizedBox(
-                height: listItemHeight,
-                child: SubmissionLogs(trick: provider.trick, onBackToTrickPressed: provider.scrollToVideo),
-              ),
+              if (provider.logs.isNotEmpty)
+                SizedBox(
+                  height: listItemHeight,
+                  child: SubmissionLogs(
+                    trick: provider.trick,
+                    logs: provider.logs,
+                    onBackToTrickPressed: provider.scrollToVideo,
+                  ),
+                ),
             ],
           );
         },

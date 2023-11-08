@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/submission.dart';
+import 'package:kendamanomics_mobile/models/submission_log.dart';
 import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/submission_service.dart';
@@ -16,6 +17,7 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   final _controller = PreloadPageController();
   final String? trickID;
   final Submission _submission = Submission();
+  final _logs = <SubmissionLog>[];
   double listItemHeight = 0.0;
   SubmissionProgressEnum _state = SubmissionProgressEnum.loading;
   Trick? _trick;
@@ -24,6 +26,7 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
   Submission get submission => _submission;
   SubmissionProgressEnum get state => _state;
   PreloadPageController get controller => _controller;
+  List<SubmissionLog> get logs => _logs;
   int get numberOfSubtitleLines {
     switch (_submission.status) {
       case SubmissionStatus.revoked:
@@ -45,6 +48,7 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
     _submissionService.subscribe(_listenToSubmissionService);
     _getTrick();
     _checkForActiveSubmission();
+    _fetchSubmissionLogs();
   }
 
   void _listenToSubmissionService(SubmissionServiceEvent event, dynamic params) {
@@ -54,6 +58,9 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
         _submission.submissionUpdated(newStatus: sub.status, newVideoUrl: sub.videoUrl, id: sub.submissionID);
         notifyListeners();
       case SubmissionServiceEvent.submissionLogsFetched:
+        _logs.clear();
+        _logs.addAll(_submissionService.currentSubmissionLogs);
+        notifyListeners();
         break;
     }
   }
@@ -84,6 +91,17 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
 
   void _getTrick() {
     _trick = _persistentDataService.getTrickByID(trickID);
+  }
+
+  void _fetchSubmissionLogs() async {
+    if (trick == null) return;
+    try {
+      final logs = await _submissionService.fetchSubmissionLogs(tamaID: trick!.tamaID!, trickID: trick!.id!);
+      _logs.addAll(logs);
+      notifyListeners();
+    } on PostgrestException catch (e) {
+      logE('error fetching submission logs for id ${trick?.id}: ${e.code} - ${e.message}');
+    }
   }
 
   @override

@@ -28,8 +28,6 @@ class Leaderboards extends StatelessWidget {
           minFontSize: 10,
         );
 
-    print(tabFontSize);
-
     return Scaffold(
       backgroundColor: CustomColors.of(context).backgroundColor,
       body: ChangeNotifierProvider(

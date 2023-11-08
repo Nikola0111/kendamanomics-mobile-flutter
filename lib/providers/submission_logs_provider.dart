@@ -6,21 +6,17 @@ import 'package:kendamanomics_mobile/models/submission_log.dart';
 import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:kendamanomics_mobile/services/submission_service.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
   final _submissionService = KiwiContainer().resolve<SubmissionService>();
   final Trick? trick;
-  final _submissionLogs = <SubmissionLog>[];
   final BuildContext context;
+  List<SubmissionLog> submissionLogs;
   double dateBlockWidth = 0.0;
   double timeBlockWidth = 0.0;
 
-  List<SubmissionLog> get submissionLogs => _submissionLogs;
-
-  SubmissionLogsProvider(this.context, {required this.trick}) {
+  SubmissionLogsProvider(this.context, {required this.trick, required this.submissionLogs}) {
     _submissionService.subscribe(_listenToSubmissionService);
-    _fetchSubmissionLogs();
   }
 
   void _listenToSubmissionService(SubmissionServiceEvent event, dynamic params) {
@@ -30,18 +26,6 @@ class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
       case SubmissionServiceEvent.submissionLogsFetched:
         _updateSubmissionLogs(logs: _submissionService.currentSubmissionLogs);
         notifyListeners();
-    }
-  }
-
-  void _fetchSubmissionLogs() async {
-    if (trick == null) return;
-    try {
-      final logs = await _submissionService.fetchSubmissionLogs(tamaID: trick!.tamaID!, trickID: trick!.id!);
-      _updateSubmissionLogs(logs: logs);
-
-      notifyListeners();
-    } on PostgrestException catch (e) {
-      logE('error fetching submission logs for id ${trick?.id}: ${e.code} - ${e.message}');
     }
   }
 
@@ -58,8 +42,8 @@ class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
       }
     }
 
-    _submissionLogs.clear();
-    _submissionLogs.addAll(logs);
+    submissionLogs.clear();
+    submissionLogs.addAll(logs);
   }
 
   @override
