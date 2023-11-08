@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
+import 'package:kendamanomics_mobile/models/submission.dart';
 import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/trick_service.dart';
@@ -13,6 +14,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
   final _trickService = KiwiContainer().resolve<TrickService>();
   final _tamaTricksRelation = <Map<String, dynamic>>[];
   final String? tamaId;
+  final progressData = <String, SubmissionStatus>{};
   TrickState _state = TrickState.loading;
   List<TamaTrickProgress> _tricks = <TamaTrickProgress>[];
   String? _tamaName;
@@ -31,11 +33,11 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
     _fetchTricksForTama();
   }
 
-  void _populateTricks(String? tamaId) {
+  void _populateTricks(String? tamaId) async {
     _tricks = _persistentDataService.filterTricksByTamaId(tamaId);
     if (_tricks.isNotEmpty) {
       _state = TrickState.done;
-      _fetchTricksProgress();
+      await _fetchTricksProgress();
     }
   }
 
@@ -55,16 +57,13 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
     _tamaGroupName = _persistentDataService.fetchTamaGroupName(tamaId) ?? '';
   }
 
-  void _fetchTricksProgress() async {
+  Future<void> _fetchTricksProgress() async {
     if (tamaId == null) return;
     try {
       final data = await _trickService.fetchTrickProgress(tamaID: tamaId!);
-      for (final trickID in data.keys) {
-        final tricks = _tricks.where((element) => element.trick?.id == trickID);
-        if (tricks.isNotEmpty) {
-          tricks.first.trickStatus = data[trickID]!;
-        }
-      }
+      progressData.addAll(data);
+
+      _updateSubmissionStatuses();
 
       notifyListeners();
     } on PostgrestException catch (e) {
@@ -82,12 +81,22 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
 
       if (_state == TrickState.loading) {
         _populateTricks(tamaId);
+        _updateSubmissionStatuses();
         _state = TrickState.done;
         _fetchTricksProgress();
         notifyListeners();
       }
     } on PostgrestException catch (e) {
       logE('error fetching tricks progress for tamaID - $tamaId: ${e.toString()}');
+    }
+  }
+
+  void _updateSubmissionStatuses() {
+    for (final trickID in progressData.keys) {
+      final tricks = _tricks.where((element) => element.trick?.id == trickID);
+      if (tricks.isNotEmpty) {
+        tricks.first.trickStatus = progressData[trickID]!;
+      }
     }
   }
 
