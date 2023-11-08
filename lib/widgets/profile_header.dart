@@ -31,7 +31,10 @@ class ProfileHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const DamxPoints(damxPoints: 0),
+              const DamxPoints(
+                damxPoints: 0,
+                placeholder: true,
+              ),
               GestureDetector(
                 onTap: () => onProfilePicturePressed(),
                 child: ClipRRect(
