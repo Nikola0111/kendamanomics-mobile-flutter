@@ -7,8 +7,9 @@ import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/pages/upload_trick.dart';
 
 class SingleTrick extends StatelessWidget {
+  final int index;
   final TamaTrickProgress trickProgress;
-  const SingleTrick({super.key, required this.trickProgress});
+  const SingleTrick({super.key, required this.trickProgress, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class SingleTrick extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                '${trickProgress.trickPosition}. ${trickProgress.trick?.name}',
+                '$index. ${trickProgress.trick?.name}',
                 style: CustomTextStyles.of(context).regular16.apply(color: CustomColors.of(context).primaryText),
               ),
             ),

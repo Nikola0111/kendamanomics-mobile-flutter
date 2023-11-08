@@ -58,7 +58,7 @@ class TricksPage extends StatelessWidget {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: provider.tricks.length,
-      itemBuilder: (context, index) => SingleTrick(trickProgress: provider.tricks[index]),
+      itemBuilder: (context, index) => SingleTrick(trickProgress: provider.tricks[index], index: index + 1),
     );
   }
 

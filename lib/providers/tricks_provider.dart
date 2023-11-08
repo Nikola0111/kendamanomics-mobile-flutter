@@ -27,13 +27,17 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
   String? get tamaGroupName => _tamaGroupName;
 
   TricksProvider({required this.tamaId}) {
-    _populateTricks(tamaId);
+    _init();
+  }
+
+  void _init() async {
+    await _populateTricks(tamaId);
     _fetchTamaNameById(tamaId);
     _fetchTamaGroupNameById(tamaId);
     _fetchTricksForTama();
   }
 
-  void _populateTricks(String? tamaId) async {
+  Future<void> _populateTricks(String? tamaId) async {
     _tricks = _persistentDataService.filterTricksByTamaId(tamaId);
     if (_tricks.isNotEmpty) {
       _state = TrickState.done;

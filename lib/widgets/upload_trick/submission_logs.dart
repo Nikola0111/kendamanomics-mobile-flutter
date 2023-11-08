@@ -19,7 +19,7 @@ class SubmissionLogs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SubmissionLogsProvider(context, trick: trick, submissionLogs: logs),
+      create: (_) => SubmissionLogsProvider(context, trick: trick, submissionLogs: logs),
       builder: (context, child) => Consumer<SubmissionLogsProvider>(
         builder: (context, provider, child) {
           return Padding(

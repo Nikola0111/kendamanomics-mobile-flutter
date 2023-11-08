@@ -97,6 +97,7 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
     if (trick == null) return;
     try {
       final logs = await _submissionService.fetchSubmissionLogs(tamaID: trick!.tamaID!, trickID: trick!.id!);
+      _logs.clear();
       _logs.addAll(logs);
       notifyListeners();
     } on PostgrestException catch (e) {

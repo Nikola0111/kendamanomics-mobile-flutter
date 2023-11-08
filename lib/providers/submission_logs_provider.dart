@@ -17,6 +17,7 @@ class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
 
   SubmissionLogsProvider(this.context, {required this.trick, required this.submissionLogs}) {
     _submissionService.subscribe(_listenToSubmissionService);
+    _updateSubmissionLogs();
   }
 
   void _listenToSubmissionService(SubmissionServiceEvent event, dynamic params) {
@@ -24,16 +25,18 @@ class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
       case SubmissionServiceEvent.submissionStatusChanged:
         break;
       case SubmissionServiceEvent.submissionLogsFetched:
-        _updateSubmissionLogs(logs: _submissionService.currentSubmissionLogs);
+        submissionLogs.clear();
+        submissionLogs.addAll(_submissionService.currentSubmissionLogs);
+        _updateSubmissionLogs();
         notifyListeners();
     }
   }
 
-  void _updateSubmissionLogs({required List<SubmissionLog> logs}) {
-    logs.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+  void _updateSubmissionLogs() {
+    submissionLogs.sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
     if (context.mounted) {
-      for (final log in logs) {
+      for (final log in submissionLogs) {
         final timeWidth = log.formattedTime.calculateSize(CustomTextStyles.of(context).light16).width + 24;
         final dateWidth = log.formattedDate.calculateSize(CustomTextStyles.of(context).light16).width + 24;
 
@@ -41,9 +44,6 @@ class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
         if (dateWidth > dateBlockWidth) dateBlockWidth = dateWidth;
       }
     }
-
-    submissionLogs.clear();
-    submissionLogs.addAll(logs);
   }
 
   @override
