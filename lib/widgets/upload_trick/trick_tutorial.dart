@@ -66,9 +66,9 @@ class _TrickTutorialState extends State<TrickTutorial> {
                     onTap: () async {
                       if (widget.trickTutorialUrl == null) return;
                       final uri = Uri.parse(widget.trickTutorialUrl!);
-                      if (await canLaunchUrl(uri)) {
-                        await launchUrl(uri);
-                      }
+                      await launchUrl(uri);
+                      // if (await canLaunchUrl(uri)) {
+                      // }
                     },
                     child: Container(),
                   ),
