@@ -14,7 +14,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
   final _trickService = KiwiContainer().resolve<TrickService>();
   final _tamaTricksRelation = <Map<String, dynamic>>[];
   final String? tamaId;
-  final progressData = <String, SubmissionStatus>{};
+  final _progressData = <String, SubmissionStatus>{};
   TrickState _state = TrickState.loading;
   List<TamaTrickProgress> _tricks = <TamaTrickProgress>[];
   String? _tamaName;
@@ -65,7 +65,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
     if (tamaId == null) return;
     try {
       final data = await _trickService.fetchTrickProgress(tamaID: tamaId!);
-      progressData.addAll(data);
+      _progressData.addAll(data);
 
       _updateSubmissionStatuses();
 
@@ -83,11 +83,11 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
 
       _persistentDataService.updateTricks(newTricks: newTricks, tamaID: tamaId!);
 
+      _populateTricks(tamaId);
+      _updateSubmissionStatuses();
+      _fetchTricksProgress();
       if (_state == TrickState.loading) {
-        _populateTricks(tamaId);
-        _updateSubmissionStatuses();
         _state = TrickState.done;
-        _fetchTricksProgress();
         notifyListeners();
       }
     } on PostgrestException catch (e) {
@@ -96,10 +96,10 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
   }
 
   void _updateSubmissionStatuses() {
-    for (final trickID in progressData.keys) {
+    for (final trickID in _progressData.keys) {
       final tricks = _tricks.where((element) => element.trick?.id == trickID);
       if (tricks.isNotEmpty) {
-        tricks.first.trickStatus = progressData[trickID]!;
+        tricks.first.trickStatus = _progressData[trickID]!;
       }
     }
   }
