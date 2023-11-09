@@ -77,6 +77,7 @@ class Leaderboards extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10.0),
                 if (provider.state == LeaderboardsProviderState.loading) ...[
                   _shimmer(context),
                   _shimmer(context),
