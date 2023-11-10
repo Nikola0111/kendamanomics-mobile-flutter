@@ -33,17 +33,8 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
   ProfilePageState get state => _state;
 
   ProfilePageProvider({required this.userId}) {
-    _resolveCompanyData();
     _fetchPlayerData(userId);
     _fetchPlayerBadges(userId);
-  }
-
-  void _resolveCompanyData() {
-    _company = _authService.playerCompany;
-    if (_company?.imageUrl != null && !_company!.imageUrl!.contains('https://')) {
-      final imageUrl = Supabase.instance.client.storage.from(kCompanyBucketID).getPublicUrl(_company!.imageUrl!);
-      _company = _company!.copyWith(imageUrl: imageUrl);
-    }
   }
 
   bool availableForUpload(String id) {
@@ -69,6 +60,7 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
         _player = _player?.copyWith(playerImageUrl: newImageUrl);
         _authService.updatePlayerImage(_player!.playerImageUrl!);
         if (_player?.playerImageUrl != null) await getSignedUrl();
+        _userService.imageUploaded(_signedImageUrl);
       }
       _notify();
     } catch (e) {
@@ -78,7 +70,7 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
 
   Future<void> getSignedUrl() async {
     try {
-      final ret = await _userService.getSignedProfilePictureUrl();
+      final ret = await _userService.getSignedProfilePictureUrl(_player?.playerImageUrl);
       _signedImageUrl = ret;
     } catch (e) {
       logE('Error getting signed URL: $e');
@@ -91,6 +83,8 @@ class ProfilePageProvider extends ChangeNotifier with LoggerMixin {
       _player = ret;
       _playerName = '${_player!.firstName} ${_player!.lastName}';
       if (_player?.playerImageUrl != null && _player!.playerImageUrl!.isNotEmpty) await getSignedUrl();
+      if (_player?.companyID != null) _company = await _userService.fetchCompanyByID(_player!.companyID!);
+
       _notify();
     } catch (e) {
       logE('Error fetching  player data: $e');

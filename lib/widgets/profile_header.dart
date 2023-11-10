@@ -11,6 +11,7 @@ class ProfileHeader extends StatelessWidget {
   final Company? company;
   final String name;
   final VoidCallback onProfilePicturePressed;
+  final bool canPickTeam;
   final void Function() onCompanyPressed;
   const ProfileHeader({
     super.key,
@@ -20,6 +21,7 @@ class ProfileHeader extends StatelessWidget {
     required this.name,
     required this.onProfilePicturePressed,
     required this.onCompanyPressed,
+    this.canPickTeam = false,
   });
 
   @override
@@ -37,15 +39,14 @@ class ProfileHeader extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => onProfilePicturePressed(),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
-                  child: _getImage(context),
+                child: ClipOval(child: _getImage(context)),
+              ),
+              if (canPickTeam)
+                GestureDetector(
+                  onTap: onCompanyPressed,
+                  child: _getCompanyWidget(context),
                 ),
-              ),
-              GestureDetector(
-                onTap: onCompanyPressed,
-                child: _getCompanyWidget(context),
-              ),
+              if (!canPickTeam) _getCompanyWidget(context),
             ],
           ),
           const SizedBox(height: 20.0),
@@ -113,15 +114,19 @@ class ProfileHeader extends StatelessWidget {
       }
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 5.5,
-      child: Center(
-        child: Text(
-          'profile_page.pick_team',
-          style: CustomTextStyles.of(context).regular18,
-          textAlign: TextAlign.center,
-        ).tr(),
-      ),
-    );
+    if (canPickTeam) {
+      return SizedBox(
+        width: MediaQuery.of(context).size.width / 5.5,
+        child: Center(
+          child: Text(
+            'profile_page.pick_team',
+            style: CustomTextStyles.of(context).regular18,
+            textAlign: TextAlign.center,
+          ).tr(),
+        ),
+      );
+    } else {
+      return SizedBox(width: MediaQuery.of(context).size.width / 5.5);
+    }
   }
 }

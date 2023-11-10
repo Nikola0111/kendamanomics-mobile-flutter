@@ -59,6 +59,7 @@ class ProfilePage extends StatelessWidget {
                       }
                     }
                   },
+                  canPickTeam: provider.availableForUpload(userId),
                   onCompanyPressed: () async {
                     final data = await context.pushNamed(SelectCompanyPage.pageName);
                     if (data != null) {

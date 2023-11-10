@@ -28,7 +28,18 @@ class UserService with LoggerMixin, SubscriptionMixin<UserServiceEvents> {
     return response;
   }
 
-  Future<String?> getSignedProfilePictureUrl() async {
+  Future<String?> getSignedProfilePictureUrl(String? playerImageUrl) async {
+    if (playerImageUrl == null) return null;
+    final path = playerImageUrl;
+    final realPath = path.split('$kUploadUserImageToSupabase/')[1];
+    final ret = await _supabase.storage.from(kUploadUserImageToSupabase).createSignedUrl(realPath, 60);
+
+    // sendEvent(UserServiceEvents.imageUploaded);
+
+    return ret;
+  }
+
+  Future<String?> getMySignedProfilePictureUrl() async {
     if (_authService.player?.playerImageUrl == null) return null;
     final path = _authService.player?.playerImageUrl;
     final realPath = path!.split('$kUploadUserImageToSupabase/')[1];
@@ -43,12 +54,22 @@ class UserService with LoggerMixin, SubscriptionMixin<UserServiceEvents> {
   Future<Player> fetchPlayerData(String playerId) async {
     try {
       final ret = await _supabase.rpc('fetch_player_data', params: {'player_id_arg': playerId});
-      _authService.player = Player.fromJson(ret.first);
-      return _authService.player!;
+      // _authService.player = Player.fromJson(ret.first);
+      return Player.fromJson(ret.first);
     } catch (e) {
       logE('error fetching player data: ${e.toString()}');
       rethrow;
     }
+  }
+
+  Future<Company> fetchCompanyByID(String compID) async {
+    final companyJson = await _supabase.from('companies').select().eq('company_id', compID).single();
+    if (companyJson['company_image_url'] != null) {
+      companyJson['company_image_url'] =
+          _supabase.storage.from(kCompanyBucketID).getPublicUrl(companyJson['company_image_url']);
+    }
+
+    return Company.fromJson(json: companyJson);
   }
 
   // TODO when adding payments should fetch badge type
@@ -80,6 +101,11 @@ class UserService with LoggerMixin, SubscriptionMixin<UserServiceEvents> {
     final comp = Company.fromJson(json: ret[0]);
     _authService.playerCompany = comp;
     return comp;
+  }
+
+  void imageUploaded(String? downloadableUrl) {
+    if (downloadableUrl != null) _authService.updatePlayerImage(downloadableUrl);
+    sendEvent(UserServiceEvents.imageUploaded);
   }
 
   @override

@@ -39,7 +39,6 @@ class TamasPage extends StatelessWidget {
                               style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
                             ),
                           ),
-                          const SizedBox(height: 32),
                           Expanded(
                             child: SingleChildScrollView(
                               physics: const BouncingScrollPhysics(),
@@ -70,8 +69,10 @@ class TamasPage extends StatelessWidget {
                     },
                   ),
                 ),
-                if (provider.tamasGroup.length > 1) buildIndicator(context, provider.currentPage, provider.tamasGroup.length),
-                const SizedBox(height: 8),
+                if (provider.tamasGroup.length > 1) ...[
+                  buildIndicator(context, provider.currentPage, provider.tamasGroup.length),
+                  const SizedBox(height: 8),
+                ]
               ],
             );
           },

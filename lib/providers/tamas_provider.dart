@@ -28,6 +28,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     _currentPage = index;
     // this will be tested when we have 2 or more groups, currently only working with one tama_group
     _fillCurrentPageTamas();
+    notifyListeners();
   }
 
   TamasProvider() {

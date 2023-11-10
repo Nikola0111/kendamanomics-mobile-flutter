@@ -63,7 +63,7 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   Future<void> getSignedUrl() async {
     if (_authService.player == null && _authService.player!.playerImageUrl != null) return;
     try {
-      final ret = await _userService.getSignedProfilePictureUrl();
+      final ret = await _userService.getMySignedProfilePictureUrl();
       _authService.player = _authService.player!.copyWith(playerImageUrl: ret);
     } catch (e) {
       logE('Error getting signed URL: $e');

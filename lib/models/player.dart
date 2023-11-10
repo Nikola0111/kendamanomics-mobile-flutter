@@ -10,6 +10,7 @@ class Player {
   String? playerImageUrl;
   String? instagram;
   PlayerPoints? playerPoints;
+  String? companyID;
   Company? company;
 
   Player({
@@ -21,6 +22,7 @@ class Player {
     this.playerImageUrl,
     this.instagram,
     this.playerPoints,
+    this.companyID,
     this.company,
   });
 
@@ -31,6 +33,7 @@ class Player {
         instagram = null,
         playerImageUrl = null,
         playerPoints = null,
+        companyID = null,
         company = null;
 
   Player copyWith({
@@ -40,6 +43,7 @@ class Player {
     String? instagram,
     String? playerImageUrl,
     PlayerPoints? playerPoints,
+    String? companyID,
     Company? company,
   }) {
     return Player(
@@ -51,6 +55,7 @@ class Player {
       instagram: instagram ?? this.instagram,
       playerImageUrl: playerImageUrl ?? this.playerImageUrl,
       playerPoints: playerPoints ?? this.playerPoints,
+      companyID: companyID ?? this.companyID,
       company: company ?? this.company,
     );
   }
@@ -65,6 +70,7 @@ class Player {
       instagram: json['player_instagram'] ?? '',
       playerImageUrl: json['player_image_url'],
       playerPoints: PlayerPoints.fromJson(json: json),
+      companyID: json['player_company_id'],
       company: json['player_company'] != null ? Company.fromJson(json: json['player_company']) : null,
     );
   }

@@ -39,7 +39,7 @@ void main() async {
     }
 
     try {
-      await KiwiContainer().resolve<UserService>().getSignedProfilePictureUrl();
+      await KiwiContainer().resolve<UserService>().getMySignedProfilePictureUrl();
       initialRoute = TamasPage.pageName;
     } catch (e) {
       initialRoute = LoginPage.pageName;
