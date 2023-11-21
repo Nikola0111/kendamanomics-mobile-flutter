@@ -22,7 +22,7 @@ class SubmissionService with LoggerMixin, SubscriptionMixin<SubmissionServiceEve
     final videoName = _formatFileName(trickName);
     if (_supabase.auth.currentUser?.id != null) {
       path = await _supabase.storage.from(kVideoUploadBucketID).upload(
-            '$userID/$videoName',
+            '$userID/${videoName}_${DateTime.now().millisecondsSinceEpoch}',
             videoFile,
             fileOptions: const FileOptions(cacheControl: '3600', contentType: 'video/mp4', upsert: false),
           );

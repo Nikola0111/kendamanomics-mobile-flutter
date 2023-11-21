@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
-import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tama.dart';
 import 'package:kendamanomics_mobile/providers/profile_page_provider.dart';
@@ -49,18 +47,18 @@ class ProfileTamaProgress extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        getName(playerTamas[index].tama),
-                        textAlign: TextAlign.center,
-                        style: CustomTextStyles.of(context).regular14.apply(color: CustomColors.of(context).primary),
-                      ),
-                    ),
-                    SizedBox(width: constraints.maxWidth * 0.3, height: constraints.maxWidth * 0.3),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Text(
+                //         getName(playerTamas[index].tama),
+                //         textAlign: TextAlign.center,
+                //         style: CustomTextStyles.of(context).regular14.apply(color: CustomColors.of(context).primary),
+                //       ),
+                //     ),
+                //     SizedBox(width: constraints.maxWidth * 0.3, height: constraints.maxWidth * 0.3),
+                //   ],
+                // ),
               ],
             );
           },
