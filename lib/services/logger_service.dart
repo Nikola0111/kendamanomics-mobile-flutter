@@ -9,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 class LoggerService {
   Logger? _logger;
   late String _loggerPath;
-  bool _init = false;
 
   LoggerService() {
     _initLogger();
@@ -28,7 +27,6 @@ class LoggerService {
   }
 
   Future<void> _initLogger() async {
-    if (_init) return;
     Directory directory = await getApplicationSupportDirectory();
     _loggerPath = '${directory.path}/logger.txt';
     await _checkLoggerSizeAndResetIfNeeded();
@@ -37,7 +35,6 @@ class LoggerService {
       printer: SimplePrinter(printTime: true),
       output: FileOutput(file: File(_loggerPath)),
     );
-    _init = true;
   }
 
   void log(String text, Level level) async {

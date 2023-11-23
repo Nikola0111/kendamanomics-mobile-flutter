@@ -38,12 +38,12 @@ class SettingsPageProvider extends ChangeNotifier {
     File file = File(path);
     Directory tempDir = await getTemporaryDirectory();
     File tempFile = File('${tempDir.path}/logger.txt');
-    final smth = file.readAsStringSync();
     final value = file.readAsBytesSync();
     tempFile.writeAsBytesSync(value);
 
     final MailOptions mailOptions = MailOptions(
       subject: 'Kendamanomics Support Request',
+      body: 'Optional description about the encountered issue:',
       recipients: [EnvironmentService.supportEmail],
       isHTML: false,
       attachments: [tempFile.path],
