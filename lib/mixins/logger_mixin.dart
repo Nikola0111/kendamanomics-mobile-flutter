@@ -1,4 +1,5 @@
 import 'package:kendamanomics_mobile/services/environment_service.dart';
+import 'package:kendamanomics_mobile/services/logger_service.dart';
 
 enum _LogSeverity { info, debug, warning, error }
 
@@ -38,12 +39,15 @@ mixin LoggerMixin {
   }
 
   static void _printWithSeverity(_LogSeverity severity, String message, {String? debugText}) {
-    if (EnvironmentService.environment == Environment.prod) return; // don't print if it's prod
     var output = '${DateTime.now()}: $message';
     if (debugText != null) {
       output += ', error: $debugText';
     }
-    // ignore: avoid_print
-    print(output);
+    // don't print if it's prod
+    if (EnvironmentService.environment == Environment.prod) {
+      // ignore: avoid_print
+      print(output);
+    }
+    log(output);
   }
 }

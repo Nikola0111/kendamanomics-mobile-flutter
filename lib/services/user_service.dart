@@ -74,22 +74,18 @@ class UserService with LoggerMixin, SubscriptionMixin<UserServiceEvents> {
 
   // TODO when adding payments should fetch badge type
   Future<List<PlayerTama>> fetchPlayerBadge(String playerId) async {
-    try {
-      final badgeData = await _supabase.rpc('fetch_player_badges', params: {'player_id_param': playerId});
-      final tamaIds = badgeData.map((badge) => badge['badge_tama_id'].toString()).toList();
-      final matchingTamas = tamaIds.map((tamaId) => _persistentDataService.tamas[tamaId]).toList();
+    final badgeData = await _supabase.rpc('fetch_player_badges', params: {'player_id_param': playerId});
+    final tamaIds = badgeData.map((badge) => badge['badge_tama_id'].toString()).toList();
+    final matchingTamas = tamaIds.map((tamaId) => _persistentDataService.tamas[tamaId]).toList();
 
-      final playerTamas = <PlayerTama>[];
+    final playerTamas = <PlayerTama>[];
 
-      for (final (tama as Tama) in matchingTamas) {
-        tama.tamaGroupName = _persistentDataService.fetchTamaGroupName(tama.id);
-        playerTamas.add(PlayerTama(tama: tama, badgeType: BadgeType.completedTama));
-      }
-      return playerTamas;
-    } catch (e) {
-      logE('Error fetching player badges: ${e.toString()}');
-      rethrow;
+    for (final (tama as Tama?) in matchingTamas) {
+      if (tama == null) continue;
+      tama.tamaGroupName = _persistentDataService.fetchTamaGroupName(tama.id);
+      playerTamas.add(PlayerTama(tama: tama, badgeType: BadgeType.completedTama));
     }
+    return playerTamas;
   }
 
   // TODO refactor

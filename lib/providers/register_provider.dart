@@ -93,15 +93,17 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> signUp(String email, String password) async {
+    logI('registering user with email: $email');
     _state = RegisterState.loading;
     notifyListeners();
     try {
       await _authService.signUp(email, password);
       _state = RegisterState.success;
+      logI('user registered successfully');
       return true;
     } on AuthException catch (e) {
       if (e.statusCode == '400') {
-        logE(e.message);
+        logE('sign up failed with an email error: ${e.toString()}');
         _state = RegisterState.errorEmail;
       } else {
         logE('error while signing up: ${e.message}');
@@ -114,6 +116,10 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> updateData() async {
+    logI(
+      'updating user data firstname: $_firstName, lastName: $lastName, yearsPlaying: $yearsPlaying, '
+      'instagramUsername: $instagramUsername, supportTeamID: $supportTeamID',
+    );
     try {
       await _authService.updateData(
         firstname: _firstName,
@@ -122,6 +128,7 @@ class RegisterProvider extends ChangeNotifier with LoggerMixin {
         instagram: _instagramUsername,
         supportTeamID: _supportTeamID,
       );
+      logI('user data updated successfully');
       return true;
     } on PostgrestException catch (e) {
       logE('error while updating data: message - ${e.message}, code: ${e.code}');

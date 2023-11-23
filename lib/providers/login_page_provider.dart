@@ -32,16 +32,21 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> signIn() async {
+    logI('signing in user with email $_email');
     _state = LoginState.loading;
     notifyListeners();
     try {
       await _authService.signIn(_email, _password);
+
+      logI('sign in succeded, fetching player data');
       await _authService.fetchPlayerData();
       await getSignedUrl();
       _state = LoginState.success;
+
+      logI('login successful');
       return true;
     } on AuthException catch (e) {
-      logE('Error while signing in with the email: $_email ${e.toString()}');
+      logE('error while signing in with the email: $_email ${e.toString()}');
       if (e.statusCode == '400') {
         _state = LoginState.errorCredentials;
       } else {
@@ -62,11 +67,12 @@ class LoginPageProvider extends ChangeNotifier with LoggerMixin {
 
   Future<void> getSignedUrl() async {
     if (_authService.player == null && _authService.player!.playerImageUrl != null) return;
+    logI('fetching signed url: ${_authService.player!.playerImageUrl}');
     try {
       final ret = await _userService.getMySignedProfilePictureUrl();
       _authService.player = _authService.player!.copyWith(playerImageUrl: ret);
     } catch (e) {
-      logE('Error getting signed URL: $e');
+      logE('error getting signed URL: $e');
     }
   }
 

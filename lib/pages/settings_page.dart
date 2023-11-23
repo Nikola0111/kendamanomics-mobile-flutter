@@ -7,11 +7,9 @@ import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
 import 'package:kendamanomics_mobile/providers/settings_page_provider.dart';
-import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/widgets/clickable_link.dart';
 import 'package:kendamanomics_mobile/widgets/settings_row.dart';
 import 'package:kendamanomics_mobile/widgets/title_widget.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -45,9 +43,6 @@ class SettingsPage extends StatelessWidget {
                   SettingsRow(
                     rowName: 'settings_page.team'.tr(),
                     data: provider.supportingCompany!,
-                    // onPressed: () {
-                    //   context.pushNamed(ChangeTeamPage.pageName);
-                    // },
                     clickable: false,
                   ),
                 SettingsRow(
@@ -60,11 +55,19 @@ class SettingsPage extends StatelessWidget {
                   data: provider.email,
                   clickable: false,
                 ),
+                const SizedBox(height: 4),
+                ClickableLink(
+                  clickableText: 'settings_page.report_bug'.tr(),
+                  onTap: () async {
+                    await provider.sendSupportRequest();
+                  },
+                  clickableTextStyle: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).deniedColor),
+                ),
                 const Spacer(),
                 ClickableLink(
                   clickableText: 'buttons.logout'.tr(),
-                  onClick: () {
-                    KiwiContainer().resolve<AuthService>().signOut();
+                  onTap: () {
+                    provider.logout();
                     context.goNamed(LoginPage.pageName);
                   },
                   clickableTextStyle: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).primary),

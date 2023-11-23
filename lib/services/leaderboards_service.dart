@@ -60,14 +60,9 @@ class LeaderboardsService with LoggerMixin {
   }
 
   Future<PlayerPoints> fetchKendamanomicsLeaderboard() async {
-    try {
-      final id = Supabase.instance.client.auth.currentUser?.id;
-      final response = await _supabase.rpc('get_kendamanomics_leaderboard_position', params: {'p_id': id});
-      return PlayerPoints.fromJson(json: response.first);
-    } catch (e) {
-      logE('Error fetching kendamanomics leaderboard: $e');
-      rethrow;
-    }
+    final id = Supabase.instance.client.auth.currentUser?.id;
+    final response = await _supabase.rpc('get_kendamanomics_leaderboard_position', params: {'p_id': id});
+    return PlayerPoints.fromJson(json: response.first);
   }
 
   @override

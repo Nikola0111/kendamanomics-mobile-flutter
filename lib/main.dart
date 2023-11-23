@@ -7,6 +7,7 @@ import 'package:kendamanomics_mobile/providers/app_provider.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/company_service.dart';
 import 'package:kendamanomics_mobile/services/environment_service.dart';
+import 'package:kendamanomics_mobile/services/logger_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
 import 'package:kendamanomics_mobile/services/supabase_service.dart';
@@ -24,6 +25,7 @@ void main() async {
   final supabaseService = KiwiContainer().resolve<SupabaseService>();
   await supabaseService.init();
   KiwiContainer().resolve<CompanyService>();
+  KiwiContainer().resolve<LoggerService>();
 
   await KiwiContainer().resolve<PersistentDataService>().init();
 

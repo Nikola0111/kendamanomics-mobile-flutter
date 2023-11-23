@@ -74,9 +74,10 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
       _submission.submissionUpdated(id: temp.submissionID, newVideoUrl: temp.videoUrl, newStatus: temp.status);
 
       _state = SubmissionProgressEnum.success;
+      logI('active submission checked, id: ${_submission.submissionID}, status: ${_submission.status}');
       notifyListeners();
     } on PostgrestException catch (e) {
-      logE('error checking for active submission, ${e.message}');
+      logE('error checking for active submission, ${e.toString()}');
     }
   }
 
@@ -95,10 +96,12 @@ class SubmissionProgressProvider extends ChangeNotifier with LoggerMixin {
 
   void _fetchSubmissionLogs() async {
     if (trick == null) return;
+    logI('fetching submission logs');
     try {
       final logs = await _submissionService.fetchSubmissionLogs(tamaID: trick!.tamaID!, trickID: trick!.id!);
       _logs.clear();
       _logs.addAll(logs);
+      logI('fetching submission logs succeeded');
       notifyListeners();
     } on PostgrestException catch (e) {
       logE('error fetching submission logs for id ${trick?.id}: ${e.code} - ${e.message}');

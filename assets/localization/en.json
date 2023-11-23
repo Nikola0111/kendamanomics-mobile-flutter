@@ -95,6 +95,7 @@
         "name": "name",
         "team": "team",
         "username": "username",
-        "email": "email"
+        "email": "email",
+        "report_bug": "report bug"
     }
 }

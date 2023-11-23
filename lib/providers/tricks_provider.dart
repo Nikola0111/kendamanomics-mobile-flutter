@@ -63,12 +63,14 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
 
   Future<void> _fetchTricksProgress() async {
     if (tamaId == null) return;
+    logI('fetching trick progress for tama id $tamaId');
     try {
       final data = await _trickService.fetchTrickProgress(tamaID: tamaId!);
       _progressData.addAll(data);
 
       _updateSubmissionStatuses();
 
+      logI('trick progress fetched successfully');
       notifyListeners();
     } on PostgrestException catch (e) {
       logE('error fetching tricks progress for tamaID - $tamaId: ${e.toString()}');

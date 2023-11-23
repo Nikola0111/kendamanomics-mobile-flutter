@@ -29,12 +29,14 @@ class EnvironmentService {
   static Environment _environment = Environment.dev;
   static String _supabaseApiUrl = '';
   static String _supabaseAnonKey = '';
+  static String _supportEmail = '';
 
   static String? _iFrameSource;
 
   static Environment get environment => _environment;
   static String get supabaseApiUrl => _supabaseApiUrl;
   static String get supabaseAnonKey => _supabaseAnonKey;
+  static String get supportEmail => _supportEmail;
 
   static String? get iFrameSource => _iFrameSource;
 
@@ -56,6 +58,10 @@ class EnvironmentService {
         }
         if (part.startsWith('SUPABASE_ANON_KEY=')) {
           _supabaseAnonKey = part.substring('SUPABASE_ANON_KEY='.length);
+          continue;
+        }
+        if (part.startsWith('SUPPORT_REQUEST_EMAIL=')) {
+          _supportEmail = part.substring('SUPPORT_REQUEST_EMAIL='.length);
           continue;
         }
       }

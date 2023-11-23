@@ -45,7 +45,6 @@ class MainPageContainerProvider extends ChangeNotifier with LoggerMixin {
     if (_contentHeight != 0.0) return;
     final renderBox = _contentGlobalKey.currentContext?.findRenderObject() as RenderBox;
     _contentHeight = renderBox.size.height;
-    logI('height of content is: $_contentHeight');
   }
 
   bool _initBottomNav() {

@@ -115,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                 if (provider.availableForUpload(userId)) ...[
                   ClickableLink(
                     clickableText: 'profile_page.settings'.tr(),
-                    onClick: () {
+                    onTap: () {
                       final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
                       context.pushNamed(SettingsPage.pageName, extra: ret);
                     },

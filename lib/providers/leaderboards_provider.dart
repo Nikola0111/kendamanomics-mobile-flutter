@@ -53,6 +53,7 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<void> fetchLeaderboardData(LeaderboardTab leaderboardType) async {
+    logI('fetching leaderboard data of type: $leaderboardType');
     try {
       List<PlayerPoints> data;
       switch (leaderboardType) {
@@ -76,20 +77,22 @@ class LeaderboardsProvider extends ChangeNotifier with LoggerMixin {
           break;
       }
       _state = LeaderboardsProviderState.success;
+      logI('leaderboard fetched');
     } catch (e) {
-      logE('Error fetching leaderboard data: $e');
+      logE('error fetching leaderboard data by type $leaderboardType, error: $e');
       _state = LeaderboardsProviderState.errorFetchingLeaderboard;
     }
     _notify();
   }
 
   Future<void> fetchMyKendamaStats() async {
+    logI('fetching my kendamanomics stats');
     try {
       final myPositionData = await _leaderboardsService.fetchKendamanomicsLeaderboard();
       _myPlayer = myPositionData;
       _notify();
     } catch (e) {
-      logE('Error fetching user data: $e');
+      logE('error fetching my kendamanomics stats: $e');
     }
   }
 

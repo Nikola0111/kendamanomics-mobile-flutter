@@ -50,6 +50,7 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   // changes status to revoked
   // deletes the video from supabase
   Future<void> revokeSubmission() async {
+    logI('revoking submission ${submission.submissionID}');
     _state = TrickProgressProviderState.revokingSubmission;
     notifyListeners();
     if (submission.submissionID == null || submission.status == SubmissionStatus.waitingForSubmission) {
@@ -77,7 +78,7 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   Future<void> uploadTrickSubmission() async {
     // sanity check
     if (trick?.id == null || submission.status != SubmissionStatus.waitingForSubmission) return;
-
+    logI('creating new submission');
     final videoFile = await _selectVideo();
     if (videoFile == null) {
       _state = TrickProgressProviderState.none;
@@ -107,6 +108,7 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<File?> _selectVideo() async {
+    logI('selecting video');
     final picker = ImagePicker();
     final videoXFile = await picker.pickVideo(source: ImageSource.gallery);
     if (videoXFile != null) {
@@ -117,8 +119,10 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<String?> _uploadVideoToStorage(File videoFile) async {
+    logI('uploading video to storage');
     try {
       final path = await _submissionService.uploadVideoFile(videoFile: videoFile, trickName: trick!.name!);
+      logI('video uploaded to storage successfully, path: $path');
       return path;
     } on StorageException catch (e) {
       logE('error uploading video to storage: ${e.statusCode} - ${e.message}');
@@ -127,8 +131,10 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> _removeSubmissionVideoFromStorage() async {
+    logI('deleting submission video from storage, id: ${submission.submissionID}, url: ${submission.videoUrl}');
     try {
       await _submissionService.removeVideoFromStorage(videoName: submission.videoUrl!);
+      logI('video successfully deleted');
       return true;
     } on StorageException catch (e) {
       logE('error deleting video from storage: ${e.statusCode} - ${e.message}');
@@ -137,6 +143,7 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<String?> _createSubmission({required String videoUrl}) async {
+    logI('creating submission');
     try {
       final submissionID = await _submissionService.createSubmission(
         playerID: _authService.player!.id,
@@ -145,6 +152,7 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
         videoUrl: videoUrl,
       );
 
+      logI('submission created succcessfully, id: $submissionID');
       return submissionID;
     } on PostgrestException catch (e) {
       logE('error creating submission: ${e.message}');
@@ -153,8 +161,10 @@ class TrickProgressProvider extends ChangeNotifier with LoggerMixin {
   }
 
   Future<bool> _updateSubmissionData({required SubmissionStatus status}) async {
+    logI('updating submission data, id: ${submission.submissionID}, status: $status');
     try {
       await _submissionService.updateSubmissionData(submissionID: submission.submissionID!, status: status);
+      logI('status successfully udpated to $status');
       return true;
     } on PostgrestException catch (e) {
       logE('error revoking submission: ${e.message}');

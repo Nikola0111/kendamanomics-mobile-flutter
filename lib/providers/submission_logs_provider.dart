@@ -25,6 +25,7 @@ class SubmissionLogsProvider extends ChangeNotifier with LoggerMixin {
       case SubmissionServiceEvent.submissionStatusChanged:
         break;
       case SubmissionServiceEvent.submissionLogsFetched:
+        logI('submission logs fetched ${_submissionService.currentSubmissionLogs.length}');
         submissionLogs.clear();
         submissionLogs.addAll(_submissionService.currentSubmissionLogs);
         _updateSubmissionLogs();

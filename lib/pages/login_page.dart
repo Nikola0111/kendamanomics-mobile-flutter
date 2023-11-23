@@ -83,14 +83,14 @@ class LoginPage extends StatelessWidget {
                               const SizedBox(height: 20.0),
                               ClickableLink(
                                 clickableText: 'buttons.forgot_password'.tr(),
-                                onClick: () {
+                                onTap: () {
                                   context.pushNamed(ForgotPasswordPage.pageName);
                                 },
                               ),
                               const SizedBox(height: 20.0),
                               ClickableLink(
                                 clickableText: 'buttons.create_an_account'.tr(),
-                                onClick: () {
+                                onTap: () {
                                   context.pushNamed(RegisterShell.pageName);
                                 },
                               ),

@@ -3,7 +3,7 @@ description: App used by kendama players to track their progress.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+6
+version: 1.0.1+7
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -15,7 +15,7 @@ dependencies:
   provider: ^6.0.5
   kiwi: ^4.1.0
   easy_localization: ^3.0.3
-  easy_logger: ^0.0.2
+  logger: ^2.0.2+1
   shared_preferences: ^2.2.0
   image_picker: ^1.0.4
   cupertino_icons: ^1.0.2
@@ -30,6 +30,7 @@ dependencies:
   path_provider: ^2.1.1
   flutter_gif: ^0.0.4
   preload_page_view: ^0.2.0
+  flutter_mailer: ^2.1.1
 
 dev_dependencies:
   flutter_test:

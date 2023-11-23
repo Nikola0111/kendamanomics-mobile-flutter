@@ -12,6 +12,7 @@ class TamasGroupService with LoggerMixin {
     final uuid = await _supabase.rpc('fetch_data_tracking', params: {'filter_tracking_name': 'tamas_group'});
     if (uuid == _persistantDataService.tamasGroupValue) return null;
     _persistantDataService.tamasGroupValue = uuid;
+    logI('fetching new pins');
     final data = await _supabase.rpc('fetch_all_tamas_groups');
     if (data == null) return null;
 

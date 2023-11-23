@@ -22,16 +22,19 @@ class TrickVideoSubmissionProvider extends ChangeNotifier with LoggerMixin {
   }
 
   void _fetchSignedUrlAndInitialize() async {
+    logI('fetching signed url of submission (${submission.submissionID}) video ${submission.videoUrl}');
     final path = await _submissionService.getSignedUrl(submission.videoUrl!);
     _controller = VideoPlayerController.networkUrl(Uri.parse(path));
     try {
+      logI('initializing submission video controller');
       _controller!.initialize().then((value) {
         _initialized = true;
         _controller!.setLooping(true);
         if (!_isDisposed) {
+          logI('submission video controller initialized');
+          _controller!.setVolume(0);
           notifyListeners();
         }
-        _controller!.setVolume(0);
       });
     } on PlatformException catch (e) {
       logE('error initializing video with url $path: ${e.message}');
@@ -40,7 +43,7 @@ class TrickVideoSubmissionProvider extends ChangeNotifier with LoggerMixin {
 
   void playPauseVideo() async {
     if (_controller == null) return;
-
+    logI(_isPlaying ? 'pausing video' : 'playing video');
     if (_isPlaying) {
       _isPlaying = false;
       _controller!.pause();

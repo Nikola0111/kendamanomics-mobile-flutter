@@ -19,7 +19,7 @@ class RegisterWelcome extends StatelessWidget {
             padding: const EdgeInsets.only(top: 16.0, right: 16.0),
             child: ClickableLink(
               clickableText: 'register_page.back_to_login'.tr(),
-              onClick: () => context.goNamed(LoginPage.pageName),
+              onTap: () => context.goNamed(LoginPage.pageName),
               clickableTextStyle: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).timelineColor),
             ),
           ),

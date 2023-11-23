@@ -1,37 +1,24 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 
 class ClickableLink extends StatelessWidget {
   final String clickableText;
-  final String? nonclickableText;
-  final VoidCallback onClick;
+  final VoidCallback onTap;
   final TextStyle? clickableTextStyle;
   const ClickableLink({
     super.key,
     required this.clickableText,
-    required this.onClick,
-    this.nonclickableText,
+    required this.onTap,
     this.clickableTextStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          if (nonclickableText != null)
-            TextSpan(
-              text: '$nonclickableText ',
-              style: CustomTextStyles.of(context).light24Opacity,
-            ),
-          TextSpan(
-            text: clickableText,
-            style: clickableTextStyle ?? CustomTextStyles.of(context).light24,
-            recognizer: TapGestureRecognizer()..onTap = onClick,
-            mouseCursor: SystemMouseCursors.click,
-          ),
-        ],
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Text(clickableText, style: clickableTextStyle ?? CustomTextStyles.of(context).light24),
       ),
     );
   }

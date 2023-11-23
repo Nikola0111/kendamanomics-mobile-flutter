@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
+import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
 import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
@@ -45,6 +46,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   }
 
   void _updatePlayerTamasData({int retry = 2}) async {
+    logI('fetching tama progress data for player ${KiwiContainer().resolve<AuthService>().player?.id}');
     try {
       _progressData.clear();
       final ret = await _tamasService.getTamasProgress();
@@ -54,7 +56,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
       // in compute fill the tricks for other tamas?
       _state = TamasProviderState.success;
-
+      logI('tama progress data successfully fetched and filled for page ${_tamasGroups[_currentPage].name}');
       _notify();
     } on PostgrestException catch (e) {
       logE('error updating tamas data: ${e.toString()}');
@@ -81,6 +83,10 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
         _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(completedTricks: 0);
       }
     }
+
+    logI(
+      'filled tamas for current pin: ${_tamasGroups[_currentPage].name}, number of tamas is ${_tamasGroups[_currentPage].playerTamas.length}',
+    );
   }
 
   void _fetchTamas({int retry = 2}) async {
