@@ -181,24 +181,6 @@
       "trick_url": "https://www.youtube.com/embed/44A2b-vZMCk"
     },
     {
-      "trick_id": "db964fb4-0ad8-49a8-8395-7f20376ce8bc",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "triple jumping stick",
-      "trick_url": null
-    },
-    {
-      "trick_id": "74453f6e-3613-459f-b0da-4b49d2fefeab",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "bird nightingale handlestall",
-      "trick_url": null
-    },
-    {
-      "trick_id": "4d05a0c8-f2bb-4577-9205-e4fcf599c460",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "around Denmark",
-      "trick_url": null
-    },
-    {
       "trick_id": "451a58ce-1034-4f47-9385-ba6bcbcbc1fa",
       "created_at": "2023-11-05 20:12:17.223349+00",
       "trick_name": "around wing",
@@ -211,123 +193,15 @@
       "trick_url": null
     },
     {
-      "trick_id": "717d079a-8e3e-457e-bfb8-86f9941e7301",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "triple lighthouse flip",
-      "trick_url": null
-    },
-    {
-      "trick_id": "206395e7-9315-42d6-891b-cacd9f97cc9c",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "around bird",
-      "trick_url": null
-    },
-    {
-      "trick_id": "e19e81bc-e3c1-410f-92f0-6bc1951c35e3",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "juggle big cup",
-      "trick_url": null
-    },
-    {
       "trick_id": "45ec47aa-a316-4d2e-b7f9-e845a035c23b",
       "created_at": "2023-11-05 20:12:17.223349+00",
       "trick_name": "lunar tre flip",
       "trick_url": null
     },
     {
-      "trick_id": "7c80c671-e47e-42e4-b976-f3fe0508c40c",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "triple inward j stick",
-      "trick_url": null
-    },
-    {
-      "trick_id": "dae0154a-3597-47f6-b051-f36919c81ef2",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "around handlestall",
-      "trick_url": null
-    },
-    {
-      "trick_id": "402726dc-0c87-4a79-be1b-c84e5ae6806b",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "triple inward lighthouse flip",
-      "trick_url": null
-    },
-    {
-      "trick_id": "2b265333-c37a-479e-8328-6682ae1eabe9",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "spacewalk",
-      "trick_url": null
-    },
-    {
-      "trick_id": "e764c2f0-40ae-40a2-a6b8-dc85ce808e0d",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "axe",
-      "trick_url": null
-    },
-    {
-      "trick_id": "717169e6-6247-4121-a4f2-514304e35d46",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "handroll",
-      "trick_url": null
-    },
-    {
-      "trick_id": "4a143493-15c4-437e-8cf7-4df9ae59944b",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "triple lunar flip",
-      "trick_url": null
-    },
-    {
-      "trick_id": "bf31cf4c-d02c-41c3-8564-519b44e92320",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "inward axe",
-      "trick_url": null
-    },
-    {
-      "trick_id": "58704fdc-7c94-4884-ae5c-b883d5d124ce",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "sweets special",
-      "trick_url": null
-    },
-    {
-      "trick_id": "c115e216-93ba-4552-bb19-e8a6f1892c3a",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "triple inward lunar flip",
-      "trick_url": null
-    },
-    {
-      "trick_id": "d9a30a29-3d93-4d57-82f9-66131ff6a2c2",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "stunt flip",
-      "trick_url": null
-    },
-    {
-      "trick_id": "8aa89288-599f-4faf-afdc-de44bd382d76",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "inward stunt flip",
-      "trick_url": null
-    },
-    {
-      "trick_id": "e50eae92-4bfe-4d75-bb64-4d4b51c60174",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "spike juggle spike",
-      "trick_url": null
-    },
-    {
-      "trick_id": "7cce6710-8135-4d24-8861-2bd927dedc2d",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "goon circle",
-      "trick_url": null
-    },
-    {
       "trick_id": "1b5b16b6-01e5-4f93-9c96-694e6acb5d70",
       "created_at": "2023-11-05 20:12:17.223349+00",
       "trick_name": "1-2-3 inward jumping stick",
-      "trick_url": null
-    },
-    {
-      "trick_id": "5a9101ad-b9f0-46a1-9667-3bef4c9e0445",
-      "created_at": "2023-11-05 20:12:17.223349+00",
-      "trick_name": "stilt",
       "trick_url": null
     },
     {
@@ -505,6 +379,84 @@
       "trick_url": "https://www.youtube.com/embed/jSiJBBMWQAU"
     },
     {
+      "trick_id": "5a9101ad-b9f0-46a1-9667-3bef4c9e0445",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "db964fb4-0ad8-49a8-8395-7f20376ce8bc",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "triple jumping stick",
+      "trick_url": "https://www.youtube.com/embed/YrtWH3sySfY"
+    },
+    {
+      "trick_id": "8aa89288-599f-4faf-afdc-de44bd382d76",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "inward stunt flip",
+      "trick_url": "https://www.youtube.com/embed/-HiYUST5UvE"
+    },
+    {
+      "trick_id": "58704fdc-7c94-4884-ae5c-b883d5d124ce",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "sweets special",
+      "trick_url": "https://www.youtube.com/embed/FCKUZHThLlg"
+    },
+    {
+      "trick_id": "2b265333-c37a-479e-8328-6682ae1eabe9",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "spacewalk",
+      "trick_url": "https://www.youtube.com/embed/IMWsNchLTZg"
+    },
+    {
+      "trick_id": "4d05a0c8-f2bb-4577-9205-e4fcf599c460",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "around Denmark",
+      "trick_url": "https://www.youtube.com/embed/TvB5G9G97nw"
+    },
+    {
+      "trick_id": "d9a30a29-3d93-4d57-82f9-66131ff6a2c2",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "stunt flip",
+      "trick_url": "https://www.youtube.com/embed/V8MI94nEIag"
+    },
+    {
+      "trick_id": "7c80c671-e47e-42e4-b976-f3fe0508c40c",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "triple inward j stick",
+      "trick_url": "https://www.youtube.com/embed/Z7DPu4ONdeE"
+    },
+    {
+      "trick_id": "717169e6-6247-4121-a4f2-514304e35d46",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "handroll",
+      "trick_url": "https://www.youtube.com/embed/jbcsXFbvXUI"
+    },
+    {
+      "trick_id": "4a143493-15c4-437e-8cf7-4df9ae59944b",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "triple lunar flip",
+      "trick_url": "https://www.youtube.com/embed/kot5itBi-ZI"
+    },
+    {
+      "trick_id": "e764c2f0-40ae-40a2-a6b8-dc85ce808e0d",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "axe",
+      "trick_url": "https://www.youtube.com/embed/neXfInA6mcI"
+    },
+    {
+      "trick_id": "dae0154a-3597-47f6-b051-f36919c81ef2",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "around handlestall",
+      "trick_url": "https://www.youtube.com/embed/o20vmKrmqB8"
+    },
+    {
+      "trick_id": "c115e216-93ba-4552-bb19-e8a6f1892c3a",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "triple inward lunar flip",
+      "trick_url": "https://www.youtube.com/embed/v587NPd0gdk"
+    },
+    {
       "trick_id": "a37cc6a7-c66e-425e-a1d6-3bb5c60163e5",
       "created_at": "2023-11-07 11:06:42.48346+00",
       "trick_name": "inward whirlwind",
@@ -599,6 +551,426 @@
       "created_at": "2023-11-09 16:21:49.232714+00",
       "trick_name": "around USA",
       "trick_url": "https://www.youtube.com/embed/AtxbNi_npiM"
+    },
+    {
+      "trick_id": "9bccc345-29e7-459e-a8d2-8735267a24f7",
+      "created_at": "2023-11-16 09:30:57.06723+00",
+      "trick_name": ".5 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "eb7d2992-550d-47f0-a9d5-7d8fbed0957b",
+      "created_at": "2023-11-16 09:31:09.416181+00",
+      "trick_name": ".5 stilt inward barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "4c00b3e4-d90f-4b9d-ba79-5dbda5381193",
+      "created_at": "2023-11-16 09:32:00.855355+00",
+      "trick_name": "stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "1c4bfc3c-c17f-42cb-b74f-45f6dfd761f3",
+      "created_at": "2023-11-16 09:37:07.989118+00",
+      "trick_name": "2 stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "fb2ccfca-e82b-40f7-b403-0a819230280f",
+      "created_at": "2023-11-16 09:37:29.924061+00",
+      "trick_name": "2 inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "9fe0d0b3-d05c-4ca6-a9c5-3e076a2f183a",
+      "created_at": "2023-11-16 09:37:37.090048+00",
+      "trick_name": "stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "0c28c812-0cb2-45e6-be70-57dc67124bb5",
+      "created_at": "2023-11-16 09:37:41.762295+00",
+      "trick_name": "inward stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "ffd7f922-30e0-4982-a209-ac6923a10f19",
+      "created_at": "2023-11-16 09:37:48.095651+00",
+      "trick_name": "2 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "55296241-ce06-4c44-b277-f50f4afde8ef",
+      "created_at": "2023-11-16 09:37:58.954004+00",
+      "trick_name": "2 inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "f17e84c8-3b24-4eb7-9fdb-919ee33b382e",
+      "created_at": "2023-11-16 09:38:03.920419+00",
+      "trick_name": "stilt tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "b42ffd2b-9675-4100-9dac-43ebbe2e1d33",
+      "created_at": "2023-11-16 09:38:09.026703+00",
+      "trick_name": "inward stilt tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "6b173c60-2e79-467a-8832-caac449d6596",
+      "created_at": "2023-11-16 09:38:13.93085+00",
+      "trick_name": "stilt laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "fd254a01-e4c4-421c-a09a-d1474c2d06cd",
+      "created_at": "2023-11-16 09:38:19.481518+00",
+      "trick_name": "inward stilt laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "692b118c-ab82-4628-9e7c-200ceba47478",
+      "created_at": "2023-11-16 12:35:26.543605+00",
+      "trick_name": "3 stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "0f180c67-c134-4890-8a54-9a9169d3ec49",
+      "created_at": "2023-11-16 12:35:35.653267+00",
+      "trick_name": "3 inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "a1ee0420-61ab-46cd-8d67-1917b58aac82",
+      "created_at": "2023-11-16 12:35:49.989434+00",
+      "trick_name": "2 stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "2cdef162-8aa4-4af0-b893-b6b1e5a265f1",
+      "created_at": "2023-11-16 12:35:55.581872+00",
+      "trick_name": "2 inward stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "7203e1c0-31b4-4d4f-bd4c-7eb213c59efb",
+      "created_at": "2023-11-16 12:35:59.701973+00",
+      "trick_name": "3 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "5c9b0950-f16f-47c2-a359-7e7ed66a491d",
+      "created_at": "2023-11-16 12:36:04.054276+00",
+      "trick_name": "3 inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "d63d3bfa-8488-4e86-9de9-f8d04f6e574d",
+      "created_at": "2023-11-16 12:36:08.187966+00",
+      "trick_name": "stilt backflip tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "fe89cd2f-4b0f-4b94-b5c6-169c8a697e1b",
+      "created_at": "2023-11-16 12:36:14.404903+00",
+      "trick_name": "inward stilt backflip tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "789caa90-8937-4304-80d5-2a25f91a4ed4",
+      "created_at": "2023-11-16 12:36:18.834775+00",
+      "trick_name": "stilt backflip laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "a4b15585-0ac1-47bb-92ef-48a027383704",
+      "created_at": "2023-11-16 12:36:23.331745+00",
+      "trick_name": "inward stilt backflip laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "3d1bbc26-5b79-43bb-99f0-737cb336f84b",
+      "created_at": "2023-11-16 12:39:03.030483+00",
+      "trick_name": "4 stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "a9d20a09-d51e-43a1-9e70-5f63257f2b89",
+      "created_at": "2023-11-16 12:40:05.68794+00",
+      "trick_name": "4 inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "9f89f2c6-7d91-4c07-b038-e3bc1408af4a",
+      "created_at": "2023-11-16 12:40:51.908067+00",
+      "trick_name": "1-2-3 stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "ade11d59-2fa7-4a66-baf2-37adb6cbdfaf",
+      "created_at": "2023-11-16 12:40:58.72236+00",
+      "trick_name": "1-2-3 inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "ed2661a5-81b2-4a60-ab37-f5803117063f",
+      "created_at": "2023-11-16 12:41:03.321304+00",
+      "trick_name": "3 stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "65ad3160-9643-4c7a-a9fc-0b3ffb5a3ec7",
+      "created_at": "2023-11-16 12:41:09.397627+00",
+      "trick_name": "3 inward stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "162ee48f-283a-472a-aff4-6599736bcc9a",
+      "created_at": "2023-11-16 12:41:15.574036+00",
+      "trick_name": "4 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "a1352934-db81-496c-9228-786489575d0d",
+      "created_at": "2023-11-16 12:41:20.825431+00",
+      "trick_name": "4 inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "e0ea7553-f7b2-462e-bc3a-5b0cd09307ec",
+      "created_at": "2023-11-16 12:41:25.748082+00",
+      "trick_name": "1-2-3 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "521a1180-89e8-401b-aae6-0fdae8cc01f6",
+      "created_at": "2023-11-16 12:41:30.036746+00",
+      "trick_name": "1-2-3 inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "da1f1a09-f023-4f0b-8648-75fd3b0ea300",
+      "created_at": "2023-11-16 12:41:34.831591+00",
+      "trick_name": "2 stilt tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "cc6c4ea7-993f-4d24-a77c-fa3343103821",
+      "created_at": "2023-11-16 12:41:38.997289+00",
+      "trick_name": "2 inward stilt tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "a4ea401f-c1a2-405f-b1c5-acc483292a22",
+      "created_at": "2023-11-16 12:41:44.983034+00",
+      "trick_name": "2 stilt laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "dd90c7e6-a40c-478b-a1ba-c293a79265d5",
+      "created_at": "2023-11-16 12:41:49.176994+00",
+      "trick_name": "2 inward stilt laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "7f8838f7-e094-4cbb-8358-cdd3cbd7281c",
+      "created_at": "2023-11-16 12:48:08.800398+00",
+      "trick_name": "5 stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "518268a8-96d6-4c55-9556-d52952721f4d",
+      "created_at": "2023-11-16 12:48:13.059276+00",
+      "trick_name": "5 inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "3c3569b0-c2fc-4024-9b77-6dee7dbd371d",
+      "created_at": "2023-11-16 12:48:16.381603+00",
+      "trick_name": "1-2-3-4 stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "c7718e47-8413-481f-8abb-de7c46d2bab5",
+      "created_at": "2023-11-16 12:48:19.67264+00",
+      "trick_name": "1-2-3-4 inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "bd0e4c6f-400b-42d4-bf51-53b8ebf3d838",
+      "created_at": "2023-11-16 12:48:22.39121+00",
+      "trick_name": "4 stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "612f5739-9a47-4c62-8cbd-efdf092932a1",
+      "created_at": "2023-11-16 12:48:25.210537+00",
+      "trick_name": "4 inward stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "d0d5d368-62f3-40df-945e-7ecc05b1c0ec",
+      "created_at": "2023-11-16 12:48:29.718278+00",
+      "trick_name": "1-2-3 stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "7cb94beb-02ea-4b48-868e-c80ed7ae8ac5",
+      "created_at": "2023-11-16 12:48:33.169049+00",
+      "trick_name": "1-2-3 inward stilt backflip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "30172666-416b-4c98-95b7-2e90fd33b5c7",
+      "created_at": "2023-11-16 12:48:36.10953+00",
+      "trick_name": "5 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "8eef5e84-7bce-4917-8c34-c29dc36a1aac",
+      "created_at": "2023-11-16 12:48:39.73928+00",
+      "trick_name": "5 inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "f3b5bf61-4268-45db-a41f-14feebcbf6c6",
+      "created_at": "2023-11-16 12:48:43.121398+00",
+      "trick_name": "1-2-3-4 stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "89a28b08-8de4-4b68-a931-7b0f902b0e8c",
+      "created_at": "2023-11-16 12:48:46.2882+00",
+      "trick_name": "1-2-3-4 inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "f8f661c1-ad10-4a8d-8e44-5d79a419470e",
+      "created_at": "2023-11-16 12:48:50.18472+00",
+      "trick_name": "3 stilt tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "a7357c32-7e61-46e5-8aa4-8576752b088e",
+      "created_at": "2023-11-16 12:48:54.280542+00",
+      "trick_name": "3 inward stilt tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "bb5795d7-d3b1-4118-8bb1-4091a150728b",
+      "created_at": "2023-11-16 12:48:57.773285+00",
+      "trick_name": "2 stilt backflip tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "91ddc80d-22fa-4794-abd3-e569b745f2e9",
+      "created_at": "2023-11-16 12:49:00.999342+00",
+      "trick_name": "2 inward stilt backflip tre",
+      "trick_url": null
+    },
+    {
+      "trick_id": "3fe161c1-c79d-46a7-bb59-b1ac06ab771a",
+      "created_at": "2023-11-16 12:49:04.819055+00",
+      "trick_name": "3 stilt laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "3a392d22-a7b0-4ff1-af2d-16e30e7ffdcd",
+      "created_at": "2023-11-16 12:49:08.128332+00",
+      "trick_name": "3 inward stilt laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "4d56405b-9712-42d9-93c3-6136a337a250",
+      "created_at": "2023-11-16 12:49:11.421533+00",
+      "trick_name": "2 stilt backflip laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "f031c025-57fe-41ae-ba6e-da3821fad604",
+      "created_at": "2023-11-16 12:49:17.342395+00",
+      "trick_name": "2 inward stilt backflip laser",
+      "trick_url": null
+    },
+    {
+      "trick_id": "7eaa38c3-9b02-454e-aafc-ddd69bb78577",
+      "created_at": "2023-11-16 09:32:05.908017+00",
+      "trick_name": "inward stilt barrel",
+      "trick_url": null
+    },
+    {
+      "trick_id": "186a7596-0388-490c-bb5b-6033572dbcf2",
+      "created_at": "2023-11-16 09:28:17.968842+00",
+      "trick_name": "pull up stilt",
+      "trick_url": null
+    },
+    {
+      "trick_id": "8477e863-3c0f-46ec-8cc7-1311bb40b167",
+      "created_at": "2023-11-16 09:28:44.122949+00",
+      "trick_name": "pull up inward stilt",
+      "trick_url": null
+    },
+    {
+      "trick_id": "10432472-1185-4066-bfb7-693f055ba713",
+      "created_at": "2023-11-16 09:31:51.005904+00",
+      "trick_name": "pull up stilt - stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "23894301-17f6-4e09-9388-f9d026ca55ad",
+      "created_at": "2023-11-16 09:31:55.868587+00",
+      "trick_name": "pull up inward stilt - inward stilt flip",
+      "trick_url": null
+    },
+    {
+      "trick_id": "7cce6710-8135-4d24-8861-2bd927dedc2d",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "goon circle",
+      "trick_url": "https://www.youtube.com/embed/rYrw9RWcFWw"
+    },
+    {
+      "trick_id": "402726dc-0c87-4a79-be1b-c84e5ae6806b",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "triple inward lighthouse flip",
+      "trick_url": "https://www.youtube.com/embed/8FrXJ1E3f_0"
+    },
+    {
+      "trick_id": "206395e7-9315-42d6-891b-cacd9f97cc9c",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "around bird",
+      "trick_url": "https://www.youtube.com/embed/St3DLbA-aJw"
+    },
+    {
+      "trick_id": "bf31cf4c-d02c-41c3-8564-519b44e92320",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "inward axe",
+      "trick_url": "https://www.youtube.com/embed/YvIw1rlIjRI"
+    },
+    {
+      "trick_id": "e50eae92-4bfe-4d75-bb64-4d4b51c60174",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "spike juggle spike",
+      "trick_url": "https://www.youtube.com/embed/iy3-xoW94Ak"
+    },
+    {
+      "trick_id": "717d079a-8e3e-457e-bfb8-86f9941e7301",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "triple lighthouse flip",
+      "trick_url": "https://www.youtube.com/embed/jxAAFK04GLw"
+    },
+    {
+      "trick_id": "e19e81bc-e3c1-410f-92f0-6bc1951c35e3",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "juggle big cup",
+      "trick_url": "https://www.youtube.com/embed/mlCePFBbrck"
+    },
+    {
+      "trick_id": "74453f6e-3613-459f-b0da-4b49d2fefeab",
+      "created_at": "2023-11-05 20:12:17.223349+00",
+      "trick_name": "around stall",
+      "trick_url": "https://www.youtube.com/embed/mrz4ZXAfels"
     }
   ]
 }

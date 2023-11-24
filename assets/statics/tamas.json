@@ -39,6 +39,46 @@
       "tama_image_url": "purpleheart_tama.png",
       "tama_number_of_tricks": 20,
       "tama_group_id": "87be012a-52ec-11ee-b9a0-0242ac150002"
+    },
+    {
+      "tama_id": "a28aeda3-c454-42b7-8d7a-3491867df65a",
+      "created_at": "2023-11-16 09:27:05.983183+00",
+      "tama_name": "beech",
+      "tama_image_url": "beech_image.png",
+      "tama_number_of_tricks": 8,
+      "tama_group_id": "4dbf7111-ed67-4a32-b3de-13b8d8d012a9"
+    },
+    {
+      "tama_id": "0c632737-f438-4d62-828f-3b18816eaef3",
+      "created_at": "2023-11-16 09:42:06.978201+00",
+      "tama_name": "birch",
+      "tama_image_url": "birch_image.png",
+      "tama_number_of_tricks": 10,
+      "tama_group_id": "4dbf7111-ed67-4a32-b3de-13b8d8d012a9"
+    },
+    {
+      "tama_id": "37f6d5ec-0895-447f-9769-5e2f74f14bc7",
+      "created_at": "2023-11-16 12:36:42.985622+00",
+      "tama_name": "ash",
+      "tama_image_url": "ash_image.png",
+      "tama_number_of_tricks": 10,
+      "tama_group_id": "4dbf7111-ed67-4a32-b3de-13b8d8d012a9"
+    },
+    {
+      "tama_id": "9f2457bb-3705-467a-9fcd-2565e334e452",
+      "created_at": "2023-11-16 12:42:45.870098+00",
+      "tama_name": "bamboo",
+      "tama_image_url": "bamboo_image.png",
+      "tama_number_of_tricks": 20,
+      "tama_group_id": "4dbf7111-ed67-4a32-b3de-13b8d8d012a9"
+    },
+    {
+      "tama_id": "5e0a996e-2763-4a7c-9865-18181dedf4e3",
+      "created_at": "2023-11-16 12:49:50.685764+00",
+      "tama_name": "purpleheart",
+      "tama_image_url": "purpleheart_image.png",
+      "tama_number_of_tricks": 20,
+      "tama_group_id": "4dbf7111-ed67-4a32-b3de-13b8d8d012a9"
     }
   ]
 }

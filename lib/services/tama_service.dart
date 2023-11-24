@@ -16,7 +16,7 @@ class TamaService with LoggerMixin {
     final progressData = <String, int>{};
 
     if (_authService.player?.id != null) {
-      final data = await _supabase.rpc('fetch_tamas_progress', params: {'player_id': 'd65e62b6-a748-4a13-8e30-ae7485337fd4'});
+      final data = await _supabase.rpc('fetch_tamas_progress', params: {'player_id': _authService.player?.id});
       for (var map in data) {
         final id = map['data']['submission_tama_id'];
         final count = map['data']['count'];
