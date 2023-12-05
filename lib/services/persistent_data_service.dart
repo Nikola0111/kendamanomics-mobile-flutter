@@ -11,6 +11,7 @@ import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tuple/tuple.dart';
 
 class PersistentDataService with LoggerMixin {
   static const _localDataJsonName = 'localDataJson';
@@ -119,12 +120,16 @@ class PersistentDataService with LoggerMixin {
             .map((e) => e['tama_id'])
             .first;
 
+        final trickOrder = _tamaTricksRelation
+            .where((element) => element['trick_id'] == tricksJson['trick_id'] && element['tama_id'] == tamaID)
+            .first['trick_order'];
+
         final trick = Trick.fromJson(json: tricksJson, tamaID: tamaID);
         if (trick.id != null) {
           _tricks.add(trick);
 
           if (_tamas.containsKey(trick.tamaID)) {
-            _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick));
+            _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick, trickOrder: trickOrder));
           }
         }
       }
@@ -243,9 +248,12 @@ class PersistentDataService with LoggerMixin {
           final tmp = Trick.fromJson(json: tr, tamaID: tr['tama_id']);
           if (tmp.id != null) {
             _tricks.add(tmp);
+            final tamaTrick = _tamaTricksRelation
+                .where((element) => element['trick_id'] == tmp.id && element['tama_id'] == tmp.tamaID)
+                .singleOrNull;
 
-            if (tmp.tamaID != null && _tamas.containsKey(tmp.tamaID)) {
-              _tamas[tmp.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: tmp));
+            if (tamaTrick != null && tmp.tamaID != null && _tamas.containsKey(tmp.tamaID)) {
+              _tamas[tmp.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: tmp, trickOrder: tamaTrick['trick_order']));
             }
           }
         }
@@ -352,7 +360,7 @@ class PersistentDataService with LoggerMixin {
             .singleOrNull;
 
         if (position != null) {
-          tama.tricks?.add(TamaTrickProgress.fromTrick(trick: trick));
+          tama.tricks?.add(TamaTrickProgress.fromTrick(trick: trick, trickOrder: position['trick_order']));
         }
       }
 
@@ -365,20 +373,22 @@ class PersistentDataService with LoggerMixin {
     writeData();
   }
 
-  void updateTricks({required List<Trick> newTricks, required String tamaID}) {
+  void updateTricks({required List<Tuple2<Trick, int?>> trickTuples, required String tamaID}) {
     _tricks.removeWhere((element) => element.tamaID == tamaID);
-    _tricks.addAll(newTricks);
+    final onlyTricks = trickTuples.map((e) => e.item1);
+    _tricks.addAll(onlyTricks);
     _tamas[tamaID]?.tricks?.clear();
+    _tamaTricksRelation.removeWhere((element) => element['tama_id'] == tamaID);
 
-    for (int i = 0; i < newTricks.length; i++) {
-      final trick = newTricks[i];
+    for (int i = 0; i < trickTuples.length; i++) {
+      final trick = trickTuples[i].item1;
       if (_tamas.containsKey(trick.tamaID)) {
-        _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick));
+        _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick, trickOrder: trickTuples[i].item2));
         _tamaTricksRelation.add({
           'tama_id': trick.tamaID,
           'trick_id': trick.id,
           'trick_points': 1,
-          'trick_order': i,
+          'trick_order': trickTuples[i].item2,
         });
       }
     }
