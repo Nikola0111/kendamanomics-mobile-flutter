@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/cupertino.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
@@ -7,7 +9,9 @@ import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
 import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:pay/pay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kendamanomics_mobile/payment_configuration.dart' as payment_configuration;
 
 enum TamasProviderState { loading, none, success, errorFetchingProgress }
 
@@ -17,13 +21,20 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
   final _tamasGroups = <TamasGroup>[];
   final _progressData = <String, int>{};
+
   TamasProviderState _state = TamasProviderState.loading;
   int _currentPage = 0;
   bool _isDisposed = false;
+  Pay? _payClient;
+  bool _applePayAvailability = false;
+  bool _googlePayAvailability = false;
 
   List<TamasGroup> get tamasGroup => _tamasGroups;
   int get currentPage => _currentPage;
   TamasProviderState get state => _state;
+  Pay? get payClient => _payClient;
+  bool get applePayAvailability => _applePayAvailability;
+  bool get googlePayAvailability => _googlePayAvailability;
 
   set currentPage(int index) {
     _currentPage = index;
@@ -38,6 +49,36 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
     _fetchTamaGroups();
     _fetchTamas();
+    _checkPaymentAvailability();
+  }
+
+  void _checkPaymentAvailability() {
+    _payClient = Pay({
+      PayProvider.google_pay: PaymentConfiguration.fromJsonString(payment_configuration
+          .defaultApplePay), //TODO: Swap the setup to merchant ids in the payment_configuration file for both lines
+      PayProvider.apple_pay: PaymentConfiguration.fromJsonString(payment_configuration.defaultApplePay),
+    });
+    _isApplePayInstalled();
+    _isGooglePayInstalled();
+  }
+
+  Future<void> _isApplePayInstalled() async {
+    _applePayAvailability = await _payClient!.userCanPay(PayProvider.apple_pay);
+    if (_applePayAvailability) {
+      //consider swapping to bool and then calling apyclien.showpaymentselector, check out future builder from docs aswell
+      notifyListeners();
+    } else {
+      logE('Apple pay is not available');
+    }
+  }
+
+  Future<void> _isGooglePayInstalled() async {
+    _googlePayAvailability = await _payClient!.userCanPay(PayProvider.google_pay);
+    if (_googlePayAvailability) {
+      notifyListeners();
+    } else {
+      logE('Google pay is not available');
+    }
   }
 
   void _populateGroups() {
