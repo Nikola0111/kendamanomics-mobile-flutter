@@ -1,8 +1,8 @@
 const String defaultApplePay = '''{
   "provider": "apple_pay",
   "data": {
-    "merchantIdentifier": "merchant.com.domain.project",
-    "displayName": "App name",
+    "merchantIdentifier": "merchant.com.kendamanomics.app",
+    "displayName": "Kendamanomics",
     "merchantCapabilities": ["3DS", "debit", "credit"],
     "supportedNetworks": ["amex", "visa", "discover", "masterCard"],
     "countryCode": "QA",
