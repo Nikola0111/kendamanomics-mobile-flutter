@@ -60,8 +60,9 @@ const _defaultGooglePay = '''{
       "tokenizationSpecification": {
         "type": "PAYMENT_GATEWAY",
         "parameters": {
-          "gateway": "example",
-          "gatewayMerchantId": "gatewayMerchantId"
+          "gateway": "stripe",
+          "stripe:version": "2023-10-16"
+          "stripe:publishableKey": "YOUR_PUBLIC_STRIPE_KEY"
         }
       },
       "parameters": {
