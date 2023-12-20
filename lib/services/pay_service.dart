@@ -14,6 +14,15 @@ class PayService {
     });
   }
 
+  Future<void> purchase() async {
+    payClient!.showPaymentSelector(
+      PayProvider.apple_pay,
+      [
+        PaymentItem(amount: '0.01', label: 'nikolin item'),
+      ],
+    );
+  }
+
   // Future<void> _isApplePayInstalled() async {
   //   _applePayAvailability = await _payClient!.userCanPay(PayProvider.apple_pay);
   //   if (_applePayAvailability) {
@@ -61,8 +70,8 @@ const _defaultGooglePay = '''{
         "type": "PAYMENT_GATEWAY",
         "parameters": {
           "gateway": "stripe",
-          "stripe:version": "2023-10-16"
-          "stripe:publishableKey": "YOUR_PUBLIC_STRIPE_KEY"
+          "stripe:version": "2023-10-16",
+          "stripe:publishableKey": "pk_test_51ONbV2BLQ7BwmxqptZqh7hekr8OD6ccCa4IBO16VfVC7qWxExUJC0Wr6UMqbBZfW4KpKxwdQOdBvNI7nqPygmg0X0045Ev1HWQ"
         }
       },
       "parameters": {

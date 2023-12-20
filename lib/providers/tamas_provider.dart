@@ -3,6 +3,7 @@ import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/services/pay_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
 import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
@@ -13,6 +14,7 @@ enum TamasProviderState { loading, none, success, errorFetchingProgress }
 
 class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
+  final _payService = KiwiContainer().resolve<PayService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
   final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
   final _tamasGroups = <TamasGroup>[];
@@ -21,14 +23,10 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   TamasProviderState _state = TamasProviderState.loading;
   int _currentPage = 0;
   bool _isDisposed = false;
-  bool _applePayAvailability = false;
-  bool _googlePayAvailability = false;
 
   List<TamasGroup> get tamasGroup => _tamasGroups;
   int get currentPage => _currentPage;
   TamasProviderState get state => _state;
-  bool get applePayAvailability => _applePayAvailability;
-  bool get googlePayAvailability => _googlePayAvailability;
 
   set currentPage(int index) {
     _currentPage = index;
@@ -130,6 +128,12 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     if (!_isDisposed) {
       notifyListeners();
     }
+  }
+
+  void testPay() async {
+    logI('starting payment');
+    await _payService.purchase();
+    logI('payment finished');
   }
 
   @override
