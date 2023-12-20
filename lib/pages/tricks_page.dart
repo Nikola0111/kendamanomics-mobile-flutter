@@ -58,7 +58,13 @@ class TricksPage extends StatelessWidget {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: provider.tricks.length,
-      itemBuilder: (context, index) => SingleTrick(trickProgress: provider.tricks[index], index: index + 1),
+      itemBuilder: (context, index) => SingleTrick(
+        trickProgress: provider.tricks[index],
+        index: index + 1,
+        onReturn: () {
+          provider.fetchTricksProgress();
+        },
+      ),
     );
   }
 
@@ -81,7 +87,14 @@ class TricksPage extends StatelessWidget {
   Container _shimmer(BuildContext context) {
     return Container(
       height: 19 + 2 * 16 - 0.5,
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.black.withOpacity(0.3)))),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 0.5,
+            color: Colors.black.withOpacity(0.3),
+          ),
+        ),
+      ),
       child: Row(
         children: [
           SizedBox(

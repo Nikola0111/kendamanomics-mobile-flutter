@@ -41,7 +41,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
     _tricks = _persistentDataService.filterTricksByTamaId(tamaId);
     if (_tricks.isNotEmpty) {
       _state = TrickState.done;
-      await _fetchTricksProgress();
+      await fetchTricksProgress();
     }
   }
 
@@ -61,11 +61,13 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
     _tamaGroupName = _persistentDataService.fetchTamaGroupName(tamaId) ?? '';
   }
 
-  Future<void> _fetchTricksProgress() async {
+  Future<void> fetchTricksProgress() async {
     if (tamaId == null) return;
     logI('fetching trick progress for tama id $tamaId');
     try {
       final data = await _trickService.fetchTrickProgress(tamaID: tamaId!);
+
+      _progressData.clear();
       _progressData.addAll(data);
 
       _updateSubmissionStatuses();
@@ -87,7 +89,7 @@ class TricksProvider extends ChangeNotifier with LoggerMixin {
 
       _populateTricks(tamaId);
       _updateSubmissionStatuses();
-      _fetchTricksProgress();
+      fetchTricksProgress();
       if (_state == TrickState.loading) {
         _state = TrickState.done;
         notifyListeners();
