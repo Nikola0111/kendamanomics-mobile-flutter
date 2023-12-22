@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:pay/pay.dart';
 
 class PayService {
   Pay? payClient;
+
+  PayProvider get _payProvider => Platform.isAndroid ? PayProvider.google_pay : PayProvider.apple_pay;
 
   PayService() {
     _initClient();
@@ -15,8 +19,10 @@ class PayService {
   }
 
   Future<void> purchase() async {
-    payClient!.showPaymentSelector(
-      PayProvider.apple_pay,
+    final canPay = await payClient!.userCanPay(_payProvider);
+    print(_payProvider);
+    final ret = await payClient!.showPaymentSelector(
+      _payProvider,
       [
         PaymentItem(amount: '0.01', label: 'nikolin item'),
       ],
@@ -79,8 +85,7 @@ const _defaultGooglePay = '''{
         "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
         "billingAddressRequired": true,
         "billingAddressParameters": {
-          "format": "FULL",
-          "phoneNumberRequired": true
+          "format": "MIN"
         }
       }
     }],
