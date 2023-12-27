@@ -5,6 +5,7 @@ import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/in_app_purchase_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
+import 'package:kendamanomics_mobile/services/purchase_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
 import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
 import 'package:kiwi/kiwi.dart';
@@ -14,6 +15,7 @@ enum TamasProviderState { loading, none, success, errorFetchingProgress }
 
 class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
+  final _purchaseService = KiwiContainer().resolve<PurchaseService>();
   final _inAppPurchaseService = KiwiContainer().resolve<InAppPurchaseService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
   final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
@@ -40,6 +42,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   bool get checkedPurchasedGroups => _purchasedGroupIds == null;
 
   TamasProvider() {
+    _inAppPurchaseService.init();
     _populateGroups();
     _updatePlayerTamasData();
 
@@ -143,7 +146,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
   void _fetchPurchasedGroupIds() async {
     try {
-      final data = await _tamaGroupService.fetchPurchasedGroupsData();
+      final data = await _purchaseService.fetchPurchasedGroupsData();
       _purchasedGroupIds = [];
       _purchasedGroupIds!.addAll(data);
       _persistentDataService.updatePremiumTamaGroupIDs(premiumIDs: _purchasedGroupIds!);
@@ -161,7 +164,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   }
 
   void testPay() async {
-    final id = _tamasGroups[currentPage].id!.replaceAll('-', '');
+    final id = _tamasGroups[currentPage].formatIdForPayment;
     await _inAppPurchaseService.purchasePremiumTamasGroup(premiumTamasGroupID: id);
   }
 
@@ -174,6 +177,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   @override
   void dispose() {
     _isDisposed = true;
+    _inAppPurchaseService.dispose();
     super.dispose();
   }
 

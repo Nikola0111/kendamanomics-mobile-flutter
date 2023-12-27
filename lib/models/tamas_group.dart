@@ -22,7 +22,11 @@ class TamasGroup {
     playerTamas.add(PlayerTama.fromTama(tama: tama, completed: numOfCompletedTricks));
   }
 
+  String get formatIdForPayment => id?.replaceAll('-', '_') ?? '';
+
   Map<String, dynamic> toJson() {
     return {'tamas_group_id': id, 'tamas_group_name': name};
   }
+
+  static String revertPaymentIdToId(String id) => id.replaceAll('_', '-');
 }

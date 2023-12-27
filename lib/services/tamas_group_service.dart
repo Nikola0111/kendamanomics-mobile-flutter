@@ -44,19 +44,6 @@ class TamasGroupService with LoggerMixin {
     return false;
   }
 
-  Future<List<String>> fetchPurchasedGroupsData() async {
-    final playerID = _authService.player?.id;
-    logI('fetching purchased groups data');
-    final data = await _supabase.rpc('fetch_purchased_groups_data', params: {'query_player_id': playerID});
-    logI('data fetched: $data');
-    final ids = <String>[];
-    for(final id in data) {
-      ids.add(id['premium_group_id']);
-    }
-
-    return ids;
-  }
-
   @override
   String get className => 'TamaGroupService';
 }
