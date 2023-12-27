@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
+import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:kendamanomics_mobile/providers/tamas_provider.dart';
 import 'package:kendamanomics_mobile/widgets/tama_widget.dart';
 import 'package:provider/provider.dart';
@@ -46,11 +48,10 @@ class TamasPage extends StatelessWidget {
                                       playerTama: playerTama,
                                       state: provider.state,
                                       onTap: () {
-                                        provider.testPay();
-                                        // context.pushNamed(
-                                        //   TricksPage.pageName,
-                                        //   extra: playerTama.tama.id,
-                                        // );
+                                        context.pushNamed(
+                                          TricksPage.pageName,
+                                          extra: playerTama.tama.id,
+                                        );
                                       },
                                     ),
                                     if (provider.tamasGroup[index].playerTamas.indexOf(playerTama) !=
