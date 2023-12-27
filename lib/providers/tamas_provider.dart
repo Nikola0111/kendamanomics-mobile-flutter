@@ -149,7 +149,6 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       final data = await _purchaseService.fetchPurchasedGroupsData();
       _purchasedGroupIds = [];
       _purchasedGroupIds!.addAll(data);
-      _persistentDataService.updatePremiumTamaGroupIDs(premiumIDs: _purchasedGroupIds!);
 
       /// _initialPage is always the first FREE tama group. when swiping left we swipe into premium tamas
       if (currentPage < _initialPage) {

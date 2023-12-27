@@ -7,6 +7,7 @@ import 'package:kendamanomics_mobile/services/in_app_purchase_service.dart';
 import 'package:kendamanomics_mobile/services/leaderboards_service.dart';
 import 'package:kendamanomics_mobile/services/logger_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
+import 'package:kendamanomics_mobile/services/purchase_service.dart';
 import 'package:kendamanomics_mobile/services/router_service.dart';
 import 'package:kendamanomics_mobile/services/submission_service.dart';
 import 'package:kendamanomics_mobile/services/supabase_service.dart';
@@ -33,4 +34,5 @@ void initKiwi() {
   KiwiContainer().registerSingleton((container) => CompanyService());
   KiwiContainer().registerSingleton((container) => LoggerService());
   KiwiContainer().registerSingleton((container) => InAppPurchaseService());
+  KiwiContainer().registerSingleton((container) => PurchaseService());
 }

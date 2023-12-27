@@ -61,7 +61,7 @@ class PersistentDataService with LoggerMixin {
 
   Tuple2<List<TamasGroup>, int> readTamaGroups() {
     final items = <TamasGroup>[];
-    items.addAll(_premiumTamasGroup);
+    items.addAll(_premiumTamasGroup.reversed);
     final regularTamaFirstIndex = items.length;
     items.addAll(_tamaGroups);
     return Tuple2(items, regularTamaFirstIndex);
@@ -227,16 +227,12 @@ class PersistentDataService with LoggerMixin {
         videoUrl: group.videoUrl,
       );
       if (group.id != null) {
+        _premiumTamasGroupIDs.add(newPremiumGroup.id!);
         _premiumTamasGroup.add(newPremiumGroup);
       }
     }
 
     writeData();
-  }
-
-  void updatePremiumTamaGroupIDs({required List<String> premiumIDs}) {
-    _premiumTamasGroupIDs.clear();
-    _premiumTamasGroupIDs.addAll(premiumIDs);
   }
 
   Future<void> _loadDataTable() async {
@@ -424,6 +420,7 @@ class PersistentDataService with LoggerMixin {
           final tamasForGroup = tamaValues.where((element) => element.tamasGroupID == tg['tamas_group_id']).toList();
           final tmp = PremiumTamasGroup.fromJson(json: tg, tamas: tamasForGroup);
           if (tmp.id != null) {
+            _premiumTamasGroupIDs.add(tmp.id!);
             _premiumTamasGroup.add(tmp);
           }
         }

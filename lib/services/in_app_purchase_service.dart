@@ -28,18 +28,12 @@ class InAppPurchaseService with LoggerMixin, SubscriptionMixin<InAppPurchaseEven
   void _handlePurchaseUpdates(List<PurchaseDetails> details) async {
     for (final detail in details) {
       switch (detail.status) {
-        case PurchaseStatus.pending:
-          break;
         case PurchaseStatus.purchased:
           sendEvent(InAppPurchaseEvents.purchased, params: [TamasGroup.revertPaymentIdToId(detail.productID)]);
           break;
+        case PurchaseStatus.pending:
         case PurchaseStatus.error:
-          if (EnvironmentService.environment != Environment.prod) {
-            await _inAppPurchaseInstance.restorePurchases();
-          }
-          break;
         case PurchaseStatus.restored:
-          break;
         case PurchaseStatus.canceled:
           break;
       }
