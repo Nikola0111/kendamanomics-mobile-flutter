@@ -3,8 +3,8 @@ import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
+import 'package:kendamanomics_mobile/services/in_app_purchase_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
-import 'package:kendamanomics_mobile/services/purchase_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
 import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
 import 'package:kiwi/kiwi.dart';
@@ -14,7 +14,7 @@ enum TamasProviderState { loading, none, success, errorFetchingProgress }
 
 class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
-  final _purchaseService = KiwiContainer().resolve<PurchaseService>();
+  final _inAppPurchaseService = KiwiContainer().resolve<InAppPurchaseService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
   final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
   final _tamasGroups = <TamasGroup>[];
@@ -143,18 +143,26 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
   void _fetchPurchasedGroupIds() async {
     try {
-      final data = await _purchaseService.fetchPurchasedGroupsData();
+      final data = await _tamaGroupService.fetchPurchasedGroupsData();
       _purchasedGroupIds = [];
       _purchasedGroupIds!.addAll(data);
+      _persistentDataService.updatePremiumTamaGroupIDs(premiumIDs: _purchasedGroupIds!);
 
       /// _initialPage is always the first FREE tama group. when swiping left we swipe into premium tamas
       if (currentPage < _initialPage) {
         notifyListeners();
       }
       logI('purchased group ids fetched successfully');
+
+      _inAppPurchaseService.queryProducts();
     } catch (e) {
       logE('error fetching purchased group ids');
     }
+  }
+
+  void testPay() async {
+    final id = _tamasGroups[currentPage].id!.replaceAll('-', '');
+    await _inAppPurchaseService.purchasePremiumTamasGroup(premiumTamasGroupID: id);
   }
 
   void _notify() {

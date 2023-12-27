@@ -48,10 +48,11 @@ class TamasPage extends StatelessWidget {
                                       playerTama: playerTama,
                                       state: provider.state,
                                       onTap: () {
-                                        context.pushNamed(
-                                          TricksPage.pageName,
-                                          extra: playerTama.tama.id,
-                                        );
+                                        provider.testPay();
+                                        // context.pushNamed(
+                                        //   TricksPage.pageName,
+                                        //   extra: playerTama.tama.id,
+                                        // );
                                       },
                                     ),
                                     if (provider.tamasGroup[index].playerTamas.indexOf(playerTama) !=

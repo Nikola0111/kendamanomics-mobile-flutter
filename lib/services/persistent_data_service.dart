@@ -32,12 +32,11 @@ class PersistentDataService with LoggerMixin {
   final _tricks = <Trick>[];
   final _tamaTricksRelation = <Map<String, dynamic>>[];
   Map<String, dynamic> _localDataJson = {};
+  final _premiumTamasGroupIDs = <String>{};
   bool _loaded = false;
 
-  List<PremiumTamasGroup> get premiumTamasGroup => _premiumTamasGroup;
-  List<TamasGroup> get tamasGroup => _tamaGroups;
-  List<Trick> get tricks => _tricks;
   Map<String, Tama> get tamas => _tamas;
+  Set<String> get premiumTamasGroupIDs => _premiumTamasGroupIDs;
 
   // order is important: first load the connection between tricks and tamas, then load tamas, then load tricks and upon
   // creation add them to their tama
@@ -233,6 +232,11 @@ class PersistentDataService with LoggerMixin {
     }
 
     writeData();
+  }
+
+  void updatePremiumTamaGroupIDs({required List<String> premiumIDs}) {
+    _premiumTamasGroupIDs.clear();
+    _premiumTamasGroupIDs.addAll(premiumIDs);
   }
 
   Future<void> _loadDataTable() async {
@@ -437,7 +441,7 @@ class PersistentDataService with LoggerMixin {
     _localDataJson.clear();
 
     List<Map<String, dynamic>> trickJsonData = [];
-    for (var t in tricks) {
+    for (var t in _tricks) {
       trickJsonData.add(t.toJson());
     }
 
