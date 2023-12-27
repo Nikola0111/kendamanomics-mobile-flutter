@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tama.dart';
+import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:kendamanomics_mobile/providers/profile_page_provider.dart';
 import 'package:kendamanomics_mobile/widgets/gif_loading_animation.dart';
 
 class ProfileTamaProgress extends StatelessWidget {
   final ProfilePageState state;
   final List<PlayerTama> playerTamas;
-  const ProfileTamaProgress({super.key, required this.state, required this.playerTamas});
+  const ProfileTamaProgress(
+      {super.key, required this.state, required this.playerTamas});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,8 @@ class ProfileTamaProgress extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       itemCount: playerTamas.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemBuilder: (BuildContext context, int index) {
         return LayoutBuilder(
           builder: (context, constraints) {
@@ -32,10 +36,18 @@ class ProfileTamaProgress extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Image.network(
-                      playerTamas[index].tama.imageUrl,
-                      width: constraints.maxWidth * 0.7,
-                      height: constraints.maxWidth * 0.7,
+                    GestureDetector(
+                      onTap: () {
+                        context.pushNamed(
+                          TricksPage.pageName,
+                          extra: playerTamas[index].tama.id,
+                        );
+                      },
+                      child: Image.network(
+                        playerTamas[index].tama.imageUrl,
+                        width: constraints.maxWidth * 0.7,
+                        height: constraints.maxWidth * 0.7,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4),

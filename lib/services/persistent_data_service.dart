@@ -6,11 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:kendamanomics_mobile/constants.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
+import 'package:kendamanomics_mobile/models/premium_tamas_group.dart';
 import 'package:kendamanomics_mobile/models/tama.dart';
 import 'package:kendamanomics_mobile/models/tama_trick_progress.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/models/trick.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tuple/tuple.dart';
 
 class PersistentDataService with LoggerMixin {
   static const _localDataJsonName = 'localDataJson';
@@ -22,6 +24,7 @@ class PersistentDataService with LoggerMixin {
 
   late final Directory appGroupDir;
   String? tamasGroupValue;
+  final _premiumTamasGroup = <PremiumTamasGroup>[];
   final _tamaGroups = <TamasGroup>[];
   String? tamaValue;
   final _tamas = <String, Tama>{};
@@ -31,6 +34,7 @@ class PersistentDataService with LoggerMixin {
   Map<String, dynamic> _localDataJson = {};
   bool _loaded = false;
 
+  List<PremiumTamasGroup> get premiumTamasGroup => _premiumTamasGroup;
   List<TamasGroup> get tamasGroup => _tamaGroups;
   List<Trick> get tricks => _tricks;
   Map<String, Tama> get tamas => _tamas;
@@ -54,6 +58,181 @@ class PersistentDataService with LoggerMixin {
       writeData();
     }
     _loaded = true;
+  }
+
+  Tuple2<List<TamasGroup>, int> readTamaGroups() {
+    final items = <TamasGroup>[];
+    items.addAll(_premiumTamasGroup);
+    final regularTamaFirstIndex = items.length;
+    items.addAll(_tamaGroups);
+    return Tuple2(items, regularTamaFirstIndex);
+  }
+
+  List<TamaTrickProgress> filterTricksByTamaId(String? tamaId) {
+    if (tamaId == null || tamaId.isEmpty) {
+      return [];
+    }
+    return _tamas[tamaId]!.tricks ?? [];
+  }
+
+  Trick? getTrickByID(String? trickID) {
+    if (trickID == null || trickID.isEmpty) {
+      return null;
+    }
+
+    final trick = _tricks.where((element) => element.id == trickID);
+    if (trick.isEmpty) return null;
+    return trick.first;
+  }
+
+  String? fetchTamaNameById(String? tamaId) {
+    if (tamaId == null || tamaId.isEmpty) {
+      return null;
+    }
+    final tama = _tamas[tamaId];
+    return tama?.name;
+  }
+
+  String? fetchTamaGroupName(String? tamaId) {
+    if (tamaId == null || tamaId.isEmpty) {
+      return null;
+    }
+    final tama = _tamas[tamaId];
+    if (tama != null) {
+      final tamaGroup = _tamaGroups.firstWhere((element) => element.id == tama.tamasGroupID);
+
+      return tamaGroup.name;
+    }
+    return null;
+  }
+
+  Future<void> _updateAppGroupDir() async {
+    if (Platform.isIOS) {
+      logI('setting iOS app group to $kAppleAppGroup');
+      Directory? directory = await AppGroupDirectory.getAppGroupDirectory(kAppleAppGroup);
+      if (directory != null) {
+        appGroupDir = directory;
+      } else {
+        appGroupDir = await getApplicationDocumentsDirectory();
+      }
+    } else {
+      appGroupDir = await getApplicationDocumentsDirectory();
+    }
+  }
+
+  void updateTamas({required List<Tama> tamas}) {
+    _tamas.clear();
+
+    final groupCopy = List<TamasGroup>.from(_tamaGroups);
+
+    for (final group in _tamaGroups) {
+      group.playerTamas.clear();
+    }
+
+    for (final tama in tamas) {
+      if (tama.id == null) continue;
+
+      _tamas[tama.id!] = tama;
+
+      int numberOfCompleted = 0;
+      final tamaGroup = groupCopy.where((element) => element.id == tama.tamasGroupID);
+      if (tamaGroup.isNotEmpty) {
+        final group = tamaGroup.first;
+        final previousTama = group.playerTamas.where((element) => element.tama.id == tama.id);
+        if (previousTama.isNotEmpty) {
+          numberOfCompleted = previousTama.first.completedTricks ?? 0;
+        }
+      }
+
+      final tamaTricks = _tricks.where((element) => element.tamaID == tama.id);
+      for (final trick in tamaTricks) {
+        final position = _tamaTricksRelation
+            .where((element) => element['tama_id'] == tama.id && element['trick_id'] == trick.id)
+            .singleOrNull;
+
+        if (position != null) {
+          tama.tricks?.add(TamaTrickProgress.fromTrick(trick: trick));
+        }
+      }
+
+      final data = _tamaGroups.where((element) => element.id == tama.tamasGroupID);
+      if (data.isNotEmpty) {
+        data.first.addTama(tama: tama, numOfCompletedTricks: numberOfCompleted);
+      }
+    }
+
+    writeData();
+  }
+
+  void updateTricks({required List<Trick> newTricks, required String tamaID}) {
+    _tricks.removeWhere((element) => element.tamaID == tamaID);
+    _tricks.addAll(newTricks);
+    _tamas[tamaID]?.tricks?.clear();
+
+    for (int i = 0; i < newTricks.length; i++) {
+      final trick = newTricks[i];
+      if (_tamas.containsKey(trick.tamaID)) {
+        _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick));
+        _tamaTricksRelation.add({
+          'tama_id': trick.tamaID,
+          'trick_id': trick.id,
+          'trick_points': 1,
+          'trick_order': i,
+        });
+      }
+    }
+
+    // TODO refactor code, extract to func
+    final tamaGroupID = _tamas[tamaID]!.tamasGroupID;
+    final groupIndex = _tamaGroups.indexWhere((element) => element.id == tamaGroupID);
+    final tamas = _tamas.values;
+    if (groupIndex != -1) {
+      _tamaGroups[groupIndex].playerTamas.clear();
+      final tamasForGroup = tamas.where((element) => element.tamasGroupID == tamaGroupID).toList();
+      for (final tama in tamasForGroup) {
+        _tamaGroups[groupIndex].playerTamas.add(PlayerTama.fromTama(tama: tama));
+        _tamaGroups[groupIndex].playerTamas.last.tama.tricks!.clear();
+        _tamaGroups[groupIndex].playerTamas.last.tama.tricks!.addAll(tama.tricks!);
+      }
+    }
+
+    writeData();
+  }
+
+  void updateTamasGroups({required Map<String, List<TamasGroup>> tamasGroups}) {
+    _tamaGroups.clear();
+    _premiumTamasGroup.clear();
+    final tamas = _tamas.values.toList();
+    final regularTamasGroups = tamasGroups[kRegularTamasGroups]!;
+    final premiumTamasGroups = tamasGroups[kPremiumTamasGroups]! as List<PremiumTamasGroup>;
+    for (final group in regularTamasGroups) {
+      final tamasForGroup =
+          tamas.where((element) => element.tamasGroupID == group.id).toList().map((e) => PlayerTama.fromTama(tama: e)).toList();
+
+      final newGroup = TamasGroup(id: group.id, name: group.name, playerTamas: tamasForGroup);
+      if (group.id != null) {
+        _tamaGroups.add(newGroup);
+      }
+    }
+
+    for (final group in premiumTamasGroups) {
+      final tamasForGroup =
+          tamas.where((element) => element.tamasGroupID == group.id).toList().map((e) => PlayerTama.fromTama(tama: e)).toList();
+
+      final newGroup = TamasGroup(id: group.id, name: group.name, playerTamas: tamasForGroup);
+      final newPremiumGroup = PremiumTamasGroup(
+        tamasGroup: newGroup,
+        backgroundColor: group.backgroundColor,
+        textColor: group.textColor,
+        price: group.price,
+        videoUrl: group.videoUrl,
+      );
+      if (group.id != null) {
+        _premiumTamasGroup.add(newPremiumGroup);
+      }
+    }
+
+    writeData();
   }
 
   Future<void> _loadDataTable() async {
@@ -156,44 +335,6 @@ class PersistentDataService with LoggerMixin {
     }
   }
 
-  List<TamaTrickProgress> filterTricksByTamaId(String? tamaId) {
-    if (tamaId == null || tamaId.isEmpty) {
-      return [];
-    }
-    return _tamas[tamaId]!.tricks ?? [];
-  }
-
-  Trick? getTrickByID(String? trickID) {
-    if (trickID == null || trickID.isEmpty) {
-      return null;
-    }
-
-    final trick = _tricks.where((element) => element.id == trickID);
-    if (trick.isEmpty) return null;
-    return trick.first;
-  }
-
-  String? fetchTamaNameById(String? tamaId) {
-    if (tamaId == null || tamaId.isEmpty) {
-      return null;
-    }
-    final tama = _tamas[tamaId];
-    return tama?.name;
-  }
-
-  String? fetchTamaGroupName(String? tamaId) {
-    if (tamaId == null || tamaId.isEmpty) {
-      return null;
-    }
-    final tama = _tamas[tamaId];
-    if (tama != null) {
-      final tamaGroup = _tamaGroups.firstWhere((element) => element.id == tama.tamasGroupID);
-
-      return tamaGroup.name;
-    }
-    return null;
-  }
-
   Future<bool> _readCachedData() async {
     File tmpFile = File('${appGroupDir.path}/$_localDataJsonName.json');
 
@@ -272,6 +413,22 @@ class PersistentDataService with LoggerMixin {
       return true;
     }
 
+    try {
+      if (_localDataJson['premium_tamas_groups'] != null) {
+        final tamaValues = _tamas.values;
+        for (var tg in _localDataJson['premium_tamas_groups']) {
+          final tamasForGroup = tamaValues.where((element) => element.tamasGroupID == tg['tamas_group_id']).toList();
+          final tmp = PremiumTamasGroup.fromJson(json: tg, tamas: tamasForGroup);
+          if (tmp.id != null) {
+            _premiumTamasGroup.add(tmp);
+          }
+        }
+      }
+    } catch (e) {
+      logE('error loading tama groups from cached json, ${e.toString()}');
+      return true;
+    }
+
     logI('reading from cached json succeeded');
     return false;
   }
@@ -294,126 +451,23 @@ class PersistentDataService with LoggerMixin {
       tamaGroupsJsonData.add(tamaGroup.toJson());
     }
 
+    List<Map<String, dynamic>> premiumTamasGroupsJsonData = [];
+    for (var premiumTamasGroup in _premiumTamasGroup) {
+      premiumTamasGroupsJsonData.add(premiumTamasGroup.toJson());
+    }
+
     _localDataJson['tama_tricks_relation'] = _tamaTricksRelation;
     _localDataJson['tricks'] = trickJsonData;
     _localDataJson['data_trick_value'] = trickValue;
     _localDataJson['tamas'] = tamaJsonData;
     _localDataJson['data_tama_value'] = tamaValue;
     _localDataJson['tama_groups'] = tamaGroupsJsonData;
+    _localDataJson['premium_tamas_groups'] = premiumTamasGroupsJsonData;
     _localDataJson['data_tamas_group_value'] = tamasGroupValue;
 
     File tmpFile = File('${appGroupDir.path}/$_localDataJsonName.json');
     String dataJson = jsonEncode(_localDataJson);
     tmpFile.writeAsStringSync(dataJson, flush: true);
-  }
-
-  Future<void> _updateAppGroupDir() async {
-    if (Platform.isIOS) {
-      logI('setting iOS app group to $kAppleAppGroup');
-      Directory? directory = await AppGroupDirectory.getAppGroupDirectory(kAppleAppGroup);
-      if (directory != null) {
-        appGroupDir = directory;
-      } else {
-        appGroupDir = await getApplicationDocumentsDirectory();
-      }
-    } else {
-      appGroupDir = await getApplicationDocumentsDirectory();
-    }
-  }
-
-  void updateTamas({required List<Tama> tamas}) {
-    _tamas.clear();
-
-    final groupCopy = List<TamasGroup>.from(_tamaGroups);
-
-    for (final group in _tamaGroups) {
-      group.playerTamas.clear();
-    }
-
-    for (final tama in tamas) {
-      if (tama.id == null) continue;
-
-      _tamas[tama.id!] = tama;
-
-      int numberOfCompleted = 0;
-      final tamaGroup = groupCopy.where((element) => element.id == tama.tamasGroupID);
-      if (tamaGroup.isNotEmpty) {
-        final group = tamaGroup.first;
-        final previousTama = group.playerTamas.where((element) => element.tama.id == tama.id);
-        if (previousTama.isNotEmpty) {
-          numberOfCompleted = previousTama.first.completedTricks ?? 0;
-        }
-      }
-
-      final tamaTricks = _tricks.where((element) => element.tamaID == tama.id);
-      for (final trick in tamaTricks) {
-        final position = _tamaTricksRelation
-            .where((element) => element['tama_id'] == tama.id && element['trick_id'] == trick.id)
-            .singleOrNull;
-
-        if (position != null) {
-          tama.tricks?.add(TamaTrickProgress.fromTrick(trick: trick));
-        }
-      }
-
-      final data = _tamaGroups.where((element) => element.id == tama.tamasGroupID);
-      if (data.isNotEmpty) {
-        data.first.addTama(tama: tama, numOfCompletedTricks: numberOfCompleted);
-      }
-    }
-
-    writeData();
-  }
-
-  void updateTricks({required List<Trick> newTricks, required String tamaID}) {
-    _tricks.removeWhere((element) => element.tamaID == tamaID);
-    _tricks.addAll(newTricks);
-    _tamas[tamaID]?.tricks?.clear();
-
-    for (int i = 0; i < newTricks.length; i++) {
-      final trick = newTricks[i];
-      if (_tamas.containsKey(trick.tamaID)) {
-        _tamas[trick.tamaID]!.tricks!.add(TamaTrickProgress.fromTrick(trick: trick));
-        _tamaTricksRelation.add({
-          'tama_id': trick.tamaID,
-          'trick_id': trick.id,
-          'trick_points': 1,
-          'trick_order': i,
-        });
-      }
-    }
-
-    // TODO refactor code, extract to func
-    final tamaGroupID = _tamas[tamaID]!.tamasGroupID;
-    final groupIndex = _tamaGroups.indexWhere((element) => element.id == tamaGroupID);
-    final tamas = _tamas.values;
-    if (groupIndex != -1) {
-      _tamaGroups[groupIndex].playerTamas.clear();
-      final tamasForGroup = tamas.where((element) => element.tamasGroupID == tamaGroupID).toList();
-      for (final tama in tamasForGroup) {
-        _tamaGroups[groupIndex].playerTamas.add(PlayerTama.fromTama(tama: tama));
-        _tamaGroups[groupIndex].playerTamas.last.tama.tricks!.clear();
-        _tamaGroups[groupIndex].playerTamas.last.tama.tricks!.addAll(tama.tricks!);
-      }
-    }
-
-    writeData();
-  }
-
-  void updateTamasGroups({required List<TamasGroup> tamasGroups}) {
-    _tamaGroups.clear();
-    final tamas = _tamas.values.toList();
-    for (final group in tamasGroups) {
-      final tamasForGroup =
-          tamas.where((element) => element.tamasGroupID == group.id).toList().map((e) => PlayerTama.fromTama(tama: e)).toList();
-
-      final newGroup = TamasGroup(id: group.id, name: group.name, playerTamas: tamasForGroup);
-      if (group.id != null) {
-        _tamaGroups.add(newGroup);
-      }
-    }
-
-    writeData();
   }
 
   @override

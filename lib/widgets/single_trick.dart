@@ -9,13 +9,15 @@ import 'package:kendamanomics_mobile/pages/upload_trick.dart';
 class SingleTrick extends StatelessWidget {
   final int index;
   final TamaTrickProgress trickProgress;
-  const SingleTrick({super.key, required this.trickProgress, required this.index});
+  final VoidCallback onReturn;
+  const SingleTrick({super.key, required this.trickProgress, required this.index, required this.onReturn});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.pushNamed(UploadTrick.pageName, extra: trickProgress.trick?.id);
+      onTap: () async {
+        await context.pushNamed(UploadTrick.pageName, extra: trickProgress.trick?.id);
+        onReturn();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),

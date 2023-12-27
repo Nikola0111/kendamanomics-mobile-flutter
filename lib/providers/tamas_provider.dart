@@ -3,8 +3,8 @@ import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
-import 'package:kendamanomics_mobile/services/pay_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
+import 'package:kendamanomics_mobile/services/purchase_service.dart';
 import 'package:kendamanomics_mobile/services/tama_service.dart';
 import 'package:kendamanomics_mobile/services/tamas_group_service.dart';
 import 'package:kiwi/kiwi.dart';
@@ -14,26 +14,30 @@ enum TamasProviderState { loading, none, success, errorFetchingProgress }
 
 class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _persistentDataService = KiwiContainer().resolve<PersistentDataService>();
-  final _payService = KiwiContainer().resolve<PayService>();
+  final _purchaseService = KiwiContainer().resolve<PurchaseService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
   final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
   final _tamasGroups = <TamasGroup>[];
   final _progressData = <String, int>{};
 
+  List<String>? _purchasedGroupIds;
+  PageController? _controller;
+  int _initialPage = 0;
   TamasProviderState _state = TamasProviderState.loading;
-  int _currentPage = 0;
   bool _isDisposed = false;
 
   List<TamasGroup> get tamasGroup => _tamasGroups;
-  int get currentPage => _currentPage;
-  TamasProviderState get state => _state;
+  int get currentPage {
+    if (_controller != null && _controller!.hasClients) {
+      if (_controller!.page != null) return _controller!.page!.round();
+    }
 
-  set currentPage(int index) {
-    _currentPage = index;
-    // this will be tested when we have 2 or more groups, currently only working with one tama_group
-    _fillCurrentPageTamas();
-    notifyListeners();
+    return _initialPage;
   }
+
+  PageController? get controller => _controller;
+  TamasProviderState get state => _state;
+  bool get checkedPurchasedGroups => _purchasedGroupIds == null;
 
   TamasProvider() {
     _populateGroups();
@@ -41,11 +45,20 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
     _fetchTamaGroups();
     _fetchTamas();
+    _fetchPurchasedGroupIds();
+  }
+
+  void pageUpdated() {
+    _fillCurrentPageTamas();
+    notifyListeners();
   }
 
   void _populateGroups() {
     _tamasGroups.clear();
-    _tamasGroups.addAll(_persistentDataService.tamasGroup);
+    final groupData = _persistentDataService.readTamaGroups();
+    _tamasGroups.addAll(groupData.item1);
+    _controller = PageController(initialPage: groupData.item2);
+    _initialPage = groupData.item2;
   }
 
   void _updatePlayerTamasData({int retry = 2}) async {
@@ -55,11 +68,11 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
       final ret = await _tamasService.getTamasProgress();
       _progressData.addAll(ret);
 
-      _fillCurrentPageTamas();
+      _fillCurrentPageTamas(useInitialPage: true);
 
       // in compute fill the tricks for other tamas?
       _state = TamasProviderState.success;
-      logI('tama progress data successfully fetched and filled for page ${_tamasGroups[_currentPage].name}');
+      logI('tama progress data successfully fetched and filled for page ${_tamasGroups[currentPage].name}');
       _notify();
     } on PostgrestException catch (e) {
       logE('error updating tamas data: ${e.toString()}');
@@ -73,22 +86,26 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  void _fillCurrentPageTamas() {
-    for (int i = 0; i < _tamasGroups[_currentPage].playerTamas.length; i++) {
-      final playerTama = _tamasGroups[_currentPage].playerTamas[i];
+  /// we added useInitialPage because when calling this function while the ui still hasn't built, we get an Assertion error -
+  /// we tried to use the PageController before a PageView was built with it. this way we force the function to use the
+  /// _initialPage field which is set properly before this function is called
+  void _fillCurrentPageTamas({bool useInitialPage = false}) {
+    final page = useInitialPage ? _initialPage : currentPage;
+    for (int i = 0; i < _tamasGroups[page].playerTamas.length; i++) {
+      final playerTama = _tamasGroups[page].playerTamas[i];
       final tamaID = playerTama.tama.id;
       if (_progressData.containsKey(tamaID)) {
-        _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(
+        _tamasGroups[page].playerTamas[i] = playerTama.copyWith(
           completedTricks: _progressData[tamaID],
           badgeType: _progressData[tamaID] == playerTama.tama.numOfTricks ? BadgeType.completedTama : BadgeType.none,
         );
       } else {
-        _tamasGroups[_currentPage].playerTamas[i] = playerTama.copyWith(completedTricks: 0);
+        _tamasGroups[page].playerTamas[i] = playerTama.copyWith(completedTricks: 0);
       }
     }
 
     logI(
-      'filled tamas for current pin: ${_tamasGroups[_currentPage].name}, number of tamas is ${_tamasGroups[_currentPage].playerTamas.length}',
+      'filled tamas for current pin: ${_tamasGroups[page].name}, number of tamas is ${_tamasGroups[page].playerTamas.length}',
     );
   }
 
@@ -124,16 +141,26 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
+  void _fetchPurchasedGroupIds() async {
+    try {
+      final data = await _purchaseService.fetchPurchasedGroupsData();
+      _purchasedGroupIds = [];
+      _purchasedGroupIds!.addAll(data);
+
+      /// _initialPage is always the first FREE tama group. when swiping left we swipe into premium tamas
+      if (currentPage < _initialPage) {
+        notifyListeners();
+      }
+      logI('purchased group ids fetched successfully');
+    } catch (e) {
+      logE('error fetching purchased group ids');
+    }
+  }
+
   void _notify() {
     if (!_isDisposed) {
       notifyListeners();
     }
-  }
-
-  void testPay() async {
-    logI('starting payment');
-    await _payService.purchase();
-    logI('payment finished');
   }
 
   @override

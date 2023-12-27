@@ -23,9 +23,8 @@ class TamasPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: PageView.builder(
-                    onPageChanged: (index) {
-                      provider.currentPage = index;
-                    },
+                    controller: provider.controller,
+                    onPageChanged: (index) => provider.pageUpdated(),
                     itemCount: provider.tamasGroup.length,
                     itemBuilder: (context, index) {
                       return Column(
