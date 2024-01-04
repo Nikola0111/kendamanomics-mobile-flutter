@@ -166,7 +166,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  bool showPurchaseOverlay(String groupID) {
+  bool shouldShowPromotionOverlay(String groupID) {
     final currentGroups = _tamasGroups.where((element) => element.id == groupID).toList();
     if (currentGroups.isEmpty) return false;
     final currentGroup = currentGroups.first;
@@ -190,8 +190,8 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  void testPay() async {
-    final id = _tamasGroups[currentPage].formatIdForPayment;
+  void testPay(String? id) async {
+    if (id == null) return;
     await _inAppPurchaseService.purchasePremiumTamasGroup(premiumTamasGroupID: id);
   }
 

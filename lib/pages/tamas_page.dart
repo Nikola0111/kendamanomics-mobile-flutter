@@ -27,10 +27,11 @@ class TamasPage extends StatelessWidget {
                   itemBuilder: (context, index) => TamaPageGroup(
                     group: provider.tamasGroup[index],
                     state: provider.state,
-                    showPurchaseOverlay: provider.showPurchaseOverlay(provider.tamasGroup[index].id ?? ''),
+                    showPromotionOverlay: provider.shouldShowPromotionOverlay(provider.tamasGroup[index].id ?? ''),
                     onTamaPressed: (String? tamaID) {
                       context.pushNamed(TricksPage.pageName, extra: tamaID);
                     },
+                    onBuyPressed: (tamaID) => provider.testPay(tamaID),
                   ),
                 ),
               ),
