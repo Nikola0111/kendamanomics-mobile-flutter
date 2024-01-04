@@ -4,6 +4,7 @@ import 'package:kendamanomics_mobile/models/bottom_navigation_data.dart';
 import 'package:kendamanomics_mobile/pages/leaderboards.dart';
 import 'package:kendamanomics_mobile/pages/profile_page.dart';
 import 'package:kendamanomics_mobile/pages/tamas_page.dart';
+import 'package:kendamanomics_mobile/services/appearance_service.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/user_service.dart';
 import 'package:kiwi/kiwi.dart';
@@ -11,25 +12,36 @@ import 'package:kiwi/kiwi.dart';
 class MainPageContainerProvider extends ChangeNotifier with LoggerMixin {
   final _authService = KiwiContainer().resolve<AuthService>();
   final _userService = KiwiContainer().resolve<UserService>();
+  final _appearanceService = KiwiContainer().resolve<AppearanceService>();
+
   final _contentGlobalKey = GlobalKey();
+  final Color defaultBackgroundColor;
   List<BottomNavigationData> _bottomNav = <BottomNavigationData>[];
   String _previousImagePath = '';
   int _pageIndex = 1;
   double _contentHeight = 0.0;
+  ColorTween? _backgroundTween;
 
   List<BottomNavigationData> get bottomNav => _bottomNav;
   GlobalKey get contentGlobalKey => _contentGlobalKey;
   int get pageIndex => _pageIndex;
   double get contentHeight => _contentHeight;
+  ColorTween? get backgroundTween => _backgroundTween;
 
   set pageIndex(int index) {
     _pageIndex = index;
     notifyListeners();
   }
 
-  MainPageContainerProvider() {
+  MainPageContainerProvider({required this.defaultBackgroundColor}) {
+    _backgroundTween = ColorTween(begin: defaultBackgroundColor, end: defaultBackgroundColor);
     _initBottomNav();
+    _initListeners();
+  }
+
+  void _initListeners() {
     _userService.subscribe(_listenToUserService);
+    _appearanceService.subscribe(_listenToAppearanceService);
   }
 
   void _listenToUserService(UserServiceEvents event, dynamic params) async {
@@ -37,6 +49,16 @@ class MainPageContainerProvider extends ChangeNotifier with LoggerMixin {
       case UserServiceEvents.imageUploaded:
         bool shouldRebuild = _initBottomNav();
         if (shouldRebuild) notifyListeners();
+        break;
+    }
+  }
+
+  void _listenToAppearanceService(AppearanceEvent event, dynamic params) {
+    switch (event) {
+      case AppearanceEvent.themeChanged:
+        break;
+      case AppearanceEvent.tamaPageSwiped:
+        _updateBackgroundTween(newColor: params.first);
         break;
     }
   }
@@ -71,9 +93,31 @@ class MainPageContainerProvider extends ChangeNotifier with LoggerMixin {
     return true;
   }
 
+  void resetBackgroundColor() {
+    _updateBackgroundTween(newColor: defaultBackgroundColor);
+  }
+
+  void _updateBackgroundTween({Color? newColor}) {
+    final beginColor = _backgroundTween!.end;
+    Color endColor;
+    if (newColor == null) {
+      endColor = defaultBackgroundColor;
+    } else {
+      endColor = newColor;
+    }
+
+    _backgroundTween = ColorTween(begin: beginColor, end: endColor);
+    notifyListeners();
+  }
+
+  void _disposeListeners() {
+    _userService.unsubscribe(_listenToUserService);
+    _appearanceService.unsubscribe(_listenToAppearanceService);
+  }
+
   @override
   void dispose() {
-    _userService.unsubscribe(_listenToUserService);
+    _disposeListeners();
     super.dispose();
   }
 

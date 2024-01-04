@@ -20,7 +20,7 @@ enum AppThemeMode {
   }
 }
 
-enum AppearanceEvent { themeChanged }
+enum AppearanceEvent { themeChanged, tamaPageSwiped }
 
 class AppearanceService with SubscriptionMixin<AppearanceEvent>, LoggerMixin {
   AppThemeMode _appTheme = AppThemeMode.light;
@@ -54,6 +54,10 @@ class AppearanceService with SubscriptionMixin<AppearanceEvent>, LoggerMixin {
     _appTheme = newTheme;
     logI('switch theme to: ${_appTheme.value}');
     sendEvent(AppearanceEvent.themeChanged, params: [newTheme]);
+  }
+
+  void notifyTamaPageSwiped(Color? backgroundColor) {
+    sendEvent(AppearanceEvent.tamaPageSwiped, params: [backgroundColor]);
   }
 
   @override

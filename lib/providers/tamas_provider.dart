@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/player_tama.dart';
+import 'package:kendamanomics_mobile/models/premium_tamas_group.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
+import 'package:kendamanomics_mobile/services/appearance_service.dart';
 import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/in_app_purchase_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
@@ -19,10 +21,12 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   final _inAppPurchaseService = KiwiContainer().resolve<InAppPurchaseService>();
   final _tamasService = KiwiContainer().resolve<TamaService>();
   final _tamaGroupService = KiwiContainer().resolve<TamasGroupService>();
+  final _appearanceService = KiwiContainer().resolve<AppearanceService>();
+
   final _tamasGroups = <TamasGroup>[];
   final _progressData = <String, int>{};
 
-  List<String>? _purchasedGroupIds;
+  List<String> _purchasedGroupIds = [];
   PageController? _controller;
   int _initialPage = 0;
   TamasProviderState _state = TamasProviderState.loading;
@@ -39,13 +43,11 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
   PageController? get controller => _controller;
   TamasProviderState get state => _state;
-  bool get checkedPurchasedGroups => _purchasedGroupIds == null;
 
   TamasProvider() {
     _inAppPurchaseService.init();
     _populateGroups();
     _updatePlayerTamasData();
-
     _fetchTamaGroups();
     _fetchTamas();
     _fetchPurchasedGroupIds();
@@ -53,6 +55,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
 
   void pageUpdated() {
     _fillCurrentPageTamas();
+    _checkBackgroundColor();
     notifyListeners();
   }
 
@@ -131,6 +134,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     try {
       final newTamasGroups = await _tamaGroupService.fetchTamaGroups();
       if (newTamasGroups == null) return;
+
       _persistentDataService.updateTamasGroups(tamasGroups: newTamasGroups);
     } on PostgrestException catch (e) {
       logE('error fetching tamas groups: ${e.toString()}');
@@ -148,7 +152,7 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     try {
       final data = await _purchaseService.fetchPurchasedGroupsData();
       _purchasedGroupIds = [];
-      _purchasedGroupIds!.addAll(data);
+      _purchasedGroupIds.addAll(data);
 
       /// _initialPage is always the first FREE tama group. when swiping left we swipe into premium tamas
       if (currentPage < _initialPage) {
@@ -162,15 +166,33 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     }
   }
 
-  void testPay() async {
-    final id = _tamasGroups[currentPage].formatIdForPayment;
-    await _inAppPurchaseService.purchasePremiumTamasGroup(premiumTamasGroupID: id);
+  bool showPurchaseOverlay(String groupID) {
+    final currentGroups = _tamasGroups.where((element) => element.id == groupID).toList();
+    if (currentGroups.isEmpty) return false;
+    final currentGroup = currentGroups.first;
+    if (currentGroup is! PremiumTamasGroup) return false;
+    if (_purchasedGroupIds.contains(currentGroup.id)) return false;
+    return true;
   }
 
   void _notify() {
     if (!_isDisposed) {
       notifyListeners();
     }
+  }
+
+  void _checkBackgroundColor() {
+    final currentGroup = _tamasGroups[currentPage];
+    if (currentGroup is PremiumTamasGroup) {
+      _appearanceService.notifyTamaPageSwiped(currentGroup.backgroundColor);
+    } else {
+      _appearanceService.notifyTamaPageSwiped(null);
+    }
+  }
+
+  void testPay() async {
+    final id = _tamasGroups[currentPage].formatIdForPayment;
+    await _inAppPurchaseService.purchasePremiumTamasGroup(premiumTamasGroupID: id);
   }
 
   @override

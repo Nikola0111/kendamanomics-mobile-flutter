@@ -82,7 +82,7 @@ class RouterService {
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
           builder: (context, state, child) {
-            return MainPageContainer(child: child);
+            return MainPageContainer(routerWidget: child);
           },
           routes: <RouteBase>[
             GoRoute(
