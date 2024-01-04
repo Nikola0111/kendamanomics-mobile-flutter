@@ -36,95 +36,92 @@ class ProfilePage extends StatelessWidget {
           maxHeight: 16,
           minFontSize: 10,
         );
-    return Scaffold(
-      backgroundColor: CustomColors.of(context).backgroundColor,
-      body: ChangeNotifierProvider(
-        create: (context) => ProfilePageProvider(userId: userId),
-        builder: (context, child) => Consumer<ProfilePageProvider>(
-          builder: (context, provider, child) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: Column(
-              children: [
-                ProfileHeader(
-                  damxPoints: 0,
-                  company: provider.company,
-                  name: provider.playerName,
-                  profileImageUrl: provider.signedImageUrl,
-                  onProfilePicturePressed: () async {
-                    if (provider.availableForUpload(userId) == true) {
-                      final picker = ImagePicker();
-                      final image = await picker.pickImage(source: ImageSource.gallery);
-                      if (image != null) {
-                        await provider.uploadUserImage(File(image.path));
-                      }
+    return ChangeNotifierProvider(
+      create: (context) => ProfilePageProvider(userId: userId),
+      builder: (context, child) => Consumer<ProfilePageProvider>(
+        builder: (context, provider, child) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          child: Column(
+            children: [
+              ProfileHeader(
+                damxPoints: 0,
+                company: provider.company,
+                name: provider.playerName,
+                profileImageUrl: provider.signedImageUrl,
+                onProfilePicturePressed: () async {
+                  if (provider.availableForUpload(userId) == true) {
+                    final picker = ImagePicker();
+                    final image = await picker.pickImage(source: ImageSource.gallery);
+                    if (image != null) {
+                      await provider.uploadUserImage(File(image.path));
                     }
-                  },
-                  canPickTeam: provider.availableForUpload(userId),
-                  onCompanyPressed: () async {
-                    final data = await context.pushNamed(SelectCompanyPage.pageName);
-                    if (data != null) {
-                      final map = data as Map<String, dynamic>;
-                      await provider.updateCompany(map['id']);
-                    }
-                  },
-                ),
-                const SizedBox(height: 20.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _leaderboardTab(
-                        context,
-                        tabFontSize: tabFontSize,
-                        title: 'leaderboards.kendamanomics'.tr(),
-                        backgroundColor: CustomColors.of(context).primaryText,
-                        isActive: true,
-                        points: provider.player?.playerPoints?.kendamanomicsPoints,
-                      ),
+                  }
+                },
+                canPickTeam: provider.availableForUpload(userId),
+                onCompanyPressed: () async {
+                  final data = await context.pushNamed(SelectCompanyPage.pageName);
+                  if (data != null) {
+                    final map = data as Map<String, dynamic>;
+                    await provider.updateCompany(map['id']);
+                  }
+                },
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: _leaderboardTab(
+                      context,
+                      tabFontSize: tabFontSize,
+                      title: 'leaderboards.kendamanomics'.tr(),
+                      backgroundColor: CustomColors.of(context).primaryText,
+                      isActive: true,
+                      points: provider.player?.playerPoints?.kendamanomicsPoints,
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: _leaderboardTab(
-                        context,
-                        tabFontSize: tabFontSize,
-                        title: 'leaderboards.competition'.tr(),
-                        backgroundColor: CustomColors.of(context).timelineColor,
-                        isActive: false,
-                        points: provider.player?.playerPoints?.competitionPoints,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: _leaderboardTab(
-                        context,
-                        tabFontSize: tabFontSize,
-                        title: 'leaderboards.overall'.tr(),
-                        backgroundColor: CustomColors.of(context).borderColor,
-                        isActive: false,
-                        points: provider.player?.playerPoints?.overallPoints,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                Expanded(
-                  child: ProfileTamaProgress(
-                    state: provider.state,
-                    playerTamas: provider.playerTamas,
                   ),
-                ),
-                if (provider.availableForUpload(userId)) ...[
-                  ClickableLink(
-                    clickableText: 'profile_page.settings'.tr(),
-                    onTap: () {
-                      final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
-                      context.pushNamed(SettingsPage.pageName, extra: ret);
-                    },
-                    clickableTextStyle: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).primary),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _leaderboardTab(
+                      context,
+                      tabFontSize: tabFontSize,
+                      title: 'leaderboards.competition'.tr(),
+                      backgroundColor: CustomColors.of(context).timelineColor,
+                      isActive: false,
+                      points: provider.player?.playerPoints?.competitionPoints,
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                ]
-              ],
-            ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _leaderboardTab(
+                      context,
+                      tabFontSize: tabFontSize,
+                      title: 'leaderboards.overall'.tr(),
+                      backgroundColor: CustomColors.of(context).borderColor,
+                      isActive: false,
+                      points: provider.player?.playerPoints?.overallPoints,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              Expanded(
+                child: ProfileTamaProgress(
+                  state: provider.state,
+                  playerTamas: provider.playerTamas,
+                ),
+              ),
+              if (provider.availableForUpload(userId)) ...[
+                ClickableLink(
+                  clickableText: 'profile_page.settings'.tr(),
+                  onTap: () {
+                    final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
+                    context.pushNamed(SettingsPage.pageName, extra: ret);
+                  },
+                  clickableTextStyle: CustomTextStyles.of(context).regular20.apply(color: CustomColors.of(context).primary),
+                ),
+                const SizedBox(height: 8),
+              ]
+            ],
           ),
         ),
       ),

@@ -17,54 +17,49 @@ class UploadTrick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.of(context).backgroundColor,
-      body: SafeArea(
-        child: ChangeNotifierProvider(
-          create: (context) => UploadTrickProvider(
-            trickID: trickID,
-            calculateViewportHeight: () => context.read<MainPageContainerProvider>().calculateContentHeight(),
-          ),
-          builder: (context, child) {
-            return Consumer<UploadTrickProvider>(
-              builder: (context, provider, child) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                      child: TitleWidget(
-                        angle: pi / 2,
-                        title: provider.trick?.name ?? 'default_titles.trick'.tr(),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Expanded(
-                      child: PageView(
-                        controller: provider.controller,
-                        onPageChanged: (index) {
-                          provider.pageIndex = index;
-                        },
-                        children: [
-                          SubmissionProgress(trickID: trickID),
-                          // TODO improve this condition
-                          if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty)
-                            TrickTutorial(trickTutorialUrl: provider.trick?.trickTutorialUrl),
-                        ],
-                      ),
-                    ),
-                    if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty) ...[
-                      const SizedBox(height: 12),
-                      buildIndicator(context, provider.pageIndex),
+    return ChangeNotifierProvider(
+      create: (context) => UploadTrickProvider(
+        trickID: trickID,
+        calculateViewportHeight: () => context.read<MainPageContainerProvider>().calculateContentHeight(),
+      ),
+      builder: (context, child) {
+        return Consumer<UploadTrickProvider>(
+          builder: (context, provider, child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: TitleWidget(
+                    angle: pi / 2,
+                    title: provider.trick?.name ?? 'default_titles.trick'.tr(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: PageView(
+                    controller: provider.controller,
+                    onPageChanged: (index) {
+                      provider.pageIndex = index;
+                    },
+                    children: [
+                      SubmissionProgress(trickID: trickID),
+                      // TODO improve this condition
+                      if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty)
+                        TrickTutorial(trickTutorialUrl: provider.trick?.trickTutorialUrl),
                     ],
-                    const SizedBox(height: 8),
-                  ],
-                );
-              },
+                  ),
+                ),
+                if (provider.trick?.trickTutorialUrl != null && provider.trick!.trickTutorialUrl!.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  buildIndicator(context, provider.pageIndex),
+                ],
+                const SizedBox(height: 8),
+              ],
             );
           },
-        ),
-      ),
+        );
+      },
     );
   }
 

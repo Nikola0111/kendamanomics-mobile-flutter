@@ -16,29 +16,24 @@ class TricksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.of(context).backgroundColor,
-      body: SafeArea(
-        child: ChangeNotifierProvider(
-          create: (context) => TricksProvider(tamaId: tamaId!),
-          child: Consumer<TricksProvider>(
-            builder: (context, provider, child) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Column(
-                  children: [
-                    TitleWidget(
-                      angle: pi / 2,
-                      title: _formatTitle(provider),
-                    ),
-                    Expanded(child: _getContent(context, provider: provider)),
-                    const SizedBox(height: 4),
-                  ],
+    return ChangeNotifierProvider(
+      create: (context) => TricksProvider(tamaId: tamaId!),
+      child: Consumer<TricksProvider>(
+        builder: (context, provider, child) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Column(
+              children: [
+                TitleWidget(
+                  angle: pi / 2,
+                  title: _formatTitle(provider),
                 ),
-              );
-            },
-          ),
-        ),
+                Expanded(child: _getContent(context, provider: provider)),
+                const SizedBox(height: 4),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

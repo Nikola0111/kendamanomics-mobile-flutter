@@ -28,94 +28,91 @@ class Leaderboards extends StatelessWidget {
           minFontSize: 10,
         );
 
-    return Scaffold(
-      backgroundColor: CustomColors.of(context).backgroundColor,
-      body: ChangeNotifierProvider(
-        create: (context) => LeaderboardsProvider(),
-        child: Consumer<LeaderboardsProvider>(
-          builder: (context, provider, child) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: LeaderboardType(
-                        fontSize: tabFontSize,
-                        leaderboardName: 'leaderboards.kendamanomics'.tr(),
-                        color: CustomColors.of(context).primaryText,
-                        onPressed: () {
-                          provider.setActiveLeaderboard(LeaderboardTab.kendamanomics);
-                        },
-                        isActive: provider.activeLeaderboard == LeaderboardTab.kendamanomics,
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Expanded(
-                      child: LeaderboardType(
-                        fontSize: tabFontSize,
-                        leaderboardName: 'leaderboards.competition'.tr(),
-                        color: CustomColors.of(context).timelineColor,
-                        onPressed: () {
-                          provider.setActiveLeaderboard(LeaderboardTab.competition);
-                        },
-                        isActive: provider.activeLeaderboard == LeaderboardTab.competition,
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Expanded(
-                      child: LeaderboardType(
-                        fontSize: tabFontSize,
-                        leaderboardName: 'leaderboards.overall'.tr(),
-                        color: CustomColors.of(context).borderColor,
-                        onPressed: () {
-                          provider.setActiveLeaderboard(LeaderboardTab.overall);
-                        },
-                        isActive: provider.activeLeaderboard == LeaderboardTab.overall,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10.0),
-                if (provider.state == LeaderboardsProviderState.loading) ...[
-                  _shimmer(context),
-                  _shimmer(context),
-                  _shimmer(context),
-                ],
-                if (provider.leaderboardData.isNotEmpty && provider.state == LeaderboardsProviderState.success) ...[
-                  Expanded(child: _getList(provider)),
-                ],
-                if (provider.leaderboardData.isEmpty && provider.state == LeaderboardsProviderState.success) ...[
+    return ChangeNotifierProvider(
+      create: (context) => LeaderboardsProvider(),
+      child: Consumer<LeaderboardsProvider>(
+        builder: (context, provider, child) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   Expanded(
-                    child: Center(
-                      child: Text(
-                        'leaderboards.empty_placeholder',
-                        style: CustomTextStyles.of(context).regular20,
-                        textAlign: TextAlign.center,
-                      ).tr(),
+                    child: LeaderboardType(
+                      fontSize: tabFontSize,
+                      leaderboardName: 'leaderboards.kendamanomics'.tr(),
+                      color: CustomColors.of(context).primaryText,
+                      onPressed: () {
+                        provider.setActiveLeaderboard(LeaderboardTab.kendamanomics);
+                      },
+                      isActive: provider.activeLeaderboard == LeaderboardTab.kendamanomics,
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: LeaderboardType(
+                      fontSize: tabFontSize,
+                      leaderboardName: 'leaderboards.competition'.tr(),
+                      color: CustomColors.of(context).timelineColor,
+                      onPressed: () {
+                        provider.setActiveLeaderboard(LeaderboardTab.competition);
+                      },
+                      isActive: provider.activeLeaderboard == LeaderboardTab.competition,
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: LeaderboardType(
+                      fontSize: tabFontSize,
+                      leaderboardName: 'leaderboards.overall'.tr(),
+                      color: CustomColors.of(context).borderColor,
+                      onPressed: () {
+                        provider.setActiveLeaderboard(LeaderboardTab.overall);
+                      },
+                      isActive: provider.activeLeaderboard == LeaderboardTab.overall,
                     ),
                   ),
                 ],
-                if (provider.activeLeaderboard == LeaderboardTab.kendamanomics &&
-                    provider.myPlayer != null &&
-                    provider.myPlayer!.kendamanomicsPoints != 0) ...[
-                  PlayerEntry(
-                    onTap: () {
-                      final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
-                      context.pushNamed(
-                        ProfilePage.pageName,
-                        extra: ret,
-                      );
-                    },
-                    playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
-                    points: provider.myPlayer?.kendamanomicsPoints,
-                    myPoints: true,
-                    rank: provider.myPlayer?.rank,
-                  )
-                ],
+              ),
+              const SizedBox(height: 10.0),
+              if (provider.state == LeaderboardsProviderState.loading) ...[
+                _shimmer(context),
+                _shimmer(context),
+                _shimmer(context),
               ],
-            ),
+              if (provider.leaderboardData.isNotEmpty && provider.state == LeaderboardsProviderState.success) ...[
+                Expanded(child: _getList(provider)),
+              ],
+              if (provider.leaderboardData.isEmpty && provider.state == LeaderboardsProviderState.success) ...[
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'leaderboards.empty_placeholder',
+                      style: CustomTextStyles.of(context).regular20,
+                      textAlign: TextAlign.center,
+                    ).tr(),
+                  ),
+                ),
+              ],
+              if (provider.activeLeaderboard == LeaderboardTab.kendamanomics &&
+                  provider.myPlayer != null &&
+                  provider.myPlayer!.kendamanomicsPoints != 0) ...[
+                PlayerEntry(
+                  onTap: () {
+                    final ret = KiwiContainer().resolve<AuthService>().getCurrentUserId();
+                    context.pushNamed(
+                      ProfilePage.pageName,
+                      extra: ret,
+                    );
+                  },
+                  playerName: '${provider.myPlayer?.playerName} ${provider.myPlayer?.playerLastName}',
+                  points: provider.myPlayer?.kendamanomicsPoints,
+                  myPoints: true,
+                  rank: provider.myPlayer?.rank,
+                )
+              ],
+            ],
           ),
         ),
       ),

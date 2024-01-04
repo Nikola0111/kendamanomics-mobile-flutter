@@ -1,11 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
-import 'package:kendamanomics_mobile/extensions/custom_text_styles.dart';
 import 'package:kendamanomics_mobile/pages/tricks_page.dart';
 import 'package:kendamanomics_mobile/providers/tamas_provider.dart';
-import 'package:kendamanomics_mobile/widgets/tama_widget.dart';
+import 'package:kendamanomics_mobile/widgets/tama_page_group.dart';
 import 'package:provider/provider.dart';
 
 class TamasPage extends StatelessWidget {
@@ -14,68 +12,35 @@ class TamasPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.of(context).backgroundColor,
-      body: ChangeNotifierProvider(
-        create: (context) => TamasProvider(),
-        builder: (context, child) => Consumer<TamasProvider>(
-          builder: (context, provider, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: PageView.builder(
-                    controller: provider.controller,
-                    onPageChanged: (index) => provider.pageUpdated(),
-                    itemCount: provider.tamasGroup.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Text(
-                              provider.tamasGroup[index].name ?? 'default_titles.tama_group'.tr(),
-                              style: CustomTextStyles.of(context).regular25.apply(color: CustomColors.of(context).primary),
-                            ),
-                          ),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  for (var playerTama in provider.tamasGroup[index].playerTamas) ...[
-                                    TamaWidget(
-                                      playerTama: playerTama,
-                                      state: provider.state,
-                                      onTap: () {
-                                        context.pushNamed(
-                                          TricksPage.pageName,
-                                          extra: playerTama.tama.id,
-                                        );
-                                      },
-                                    ),
-                                    if (provider.tamasGroup[index].playerTamas.indexOf(playerTama) !=
-                                        provider.tamasGroup[index].playerTamas.length - 1)
-                                      const SizedBox(height: 24),
-                                  ],
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                        ],
-                      );
+    return ChangeNotifierProvider(
+      create: (context) => TamasProvider(),
+      builder: (context, child) => Consumer<TamasProvider>(
+        builder: (context, provider, child) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: provider.controller,
+                  onPageChanged: (index) => provider.pageUpdated(),
+                  itemCount: provider.tamasGroup.length,
+                  itemBuilder: (context, index) => TamaPageGroup(
+                    group: provider.tamasGroup[index],
+                    state: provider.state,
+                    showPurchaseOverlay: provider.showPurchaseOverlay(provider.tamasGroup[index].id ?? ''),
+                    onTamaPressed: (String? tamaID) {
+                      context.pushNamed(TricksPage.pageName, extra: tamaID);
                     },
                   ),
                 ),
-                if (provider.tamasGroup.length > 1) ...[
-                  buildIndicator(context, provider.currentPage, provider.tamasGroup.length),
-                  const SizedBox(height: 8),
-                ]
-              ],
-            );
-          },
-        ),
+              ),
+              if (provider.tamasGroup.length > 1) ...[
+                buildIndicator(context, provider.currentPage, provider.tamasGroup.length),
+                const SizedBox(height: 8),
+              ]
+            ],
+          );
+        },
       ),
     );
   }
