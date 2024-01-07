@@ -8,6 +8,9 @@ PODS:
     - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
+  - in_app_purchase_storekit (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -31,6 +34,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_mailer (from `.symlinks/plugins/flutter_mailer/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - pay_ios (from `.symlinks/plugins/pay_ios/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -50,6 +54,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_mailer/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  in_app_purchase_storekit:
+    :path: ".symlinks/plugins/in_app_purchase_storekit/darwin"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   pay_ios:
@@ -71,6 +77,7 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_mailer: 2ef5a67087bc8c6c4cefd04a178bf1ae2c94cd83
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  in_app_purchase_storekit: 4fb7ee9e824b1f09107fbfbbce8c4b276366dc43
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   pay_ios: 8c7beb9c61d885f3f51b61f75f8793023fc8843a
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
@@ -81,4 +88,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: fff3348f19d060f45045a9c9fbca3a264147c2f7
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.12.1
