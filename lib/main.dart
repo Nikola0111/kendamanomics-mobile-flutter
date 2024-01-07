@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kendamanomics_mobile/injection_container.dart';
 import 'package:kendamanomics_mobile/pages/login_page.dart';
@@ -37,7 +38,9 @@ void main() async {
       initialRoute = TamasPage.pageName;
     } catch (e) {
       initialRoute = LoginPage.pageName;
-      print('failed fetching player ${e.toString()}');
+      if (kDebugMode) {
+        print('failed fetching player ${e.toString()}');
+      }
     }
 
     try {
@@ -45,7 +48,9 @@ void main() async {
       initialRoute = TamasPage.pageName;
     } catch (e) {
       initialRoute = LoginPage.pageName;
-      print('failed fetching profile image ${e.toString()}');
+      if (kDebugMode) {
+        print('failed fetching profile image ${e.toString()}');
+      }
     }
   }
 

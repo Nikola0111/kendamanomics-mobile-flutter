@@ -4,7 +4,6 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/mixins/subscription_mixin.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
-import 'package:kendamanomics_mobile/services/environment_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kiwi/kiwi.dart';
 

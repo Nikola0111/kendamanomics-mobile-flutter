@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:kendamanomics_mobile/extensions/custom_colors.dart';
 import 'package:kendamanomics_mobile/providers/tricks_provider.dart';
 import 'package:kendamanomics_mobile/widgets/single_trick.dart';
 import 'package:kendamanomics_mobile/widgets/title_widget.dart';

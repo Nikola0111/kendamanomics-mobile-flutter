@@ -2,14 +2,12 @@ import 'package:kendamanomics_mobile/constants.dart';
 import 'package:kendamanomics_mobile/mixins/logger_mixin.dart';
 import 'package:kendamanomics_mobile/models/premium_tamas_group.dart';
 import 'package:kendamanomics_mobile/models/tamas_group.dart';
-import 'package:kendamanomics_mobile/services/auth_service.dart';
 import 'package:kendamanomics_mobile/services/persistent_data_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TamasGroupService with LoggerMixin {
   final _persistantDataService = KiwiContainer().resolve<PersistentDataService>();
-  final _authService = KiwiContainer().resolve<AuthService>();
   final _supabase = Supabase.instance.client;
 
   Future<Map<String, List<TamasGroup>>?> fetchTamaGroups() async {
