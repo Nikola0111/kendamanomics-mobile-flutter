@@ -52,7 +52,6 @@ class MainPageContainer extends StatelessWidget {
                   ),
               duration: const Duration(milliseconds: 400),
               builder: (_, color, __) {
-                print(color);
                 return Scaffold(
                   backgroundColor: color ?? CustomColors.of(context).backgroundColor,
                   body: nonRebuiltChild,

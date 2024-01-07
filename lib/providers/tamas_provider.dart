@@ -45,12 +45,21 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
   TamasProviderState get state => _state;
 
   TamasProvider() {
-    _inAppPurchaseService.init();
+    _initPurchases();
     _populateGroups();
     _updatePlayerTamasData();
     _fetchTamaGroups();
     _fetchTamas();
     _fetchPurchasedGroupIds();
+  }
+
+  void _listenToInAppPurchaseService(InAppPurchaseEvents event, dynamic params) {
+    switch (event) {
+      case InAppPurchaseEvents.purchased:
+        _purchasedGroupIds.add(params.first);
+        notifyListeners();
+        break;
+    }
   }
 
   void pageUpdated() {
@@ -195,10 +204,20 @@ class TamasProvider extends ChangeNotifier with LoggerMixin {
     await _inAppPurchaseService.purchasePremiumTamasGroup(premiumTamasGroupID: id);
   }
 
+  void _initPurchases() {
+    _inAppPurchaseService.init();
+    _inAppPurchaseService.subscribe(_listenToInAppPurchaseService);
+  }
+
+  void _disposePurchases() {
+    _inAppPurchaseService.unsubscribe(_listenToInAppPurchaseService);
+    _inAppPurchaseService.dispose();
+  }
+
   @override
   void dispose() {
     _isDisposed = true;
-    _inAppPurchaseService.dispose();
+    _disposePurchases();
     super.dispose();
   }
 
